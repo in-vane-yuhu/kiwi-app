@@ -1,0 +1,93 @@
+import * as constant from './constant';
+
+export const style_firm = {
+  firm_search_box: {
+    padding: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  firm_search: {
+    backgroundColor: '#fff',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 19,
+    flexDirection: 'row',
+    alignItems: 'center',
+    shadowColor: constant.primary_color,
+    shadowOffset: {height: 0, width: 0},
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+  },
+  firm_avatar_bar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 16,
+  },
+  firm_subscription: {
+    color: constant.primary_color,
+    borderStyle: 'solid',
+    borderColor: constant.primary_color,
+    borderWidth: 1,
+    borderRadius: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  firm_statistic: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 24,
+    paddingTop: 24,
+    paddingBottom: 16,
+  },
+  firm_logos_box: {
+    backgroundColor: '#fafafa',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingVertical: 4,
+    paddingHorizontal: 24,
+  },
+  firm_logos_item: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 16,
+  },
+  firm_detail_exchanges: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    paddingVertical: 16,
+    marginHorizontal: 8,
+  },
+  firm_detail_assets_title: {
+    marginHorizontal: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+  },
+  firm_detail_assets_total_bar: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    marginHorizontal: 8,
+    paddingVertical: 24,
+  },
+  firm_detail_assets_bar: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 24,
+  },
+  firm_detail_assets_tabs: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    marginHorizontal: 8,
+    paddingVertical: 12,
+    position: 'relative',
+  },
+  firm_detail_assets_tabs_title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    position: 'absolute',
+    left: 8,
+  },
+};
