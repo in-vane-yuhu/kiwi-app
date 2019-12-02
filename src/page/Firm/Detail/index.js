@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {Text, View, TouchableOpacity, Image} from 'react-native';
+import {Text, View, TouchableOpacity, Image, StatusBar} from 'react-native';
 import {Tabs} from '@ant-design/react-native';
 import {Actions} from 'react-native-router-flux';
 
@@ -107,6 +107,7 @@ export default class FirmDetail extends Component {
 
         <Tabs
           tabs={tabs}
+          initialPage={3}
           styles={{
             topTabBarSplitLine: {
               borderBottomWidth: 8,

@@ -1,5 +1,6 @@
 import React, {StyleSheet, Dimensions, Platform, StatusBar} from 'react-native';
 import * as constant from './constant';
+import {style_login} from './login';
 import {style_mine} from './mine';
 import {style_firm} from './firm';
 
@@ -17,18 +18,20 @@ export const shadowRadius = Platform.OS === 'android' ? 5 : 2;
 export const elevation = Platform.OS === 'android' ? 2 : 1;
 
 const styles = StyleSheet.create({
+  ...style_login,
   ...style_mine,
   ...style_firm,
+  page_box: {
+    backgroundColor: '#fff',
+    flex: 1,
+    position: 'relative',
+  },
   tabbar: {
     borderTopWidth: 0,
     shadowColor: constant.primary_color,
     shadowOffset: {height: 0, width: 0},
     shadowOpacity: 0.1,
     shadowRadius: 10,
-  },
-  page_box: {
-    backgroundColor: '#fff',
-    flex: 1,
   },
   border: {
     borderStyle: 'solid',
@@ -44,18 +47,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  tab_home_left_image: {
-    height: 32,
-    width: 32,
-    borderRadius: 4,
-    marginLeft: 8,
-  },
-  tab_home_right_image: {
-    height: 32,
-    width: 32,
-    borderRadius: 4,
-    marginRight: 8,
   },
 });
 

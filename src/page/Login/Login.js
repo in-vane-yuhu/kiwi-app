@@ -94,101 +94,44 @@ export default class Login extends Component {
     const {userInfo} = this.props.state.user;
     const {isCodeValidated} = this.state;
     return (
-      <View
-        style={{
-          backgroundColor: '#fff',
-          minHeight: '100%',
-          alignItems: 'center',
-        }}>
-        <View style={{marginTop: 100}}>
-          <Image
-            source={avatar}
-            style={{
-              height: 100,
-              width: 100,
-              borderRadius: 16,
-            }}
-          />
+      <View style={[styles.page_box, {alignItems: 'center'}]}>
+        <View style={{marginTop: 180}}>
+          <Image source={avatar} style={[styles.login_logo]} />
         </View>
         <View>
-          <Text
-            style={{
-              fontSize: 25,
-              marginTop: 16,
-              color: '#ff5e00',
-              fontWeight: 'bold',
-            }}>
-            AI-Trade
-          </Text>
+          <Text style={[styles.login_title]}>AI-Trade</Text>
         </View>
         <View style={{width: '70%', marginTop: 40}}>
           <TextInput
-            style={{
-              borderStyle: 'solid',
-              borderWidth: 1,
-              borderColor: '#c8c8c8',
-              borderRadius: 5,
-              padding: 8,
-            }}
+            style={[styles.login_input_phone]}
             placeholder="请输入您的手机号"
             onChangeText={this.setParamName}
           />
         </View>
         <View style={{marginTop: 24, width: '70%'}}>
-          <View
-            style={{
-              flexDirection: 'row',
-              borderStyle: 'solid',
-              borderWidth: 1,
-              borderColor: '#c8c8c8',
-              borderRadius: 5,
-              padding: 8,
-            }}>
+          <View style={[styles.login_input_code_box]}>
             <TextInput
-              style={{
-                width: '70%',
-                borderStyle: 'solid',
-                borderRightWidth: 1,
-                borderRightColor: '#c8c8c8',
-              }}
+              style={[styles.login_input_code_input]}
               placeholder="请输入6位验证码"
               onChangeText={this.setParamCode}
             />
             <TouchableOpacity
               style={{width: '30%'}}
               onPress={this.checkPhoneNumberIsNull}>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  color: '#ff5e00',
-                }}>
+              <Text style={{textAlign: 'center', color: '#ff5e00'}}>
                 获取验证码
               </Text>
             </TouchableOpacity>
           </View>
           {isCodeValidated && (
-            <Text
-              style={{
-                color: '#fe0000',
-                fontSize: 12,
-                marginLeft: 10,
-                marginTop: 10,
-              }}>
-              验证码输入错误
-            </Text>
+            <Text style={[styles.fe0000]}>验证码输入错误</Text>
           )}
         </View>
         <View style={{width: '100%'}}>
           <TouchableOpacity
-            style={{marginTop: 24, alignItems: 'center'}}
+            style={{marginTop: 40, alignItems: 'center'}}
             onPress={this.checkLoginParamIsNull}>
-            <View
-              style={{
-                backgroundColor: '#ff5e00',
-                width: '70%',
-                padding: 12,
-                borderRadius: 20,
-              }}>
+            <View style={[styles.login_btn]}>
               <Text style={{color: '#fff', textAlign: 'center'}}>
                 登录/注册
               </Text>

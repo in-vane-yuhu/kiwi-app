@@ -15,20 +15,6 @@ import Data from '../page/Data/Data';
 import * as Firm from '../page/Firm';
 import Community from '../page/Community/Community';
 
-import avatar from '../assets/image/ai.jpg';
-
-const renderHeaderLeft_Home = () => {
-  return <Image source={avatar} style={[styles.tab_home_left_image]} />;
-};
-
-const renderHeaderRight_Home = () => {
-  return (
-    <TouchableOpacity onPress={() => Actions.mine()}>
-      <Image source={avatar} style={[styles.tab_home_right_image]} />
-    </TouchableOpacity>
-  );
-};
-
 const isActive = focused => {
   return focused ? '#ff5e00' : '#969696';
 };
@@ -40,7 +26,6 @@ const getRouter = () => {
   return (
     <Router>
       <Scene key="root">
-        <Scene key="login" component={Login} />
         <Scene
           key="switchTab"
           lazy
@@ -66,8 +51,7 @@ const getRouter = () => {
               <Icon name="global" color={isActive(focused)} />
             )}
             component={Home}
-            renderLeftButton={() => renderHeaderLeft_Home()}
-            renderRightButton={() => renderHeaderRight_Home()}
+            hideNavBar
           />
           <Scene
             key="markets"
@@ -92,6 +76,7 @@ const getRouter = () => {
             component={Community}
           />
         </Scene>
+        <Scene key="login" hideNavBar component={Login} />
         <Scene key="mine" component={Mine.Mine} />
         <Scene key="sub" title="我的订阅" component={Mine.Subscription} />
         <Scene key="favor" title="我的收藏" component={Mine.Favorite} />
@@ -105,7 +90,8 @@ const getRouter = () => {
         <Scene key="nickname" title="设置昵称" component={Mine.Nickname} />
         <Scene key="intro" title="个人简介" component={Mine.SelfIntroduction} />
         <Scene key="service" title="联系客服" component={Mine.Service} />
-        <Scene key="firmDetail" title="我的粉丝" component={Firm.Detail} />
+        <Scene key="firmComments" title="动态详情" component={Firm.Comments} />
+        <Scene key="firmDetail" title="详情" component={Firm.Detail} />
       </Scene>
     </Router>
   );

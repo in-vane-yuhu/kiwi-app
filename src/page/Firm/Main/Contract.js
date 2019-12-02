@@ -26,8 +26,8 @@ import avatar from '../../../assets/image/ai.jpg';
   }),
 )
 export default class Contract extends Component {
-  navigateToFirmDetail = () => {
-    console.log('navigateToFirmDetail');
+  navigateToContractDetailÏ = () => {
+    console.log('navigateToContractDetail');
     Actions.firmDetail();
   };
 
@@ -36,7 +36,7 @@ export default class Contract extends Component {
   };
 
   render() {
-    const data = [{}, {}, {}];
+    const data = [{}, {}, {}, {}];
     const statistic = [
       {title: '总资产', amount: '¥100000'},
       {title: '总收益率', amount: '+100.00%', sign: true},
@@ -47,7 +47,7 @@ export default class Contract extends Component {
       {name: 'BIANCE', logo: 'codepen-circle'},
     ];
     return (
-      <View>
+      <View style={{flex: 1}}>
         <View style={[styles.firm_search_box]}>
           <View style={[styles.firm_search, {width: '75%'}]}>
             <Icon name="search" color={constant.primary_color} />
@@ -61,59 +61,61 @@ export default class Contract extends Component {
             <Text>排序</Text>
           </TouchableOpacity>
         </View>
-        {data.map((item, index) => (
-          <TouchableOpacity
-            key={index}
-            style={{backgroundColor: '#fff'}}
-            onPress={this.navigateToFirmDetail}>
-            <View style={[styles.border_bottom, styles.firm_avatar_bar]}>
-              <View style={{flexDirection: 'row'}}>
-                <Image
-                  source={avatar}
-                  style={{height: 50, width: 50, borderRadius: 25}}
-                />
-                <View style={{marginLeft: 16}}>
-                  <Text>in_vane</Text>
-                  <Text style={{marginTop: 8, color: constant.text_gray}}>
-                    我就看着你们抄底嘻嘻嘻~
-                  </Text>
+        <ScrollView style={{flex: 1}}>
+          {data.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              style={{backgroundColor: '#fff'}}
+              onPress={this.navigateToContractDetailÏ}>
+              <View style={[styles.border_bottom, styles.firm_avatar_bar]}>
+                <View style={{flexDirection: 'row'}}>
+                  <Image
+                    source={avatar}
+                    style={{height: 50, width: 50, borderRadius: 25}}
+                  />
+                  <View style={{marginLeft: 16}}>
+                    <Text>in_vane</Text>
+                    <Text style={{marginTop: 8, color: constant.text_gray}}>
+                      我就看着你们抄底嘻嘻嘻~
+                    </Text>
+                  </View>
                 </View>
+                <TouchableOpacity onPress={this.onSubscription}>
+                  <Text style={[styles.firm_subscription]}>免费订阅</Text>
+                </TouchableOpacity>
               </View>
-              <TouchableOpacity onPress={this.onSubscription}>
-                <Text style={[styles.firm_subscription]}>免费订阅</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={[styles.firm_statistic]}>
-              {statistic.map((item, index) => (
-                <View key={index} style={{alignItems: 'center'}}>
-                  <Text style={{fontSize: 12, color: constant.text_gray}}>
-                    {item.title}
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: 'bold',
-                      marginTop: 4,
-                      color: item.sign
-                        ? constant.text_green
-                        : constant.red || constant.text_dark,
-                    }}>
-                    {item.amount}
-                  </Text>
-                </View>
-              ))}
-            </View>
-            <View style={[styles.firm_logos_box]}>
-              {exchange.map((item, index) => (
-                <View key={index} style={[styles.firm_logos_item]}>
-                  <Icon name={item.logo} size={12} />
-                  <Text style={{fontSize: 10}}>{item.name}</Text>
-                </View>
-              ))}
-            </View>
-            <View style={{backgroundColor: '#f0f0f0', height: 8}} />
-          </TouchableOpacity>
-        ))}
+              <View style={[styles.firm_statistic]}>
+                {statistic.map((item, index) => (
+                  <View key={index} style={{alignItems: 'center'}}>
+                    <Text style={{fontSize: 12, color: constant.text_gray}}>
+                      {item.title}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        fontWeight: 'bold',
+                        marginTop: 4,
+                        color: item.sign
+                          ? constant.text_green
+                          : constant.red || constant.text_dark,
+                      }}>
+                      {item.amount}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+              <View style={[styles.firm_logos_box]}>
+                {exchange.map((item, index) => (
+                  <View key={index} style={[styles.firm_logos_item]}>
+                    <Icon name={item.logo} size={12} />
+                    <Text style={{fontSize: 10}}>{item.name}</Text>
+                  </View>
+                ))}
+              </View>
+              <View style={{backgroundColor: '#f0f0f0', height: 8}} />
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
       </View>
     );
   }

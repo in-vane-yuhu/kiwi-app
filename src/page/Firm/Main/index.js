@@ -6,9 +6,7 @@ import {
   View,
   SafeAreaView,
   TouchableOpacity,
-  TextInput,
-  Image,
-  ScrollView,
+  StatusBar,
 } from 'react-native';
 import {Tabs, Icon} from '@ant-design/react-native';
 import {Actions} from 'react-native-router-flux';
@@ -68,6 +66,7 @@ export default class FirmMain extends Component {
     const tabs = [{title: '现货'}, {title: '合约'}, {title: '订阅'}];
     return (
       <View style={[styles.page_box, {backgroundColor: '#fafafa'}]}>
+        <StatusBar barStyle="dark-content" />
         <SafeAreaView style={{flex: 1}}>
           <Tabs
             tabs={tabs}
