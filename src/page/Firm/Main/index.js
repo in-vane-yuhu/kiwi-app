@@ -1,34 +1,28 @@
-import React, {Component} from 'react';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+import React, { Component } from 'react'
 import {
   Text,
   View,
   SafeAreaView,
   TouchableOpacity,
   StatusBar,
-} from 'react-native';
-import {Tabs, Icon} from '@ant-design/react-native';
-import {Actions} from 'react-native-router-flux';
+} from 'react-native'
+import { Tabs, Icon } from '@ant-design/react-native'
 
-import UserAction from '../../../store/actions/user';
+import * as constant from '../../../style/constant'
+import styles, { screenHeight, screenWidth } from '../../../style'
 
-import * as constant from '../../../style/constant';
-import styles, {screenHeight, screenWidth} from '../../../style';
+import Spot from './Spot'
+import Contract from './Contract'
+import Subscription from './Subscription'
 
-import Spot from './Spot';
-import Contract from './Contract';
-import Subscription from './Subscription';
-
-@connect(
-  state => ({state}),
-  dispatch => ({
-    userAction: bindActionCreators(UserAction, dispatch),
-  }),
-)
 export default class FirmMain extends Component {
+  onChangeTab = (tab, index) => {
+    const { changeTab } = this.props.firmAction
+    changeTab(index)
+  }
+
   renderTabBar = tabProps => (
-    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
       {tabProps.tabs.map((tab, i) => (
         // change the style to fit your needs
         <TouchableOpacity
@@ -42,10 +36,11 @@ export default class FirmMain extends Component {
             borderBottomWidth: tabProps.activeTab === i ? 1 : 0,
           }}
           onPress={() => {
-            const {goToTab, onTabClick} = tabProps;
-            onTabClick && onTabClick(tabs[i], i);
-            goToTab && goToTab(i);
-          }}>
+            const { goToTab, onTabClick } = tabProps
+            onTabClick && onTabClick(tabs[i], i)
+            goToTab && goToTab(i)
+          }}
+        >
           <Text
             style={{
               color:
@@ -54,34 +49,38 @@ export default class FirmMain extends Component {
                   : constant.text_gray,
               textAlign: 'center',
               fontWeight: 'bold',
-            }}>
+            }}
+          >
             {tab.title}
           </Text>
         </TouchableOpacity>
       ))}
     </View>
-  );
+  )
 
   render() {
-    const tabs = [{title: '现货'}, {title: '合约'}, {title: '订阅'}];
+    const tabs = [{ title: '现货' }, { title: '合约' }, { title: '订阅' }]
     return (
-      <View style={[styles.page_box, {backgroundColor: '#fafafa'}]}>
-        <StatusBar barStyle="dark-content" />
-        <SafeAreaView style={{flex: 1}}>
+      <View style={[styles.page_box, { backgroundColor: '#fafafa' }]}>
+        <StatusBar barStyle='dark-content' />
+        <SafeAreaView style={{ flex: 1 }}>
           <Tabs
             tabs={tabs}
+            initialPage={0}
             styles={{
               topTabBarSplitLine: {
                 borderBottomWidth: 0,
               },
             }}
-            renderTabBar={tabProps => this.renderTabBar(tabProps)}>
+            onChange={this.onChangeTab}
+            renderTabBar={tabProps => this.renderTabBar(tabProps)}
+          >
             <Spot />
             <Contract />
             <Subscription />
           </Tabs>
         </SafeAreaView>
       </View>
-    );
+    )
   }
 }

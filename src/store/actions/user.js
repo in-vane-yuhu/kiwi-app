@@ -1,3 +1,5 @@
+import {query, mutation} from '../../utils/apollo';
+
 const doLogin = (phone, code) => {
   /* here to fetch data */
   let res = {
@@ -56,10 +58,37 @@ const resetSelectRecharge = data => {
   };
 };
 
+const test = async (limit, offset) => {
+  const variables = {limit, offset};
+  const body = `
+    query getTokens(
+      $limit: Int
+      $offset: Int
+    ){
+      tokens(
+        limit:$limit
+        offset:$offset
+      ){
+        tokenID
+        tokenName
+        tokenIntroduction
+        tokenAvatar
+      }
+    }
+  `;
+  let res = await query(body, variables);
+  console.log({res});
+  return {
+    type: 'TEST',
+    payload: {},
+  };
+};
+
 export default {
   doLogin,
   getCode,
   change_firm_set,
   onSelectRechargePrice,
   resetSelectRecharge,
+  test,
 };

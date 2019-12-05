@@ -1,4 +1,5 @@
 import Mine from './Mine';
+import Homepage from './Homepage';
 import Subscription from './Subscription';
 import Favorite from './Favorite';
 import Fans from './Fans';
@@ -14,6 +15,7 @@ import Service from './Service';
 
 export {
   Mine,
+  Homepage,
   Subscription,
   Favorite,
   Fans,

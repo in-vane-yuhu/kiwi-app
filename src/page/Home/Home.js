@@ -1,6 +1,4 @@
-import React, {Component} from 'react';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+import React, { Component } from 'react'
 import {
   View,
   Image,
@@ -8,28 +6,22 @@ import {
   TouchableOpacity,
   TextInput,
   Text,
-} from 'react-native';
-import {Icon, Carousel} from '@ant-design/react-native';
-import {Actions} from 'react-native-router-flux';
+} from 'react-native'
+import { Icon, Carousel } from '@ant-design/react-native'
+import { Actions } from 'react-native-router-flux'
 
-import UserAction from '../../store/actions/user';
+import * as constant from '../../style/constant'
+import styles, { screenHeight, screenWidth } from '../../style'
 
-import * as constant from '../../style/constant';
-import styles, {screenHeight, screenWidth} from '../../style';
+import avatar from '../../assets/image/ai.jpg'
 
-import avatar from '../../assets/image/ai.jpg';
-
-@connect(
-  state => ({state}),
-  dispatch => ({}),
-)
 export default class Home extends Component {
   navigateToMine = () => {
-    Actions.mine();
-  };
+    Actions.mine()
+  }
 
   render() {
-    const data = [{}, {}, {}];
+    const data = [{}, {}, {}]
     return (
       <SafeAreaView style={[styles.page_box]}>
         <View
@@ -38,22 +30,26 @@ export default class Home extends Component {
             justifyContent: 'space-between',
             alignItems: 'center',
             paddingHorizontal: 24,
-          }}>
-          <Image source={avatar} style={{height: 20, width: 20}} />
+          }}
+        >
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Image source={avatar} style={{ height: 20, width: 20 }} />
+            <Text>{`<-it's logo`}</Text>
+          </View>
           <TouchableOpacity onPress={this.navigateToMine}>
-            <Icon name="user" />
+            <Icon name='user' />
           </TouchableOpacity>
         </View>
         <View style={[styles.firm_search_box]}>
-          <View style={[styles.firm_search, {width: '75%'}]}>
-            <Icon name="search" color={constant.primary_color} />
+          <View style={[styles.firm_search, { width: '75%' }]}>
+            <Icon name='search' color={constant.primary_color} />
             <TextInput
-              placeholder="搜索字段"
-              style={{marginLeft: 8, width: '100%'}}
+              placeholder='搜索字段'
+              style={{ marginLeft: 8, width: '100%' }}
             />
           </View>
           <TouchableOpacity style={[styles.firm_search]}>
-            <Icon name="filter" color={constant.primary_color} />
+            <Icon name='filter' color={constant.primary_color} />
             <Text>筛选</Text>
           </TouchableOpacity>
         </View>
@@ -73,6 +69,6 @@ export default class Home extends Component {
           </Carousel>
         </View>
       </SafeAreaView>
-    );
+    )
   }
 }
