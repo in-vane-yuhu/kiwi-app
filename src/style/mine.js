@@ -1,4 +1,4 @@
-import * as constant from './constant';
+import * as constant from './constant'
 
 export const style_mine = {
   mine_linearGradient: {
@@ -188,8 +188,9 @@ export const style_mine = {
     backgroundColor: constant.primary_color,
     width: '80%',
     alignSelf: 'center',
-    padding: 16,
-    borderRadius: 23,
+    justifyContent: 'center',
+    height: 50,
+    borderRadius: 25,
     marginBottom: 50,
   },
   intro_length: {
@@ -205,7 +206,7 @@ export const style_mine = {
     marginTop: 80,
     marginBottom: 100,
     shadowColor: '#eee',
-    shadowOffset: {height: 0, width: 0},
+    shadowOffset: { height: 0, width: 0 },
     shadowOpacity: 1,
     shadowRadius: 10,
   },
@@ -231,4 +232,4 @@ export const style_mine = {
     color: constant.text_white,
     fontSize: 16,
   },
-};
+}
