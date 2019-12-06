@@ -1,21 +1,23 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableOpacity, Image, StatusBar } from 'react-native'
-import { Tabs } from '@ant-design/react-native'
-import { Actions } from 'react-native-router-flux'
+import { Text, View, TouchableOpacity, Image } from 'react-native'
+import { Tabs, Icon } from '@ant-design/react-native'
 
-import * as constant from '../../../style/constant'
-import styles, { screenHeight, screenWidth } from '../../../style'
+import * as CONST from '../../../style/constant'
+import styles from '../../../style'
 
 import Assets from './Assets'
 import Position from './Position'
 import Operation from './Operation'
 import Activity from './Activity'
+import Avatar from '../../../components/Avatar'
 
 import avatar from '../../../assets/image/ai.jpg'
 import avatar2 from '../../../assets/image/ai2.jpg'
 import avatar3 from '../../../assets/image/ai3.jpg'
 
 export default class FirmDetail extends Component {
+  state = { favorite: false }
+
   enumSubscription = subscription => {
     let content = ''
     if (subscription.subscribed) {
@@ -27,6 +29,8 @@ export default class FirmDetail extends Component {
     return content
   }
 
+  setColor = item => (item.subscription.subscribed ? CONST.N200 : CONST.PRIMARY)
+
   renderTabBar = tabProps => (
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
       {tabProps.tabs.map((tab, i) => (
@@ -37,7 +41,7 @@ export default class FirmDetail extends Component {
           style={{
             marginHorizontal: 16,
             paddingVertical: 10,
-            borderColor: constant.primary_color,
+            borderColor: CONST.PRIMARY,
             borderStyle: 'solid',
             borderBottomWidth: tabProps.activeTab === i ? 1 : 0,
           }}
@@ -49,10 +53,7 @@ export default class FirmDetail extends Component {
         >
           <Text
             style={{
-              color:
-                tabProps.activeTab === i
-                  ? constant.primary_color
-                  : constant.text_gray,
+              color: tabProps.activeTab === i ? CONST.PRIMARY : CONST.N96,
               textAlign: 'center',
               fontWeight: 'bold',
             }}
@@ -63,6 +64,10 @@ export default class FirmDetail extends Component {
       ))}
     </View>
   )
+
+  onClickFavorite = () => {
+    this.setState({ favorite: !this.state.favorite })
+  }
 
   render() {
     const info = {
@@ -90,43 +95,43 @@ export default class FirmDetail extends Component {
       <View style={[styles.page_box]}>
         <View style={[styles.border_bottom, styles.firm_avatar_bar]}>
           <View style={{ flexDirection: 'row' }}>
-            <Image
-              source={avatar}
-              style={{ height: 50, width: 50, borderRadius: 25 }}
-            />
+            <Avatar source={avatar} size={50} />
             <View style={{ marginLeft: 16 }}>
-              <Text>in_vane</Text>
-              <Text style={{ marginTop: 8, color: constant.text_gray }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text>in_vane</Text>
+                <TouchableOpacity onPress={this.onClickFavorite}>
+                  <Icon
+                    name='star'
+                    style={{ marginLeft: 16 }}
+                    color={this.state.favorite ? CONST.PRIMARY : null}
+                  />
+                </TouchableOpacity>
+              </View>
+              <Text style={{ marginTop: 8, color: CONST.N96 }}>
                 我就看着你们抄底嘻嘻嘻~
               </Text>
             </View>
           </View>
-          <TouchableOpacity onPress={this.onSubscription}>
-            <Text
-              style={[
-                styles.firm_subscription,
-                info.subscription.subscribed
-                  ? styles.firm_subscription_gray
-                  : styles.firm_subscription_primary,
-              ]}
-            >
+          <TouchableOpacity
+            onPress={this.onSubscription}
+            style={[
+              styles.firm_subscription,
+              { borderColor: this.setColor(info) },
+            ]}
+          >
+            <Text style={{ color: this.setColor(info) }}>
               {this.enumSubscription(info.subscription)}
             </Text>
           </TouchableOpacity>
         </View>
-
-        <View style={[styles.border_bottom, styles.firm_detail_exchanges]}>
+        <View style={[styles.border_bottom, styles.firm_detail_exs]}>
           {logos.map((item, index) => (
             <TouchableOpacity key={index} style={{ alignItems: 'center' }}>
-              <Image
-                source={item.logo}
-                style={{ height: 50, width: 50, borderRadius: 25 }}
-              />
+              <Avatar source={item.logo} size={50} />
               <Text style={{ marginTop: 8 }}>{item.name}</Text>
             </TouchableOpacity>
           ))}
         </View>
-
         <Tabs
           tabs={tabs}
           initialPage={0}

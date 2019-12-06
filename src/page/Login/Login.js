@@ -13,6 +13,8 @@ export default class Login extends Component {
   state = {
     param_phone: '',
     param_code: '',
+    count: 60,
+    disabled: false,
   }
 
   setParamPhone = text => {
@@ -48,6 +50,8 @@ export default class Login extends Component {
     const { getSMS } = this.props.UserStore
     const { param_phone } = this.state
     getSMS(param_phone)
+    this.setState({ disabled: true, count: 60 })
+    this.startCount()
   }
 
   checkLoginParamIsNull = () => {
@@ -70,8 +74,24 @@ export default class Login extends Component {
     login(param_phone, param_code)
   }
 
+  startCount = () => {
+    let counter = setInterval(() => {
+      if (this.state.count === 0) {
+        clearInterval(counter)
+        this.setState({
+          disabled: false,
+        })
+        return
+      }
+      this.setState({
+        count: this.state.count - 1,
+      })
+    }, 1000)
+  }
+
   render() {
     const { isSMSVerified } = this.props.UserStore
+    const { count, disabled } = this.state
     return (
       <View style={[styles.page_box, { alignItems: 'center' }]}>
         <Image source={avatar} style={[styles.login_logo]} />
@@ -93,8 +113,14 @@ export default class Login extends Component {
           <TouchableOpacity
             style={[styles.login_ipt_code_btn]}
             onPress={this.checkPhoneNumberIsNull}
+            disabled={disabled}
           >
-            <Text style={[styles.login_ipt_code_btn_text]}>获取验证码</Text>
+            {!disabled && (
+              <Text style={[styles.login_ipt_code_btn_text]}>获取验证码</Text>
+            )}
+            {disabled && (
+              <Text style={[styles.login_ipt_code_btn_count]}>{count}</Text>
+            )}
           </TouchableOpacity>
           {isSMSVerified && (
             <Text style={[styles.login_tip]}>验证码输入错误</Text>

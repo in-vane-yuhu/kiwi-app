@@ -3,7 +3,7 @@ import { observer, inject } from 'mobx-react'
 import { Text, View, TouchableOpacity, TextInput } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 
-import * as constant from '../../../style/constant'
+import * as CONST from '../../../style/constant'
 import styles from '../../../style'
 
 @inject('UserStore')
@@ -34,7 +34,7 @@ export default class Nickname extends Component {
         >
           <Text
             style={{
-              color: constant.text_white,
+              color: CONST.N0,
               alignSelf: 'center',
               fontSize: 18,
             }}

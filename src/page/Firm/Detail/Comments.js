@@ -12,8 +12,11 @@ import {
 import { Icon } from '@ant-design/react-native'
 import { Actions } from 'react-native-router-flux'
 
-import * as constant from '../../../style/constant'
-import styles, { screenHeight, screenWidth } from '../../../style'
+import * as CONST from '../../../style/constant'
+import styles from '../../../style'
+
+import Nomore from '../../../components/Nomore'
+import Avatar from '../../../components/Avatar'
 
 import avatar from '../../../assets/image/ai.jpg'
 import avatar2 from '../../../assets/image/ai2.jpg'
@@ -46,15 +49,12 @@ export default class Comments extends Component {
         <SafeAreaView style={[styles.page_box]}>
           <ScrollView>
             <View
-              style={[styles.border_bottom, styles.firm_detail_activity_item]}
+              style={[styles.border_bottom, styles.firm_detail_act_item]}
             >
-              <Image
-                source={avatar}
-                style={{ height: 50, width: 50, borderRadius: 25 }}
-              />
+              <Avatar source={avatar} size={50} />
               <View style={{ marginLeft: 16, width: '80%' }}>
                 <Text style={{ lineHeight: 20 }}>in_vane</Text>
-                <Text style={{ color: constant.text_gray, lineHeight: 20 }}>
+                <Text style={{ color: CONST.N96, lineHeight: 20 }}>
                   2019-12-01 12:00
                 </Text>
                 <Text style={{ marginTop: 4, lineHeight: 20 }}>
@@ -79,10 +79,7 @@ export default class Comments extends Component {
                 style={{ flexDirection: 'row', alignItems: 'center' }}
                 onPress={this.setLikeStatus}
               >
-                <Icon
-                  name='like'
-                  color={like ? constant.primary_color : null}
-                />
+                <Icon name='like' color={like ? CONST.PRIMARY : null} />
                 <Text style={{ marginLeft: 8 }}>5</Text>
               </TouchableOpacity>
             </View>
@@ -97,15 +94,12 @@ export default class Comments extends Component {
             {comments.map((item, index) => (
               <View
                 key={index}
-                style={[styles.border_bottom, styles.firm_detail_activity_item]}
+                style={[styles.border_bottom, styles.firm_detail_act_item]}
               >
-                <Image
-                  source={avatar2}
-                  style={{ height: 40, width: 40, borderRadius: 20 }}
-                />
+                <Avatar source={avatar2} size={40} />
                 <View style={{ marginLeft: 16, width: '80%' }}>
                   <Text style={{ lineHeight: 20 }}>{item.name}</Text>
-                  <Text style={{ color: constant.text_gray, lineHeight: 20 }}>
+                  <Text style={{ color: CONST.N96, lineHeight: 20 }}>
                     {item.date}
                   </Text>
                   <Text style={{ marginTop: 4, lineHeight: 20 }}>
@@ -114,13 +108,15 @@ export default class Comments extends Component {
                 </View>
               </View>
             ))}
+            <Nomore />
           </ScrollView>
-          <View style={[styles.firm_detail_activity_ipt_box]}>
-            <View style={[styles.firm_detail_activity_ipt]}>
-              <TextInput placeholder='发表评论' />
-            </View>
-            <TouchableOpacity style={[styles.firm_detail_activity_btn]}>
-              <Text style={{ color: constant.text_white }}>发送</Text>
+          <View style={[styles.firm_detail_act_ipt_box]}>
+            <TextInput
+              style={[styles.firm_detail_act_ipt]}
+              placeholder='发表评论'
+            />
+            <TouchableOpacity style={[styles.firm_detail_act_btn]}>
+              <Text style={{ color: CONST.N0 }}>发送</Text>
             </TouchableOpacity>
           </View>
         </SafeAreaView>

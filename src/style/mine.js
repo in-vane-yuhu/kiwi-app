@@ -1,23 +1,25 @@
-import * as constant from './constant'
+import * as CONST from './constant'
 
 export const style_mine = {
   mine_linearGradient: {
-    width: '100%',
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
   },
-  mine_avatar: {
-    height: 60,
-    width: 60,
-    borderRadius: 30,
+  mine_card_box: {
+    padding: 24,
+    flexDirection: 'row',
+  },
+  mine_card_left: {
+    marginLeft: 16,
+    justifyContent: 'space-between',
   },
   mine_userinfo_btn: {
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    width: 90,
-    padding: 4,
+    width: 80,
+    height: 24,
     borderRadius: 12,
-    marginTop: 5,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   mine_grid_box: {
     flexDirection: 'row',
@@ -27,23 +29,47 @@ export const style_mine = {
   mine_grid_divider: {
     height: '90%',
     borderStyle: 'solid',
-    borderColor: '#eee',
+    borderColor: CONST.N238,
     borderLeftWidth: 1,
   },
   mine_grid_desc: {
-    color: constant.text_white,
+    color: CONST.N0,
     fontSize: 16,
     marginTop: 10,
+  },
+  mine_list_box: {
+    padding: 16,
+    paddingBottom: 8,
+  },
+  mine_list_lin_box: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   mine_list_line: {
     paddingHorizontal: 8,
     paddingVertical: 16,
     borderStyle: 'solid',
-    borderColor: '#eee',
+    borderColor: CONST.N238,
     borderBottomWidth: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  mine_list_line_text: {
+    fontSize: 16,
+    marginLeft: 16,
+  },
+  mine_nickname: {
+    color: CONST.N0,
+    fontSize: 18,
+  },
+  mine_bar: {
+    flexGrow: 1,
+    alignItems: 'center',
+  },
+  mine_bar_item: {
+    color: CONST.N0,
+    fontSize: 20,
   },
   sub_list_box: {
     flexDirection: 'row',
@@ -52,17 +78,26 @@ export const style_mine = {
     marginHorizontal: 16,
     padding: 16,
     borderStyle: 'solid',
-    borderColor: '#eee',
+    borderColor: CONST.N238,
     borderBottomWidth: 1,
   },
-  sub_list_avatar: {
-    height: 40,
-    width: 40,
-    borderRadius: 20,
+  wallet_icon_box: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    padding: 8,
+  },
+  wallet_amount: {
+    color: CONST.GOLD,
+    fontSize: 28,
+  },
+  wallet_unit: {
+    color: CONST.GOLD,
+    fontSize: 16,
+    marginLeft: 8,
   },
   wallet_divider: {
     borderStyle: 'solid',
-    borderColor: constant.gold,
+    borderColor: CONST.GOLD,
     borderWidth: 1,
     marginHorizontal: 10,
   },
@@ -83,36 +118,44 @@ export const style_mine = {
     alignItems: 'center',
     borderRadius: 3,
     borderStyle: 'solid',
-    borderColor: constant.gold,
+    borderColor: CONST.GOLD,
     borderWidth: 1,
     marginRight: 8,
   },
-  wallet_btn_gold: {
-    backgroundColor: constant.gold,
+  wallet_btn_GOLD: {
+    backgroundColor: CONST.GOLD,
     width: 90,
     padding: 5,
     alignItems: 'center',
     borderRadius: 3,
   },
+  recharge_box: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    flexWrap: 'wrap',
+    padding: 16,
+    paddingTop: 0,
+  },
   recharge_item_box: {
     borderStyle: 'solid',
-    borderColor: '#c8c8c8',
+    borderColor: CONST.N200,
     borderWidth: 1,
     alignItems: 'center',
     padding: 16,
+    marginTop: 16,
     width: '30%',
     borderRadius: 5,
   },
   recharge_divider: {
     borderStyle: 'solid',
-    borderColor: '#eee',
+    borderColor: CONST.N238,
     borderBottomWidth: 1,
     width: '90%',
     alignSelf: 'center',
   },
   recharge_amount_input: {
     borderStyle: 'solid',
-    borderColor: '#eee',
+    borderColor: CONST.N238,
     borderWidth: 1,
     padding: 8,
     marginVertical: 16,
@@ -121,10 +164,10 @@ export const style_mine = {
   },
   recharge_amount_tip: {
     alignSelf: 'flex-end',
-    color: constant.text_gray,
+    color: CONST.N96,
   },
   recharge_sticky_btn: {
-    backgroundColor: constant.primary_color,
+    backgroundColor: CONST.PRIMARY,
     width: '80%',
     alignSelf: 'center',
     padding: 16,
@@ -137,21 +180,21 @@ export const style_mine = {
     borderRadius: 10,
   },
   firm_access_tag_text: {
-    color: '#ff5e00',
+    color: CONST.PRIMARY,
     fontSize: 12,
     paddingVertical: 3,
     paddingHorizontal: 8,
   },
   api_access_input: {
     borderStyle: 'solid',
-    borderColor: '#eee',
+    borderColor: CONST.N238,
     borderWidth: 1,
     padding: 8,
     marginBottom: 24,
     borderRadius: 5,
   },
   api_access_sticky_btn: {
-    backgroundColor: constant.primary_color,
+    backgroundColor: CONST.PRIMARY,
     width: '80%',
     alignSelf: 'center',
     padding: 16,
@@ -160,9 +203,10 @@ export const style_mine = {
   },
   firm_set_item_box: {
     borderStyle: 'solid',
-    borderColor: '#eee',
+    borderColor: CONST.N238,
     borderBottomWidth: 1,
     paddingHorizontal: 16,
+    marginBottom: 24,
   },
   firm_set_radio_box: {
     flexDirection: 'row',
@@ -177,7 +221,7 @@ export const style_mine = {
   },
   account_item_box: {
     borderStyle: 'solid',
-    borderColor: constant.border_gray,
+    borderColor: CONST.N238,
     borderBottomWidth: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -185,7 +229,7 @@ export const style_mine = {
     padding: 16,
   },
   nickname_sticky_btn: {
-    backgroundColor: constant.primary_color,
+    backgroundColor: CONST.PRIMARY,
     width: '80%',
     alignSelf: 'center',
     justifyContent: 'center',
@@ -197,22 +241,22 @@ export const style_mine = {
     position: 'absolute',
     right: 10,
     bottom: 35,
-    color: constant.text_gray,
+    color: CONST.N96,
   },
   service_card: {
-    backgroundColor: '#fff',
+    backgroundColor: CONST.N0,
     height: '60%',
     width: '80%',
     marginTop: 80,
     marginBottom: 100,
-    shadowColor: '#eee',
+    shadowColor: CONST.N238,
     shadowOffset: { height: 0, width: 0 },
     shadowOpacity: 1,
     shadowRadius: 10,
   },
   service_text: {
     fontSize: 16,
-    color: constant.text_gray,
+    color: CONST.N96,
     marginBottom: 8,
   },
   service_wechat_box: {
@@ -221,7 +265,7 @@ export const style_mine = {
     height: '25%',
   },
   service_wechat_btn: {
-    backgroundColor: constant.primary_color,
+    backgroundColor: CONST.PRIMARY,
     width: 150,
     padding: 8,
     borderRadius: 23,
@@ -229,7 +273,7 @@ export const style_mine = {
   },
   service_wechat_btn_text: {
     textAlign: 'center',
-    color: constant.text_white,
+    color: CONST.N0,
     fontSize: 16,
   },
 }

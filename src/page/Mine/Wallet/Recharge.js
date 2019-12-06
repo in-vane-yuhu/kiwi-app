@@ -1,68 +1,45 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
+import { observer, inject } from 'mobx-react'
 import { Text, View, TouchableOpacity, TextInput } from 'react-native'
-import { Icon } from '@ant-design/react-native'
-import { Actions } from 'react-native-router-flux'
 
-import * as constant from '../../../style/constant'
-import styles, { screenHeight, screenWidth } from '../../../style'
+import * as CONST from '../../../style/constant'
+import styles from '../../../style'
 
+@inject('UserStore')
+@observer
 export default class Recharge extends Component {
   state = {
     param_amount: '',
   }
 
   onSelectPrice = index => {
-    const { onSelectRechargePrice } = this.props.userAction
-    const { recharge_price } = this.props.state.user
-
-    onSelectRechargePrice(recharge_price, index)
-    this.setState({
-      param_amount: recharge_price[index].amount,
-    })
+    const { recharge_price, setRechargePrice } = this.props.UserStore
+    setRechargePrice(index)
+    this.setState({ param_amount: recharge_price[index].price })
   }
 
-  onChangeAmount = text => {
-    const { resetSelectRecharge } = this.props.userAction
-    const { recharge_price } = this.props.state.user
-    this.setState({
-      param_amount: text,
-    })
-    resetSelectRecharge(recharge_price)
-  }
+  setColor = item => (item.selected ? CONST.PRIMARY : CONST.N200)
 
   render() {
-    const { recharge_price } = this.props.state.user
+    const { recharge_price } = this.props.UserStore
     const { param_amount } = this.state
     return (
       <View style={[styles.page_box, { justifyContent: 'space-between' }]}>
         <View>
-          <View style={{ padding: 16, paddingTop: 0 }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-                flexWrap: 'wrap',
-              }}
-            >
-              {recharge_price.map((item, index) => (
-                <TouchableOpacity
-                  style={[
-                    styles.recharge_item_box,
-                    {
-                      borderColor: item.selected
-                        ? constant.primary_color
-                        : constant.border_gray_dark,
-                      marginTop: 16,
-                    },
-                  ]}
-                  key={index}
-                  onPress={() => this.onSelectPrice(index)}
-                >
-                  <Text>{item.amount}个A币</Text>
-                  <Text>售价：¥{item.price}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
+          <View style={[styles.recharge_box]}>
+            {recharge_price.map((item, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() => this.onSelectPrice(index)}
+                style={[
+                  styles.recharge_item_box,
+                  { borderColor: this.setColor(item) },
+                ]}
+              >
+                <Text>{item.amount}个A币</Text>
+                <Text>售价：¥{item.price}</Text>
+              </TouchableOpacity>
+            ))}
           </View>
           <View style={[styles.recharge_divider]} />
           <View style={{ padding: 24 }}>
@@ -80,7 +57,7 @@ export default class Recharge extends Component {
         </View>
 
         <TouchableOpacity style={[styles.recharge_sticky_btn]}>
-          <Text style={{ textAlign: 'center', color: constant.text_white }}>
+          <Text style={{ textAlign: 'center', color: CONST.N0 }}>
             微信支付
           </Text>
         </TouchableOpacity>

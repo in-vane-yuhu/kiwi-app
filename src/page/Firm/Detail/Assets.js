@@ -1,17 +1,16 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableOpacity, ScrollView } from 'react-native'
-import { Tabs } from '@ant-design/react-native'
+import { Text, View, ScrollView, SafeAreaView } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import { Echarts, echarts } from 'react-native-secharts'
 
-import * as constant from '../../../style/constant'
-import styles, { screenHeight, screenWidth } from '../../../style'
+import * as CONST from '../../../style/constant'
+import styles from '../../../style'
 
 import Statistic from '../../../components/Statistic'
 
 const lineColor = new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-  { offset: 0, color: constant.primary_color },
-  { offset: 1, color: '#fff' },
+  { offset: 0, color: CONST.PRIMARY },
+  { offset: 1, color: CONST.N0 },
 ])
 
 export default class Assets extends Component {
@@ -20,47 +19,24 @@ export default class Assets extends Component {
     this.state = {
       image: '',
       option: {
-        tooltip: {
-          trigger: 'axis',
-          position: function(pt) {
-            return [pt[0], '10%']
-          },
-        },
+        tooltip: { trigger: 'axis', position: pt => [pt[0], '10%'] },
         xAxis: {
           type: 'category',
           boundaryGap: false,
           data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-          axisLine: {
-            show: false,
-            lineStyle: {
-              color: '#969696',
-            },
-          },
-          axisTick: {
-            show: false,
-          },
+          axisLine: { show: false, lineStyle: { color: CONST.N96 } },
+          axisTick: { show: false },
         },
         yAxis: {
           type: 'value',
-          axisLine: {
-            show: false,
-            lineStyle: {
-              color: '#969696',
-            },
-          },
-          axisTick: {
-            show: false,
-          },
+          axisLine: { show: false, lineStyle: { color: CONST.N96 } },
+          axisTick: { show: false },
         },
         color: lineColor,
         series: [
-          {
-            data: [830, 932, 901, 934, 1290, 1330, 1320],
-            type: 'line',
-            areaStyle: {},
-          },
+          { data: [830, 932, 901, 934, 1290, 1330, 1320], type: 'line' },
         ],
-        grid: { x2: 20, y: 10 },
+        grid: { x2: 10, y: 10 },
       },
       flag: false,
     }
@@ -71,43 +47,10 @@ export default class Assets extends Component {
     console.log(e)
   }
 
-  renderTabBar = tabProps => (
-    <View style={[styles.border_bottom, styles.firm_detail_assets_tabs]}>
-      <Text style={[styles.firm_detail_assets_tabs_title]}>收益走势</Text>
-      {tabProps.tabs.map((tab, i) => (
-        // change the style to fit your needs
-        <TouchableOpacity
-          activeOpacity={0.9}
-          key={tab.key || i}
-          style={{ marginHorizontal: 16 }}
-          onPress={() => {
-            const { goToTab, onTabClick } = tabProps
-            onTabClick && onTabClick(tabs[i], i)
-            goToTab && goToTab(i)
-          }}
-        >
-          <Text
-            style={{
-              color:
-                tabProps.activeTab === i
-                  ? constant.primary_color
-                  : constant.text_gray,
-              textAlign: 'center',
-              fontWeight: 'bold',
-            }}
-          >
-            {tab.title}
-          </Text>
-        </TouchableOpacity>
-      ))}
-    </View>
-  )
-
   render() {
     const { option } = this.state
-    const tabs = [{ title: '总收益' }, { title: '收益率' }]
     return (
-      <View style={[styles.page_box]}>
+      <SafeAreaView style={[styles.page_box]}>
         <ScrollView>
           <View>
             <View
@@ -158,55 +101,51 @@ export default class Assets extends Component {
               style={{ height: 8, backgroundColor: '#f0f0f0', marginTop: 24 }}
             />
           </View>
-
-          <View style={{ flex: 1 }}>
-            <Tabs
-              tabs={tabs}
-              styles={{
-                topTabBarSplitLine: { borderBottomWidth: 0 },
-              }}
-              renderTabBar={tabProps => this.renderTabBar(tabProps)}
-            >
-              <View style={{ marginHorizontal: 16 }}>
-                <View style={{ flexDirection: 'row', paddingVertical: 16 }}>
-                  <View style={{ flexDirection: 'row', marginRight: 24 }}>
-                    <Text style={{ color: constant.text_gray }}>最高：</Text>
-                    <Text style={{ color: constant.text_dark }}>¥8564.40</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Text style={{ color: constant.text_gray }}>最低：</Text>
-                    <Text style={{ color: constant.text_dark }}>-¥8564.40</Text>
-                  </View>
-                </View>
-                <Echarts
-                  ref={this.echart}
-                  option={option}
-                  height={200}
-                  onPress={this.onPress}
-                />
+          <View style={[styles.border_bottom, styles.firm_detail_assets_title]}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>收益走势</Text>
+          </View>
+          <View style={{ paddingHorizontal: 16 }}>
+            <View style={{ flexDirection: 'row', paddingVertical: 16 }}>
+              <Text style={{ color: CONST.N96 }}>总收益</Text>
+              <View style={{ flexDirection: 'row', marginRight: 24 }}>
+                <Text style={{ color: CONST.N96 }}>最高：</Text>
+                <Text style={{ color: CONST.N32 }}>¥8564.40</Text>
               </View>
-              <View style={{ marginHorizontal: 16 }}>
-                <View style={{ flexDirection: 'row', paddingVertical: 16 }}>
-                  <View style={{ flexDirection: 'row', marginRight: 24 }}>
-                    <Text style={{ color: constant.text_gray }}>最高：</Text>
-                    <Text style={{ color: constant.text_dark }}>¥8564.40</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Text style={{ color: constant.text_gray }}>最低：</Text>
-                    <Text style={{ color: constant.text_dark }}>-¥8564.40</Text>
-                  </View>
-                </View>
-                <Echarts
-                  ref={this.echart}
-                  option={option}
-                  height={200}
-                  onPress={this.onPress}
-                />
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={{ color: CONST.N96 }}>最低：</Text>
+                <Text style={{ color: CONST.N32 }}>-¥8564.40</Text>
               </View>
-            </Tabs>
+            </View>
+            <Echarts
+              ref={this.echart}
+              option={option}
+              height={200}
+              width='100%'
+              onPress={this.onPress}
+            />
+          </View>
+          <View style={{ marginHorizontal: 16 }}>
+            <View style={{ flexDirection: 'row', paddingVertical: 16 }}>
+              <Text style={{ color: CONST.N96 }}>收益率</Text>
+              <View style={{ flexDirection: 'row', marginRight: 24 }}>
+                <Text style={{ color: CONST.N96 }}>最高：</Text>
+                <Text style={{ color: CONST.N32 }}>¥8564.40</Text>
+              </View>
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={{ color: CONST.N96 }}>最低：</Text>
+                <Text style={{ color: CONST.N32 }}>-¥8564.40</Text>
+              </View>
+            </View>
+            <Echarts
+              ref={this.echart}
+              option={option}
+              height={200}
+              width='100%'
+              onPress={this.onPress}
+            />
           </View>
         </ScrollView>
-      </View>
+      </SafeAreaView>
     )
   }
 }

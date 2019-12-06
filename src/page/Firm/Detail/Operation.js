@@ -1,75 +1,38 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableOpacity, ScrollView } from 'react-native'
+import { Text, View, ScrollView } from 'react-native'
 import { Icon } from '@ant-design/react-native'
 import { Actions } from 'react-native-router-flux'
 
-import * as constant from '../../../style/constant'
-import styles, { screenHeight, screenWidth } from '../../../style'
+import * as CONST from '../../../style/constant'
+import styles from '../../../style'
+
+const data = [
+  {
+    date: '11月11日',
+    time: '12:00:00',
+    type: '买入',
+    name: 'in_vane',
+    place: 'Binance',
+    token: 'EOS/USDT',
+    price: '7.07',
+    amount: '1000',
+  },
+  {
+    date: '11月11日',
+    time: '12:00:00',
+    type: '卖出',
+    name: 'in_vane',
+    place: 'Binance',
+    token: 'EOS/USDT',
+    price: '7.07',
+    amount: '1000',
+  },
+]
 
 export default class Operation extends Component {
+  setColor = item => (item.type === '买入' ? CONST.GREEN : CONST.RED)
+
   render() {
-    const data = [
-      {
-        date: '11月11日',
-        time: '12:00:00',
-        type: '买入',
-        name: 'in_vane',
-        place: 'Binance',
-        token: 'EOS/USDT',
-        price: '7.07',
-        amount: '1000',
-      },
-      {
-        date: '11月11日',
-        time: '12:00:00',
-        type: '卖出',
-        name: 'in_vane',
-        place: 'Binance',
-        token: 'EOS/USDT',
-        price: '7.07',
-        amount: '1000',
-      },
-      {
-        date: '11月11日',
-        time: '12:00:00',
-        type: '买入',
-        name: 'in_vane',
-        place: 'Binance',
-        token: 'EOS/USDT',
-        price: '7.07',
-        amount: '1000',
-      },
-      {
-        date: '11月11日',
-        time: '12:00:00',
-        type: '卖出',
-        name: 'in_vane',
-        place: 'Binance',
-        token: 'EOS/USDT',
-        price: '7.07',
-        amount: '1000',
-      },
-      {
-        date: '11月11日',
-        time: '12:00:00',
-        type: '买入',
-        name: 'in_vane',
-        place: 'Binance',
-        token: 'EOS/USDT',
-        price: '7.07',
-        amount: '1000',
-      },
-      {
-        date: '11月11日',
-        time: '12:00:00',
-        type: '卖出',
-        name: 'in_vane',
-        place: 'Binance',
-        token: 'EOS/USDT',
-        price: '7.07',
-        amount: '1000',
-      },
-    ]
     return (
       <View style={[styles.page_box]}>
         <ScrollView>
@@ -83,63 +46,43 @@ export default class Operation extends Component {
                 key={index}
                 style={{ flexDirection: 'row', paddingBottom: 24 }}
               >
-                <View>
-                  <Text style={[styles.firm_detail_ops_timeline_left]}>
+                <View style={{ width: '20%' }}>
+                  <Text style={[styles.firm_detail_ops_tl_left]}>
                     {item.date}
                   </Text>
-                  <Text style={[styles.firm_detail_ops_timeline_left]}>
+                  <Text style={[styles.firm_detail_ops_tl_left]}>
                     {item.time}
                   </Text>
                 </View>
                 <View style={{ position: 'relative', marginHorizontal: 12 }}>
-                  <View style={[styles.firm_detail_ops_timeline_head]}>
-                    <Icon name='check-circle' color={constant.primary_color} />
+                  <View style={[styles.firm_detail_ops_tl_head]}>
+                    <Icon name='check-circle' color={CONST.PRIMARY} />
                   </View>
-                  <View style={[styles.firm_detail_ops_timeline_tail]} />
+                  <View style={[styles.firm_detail_ops_tl_tail]} />
                 </View>
                 <View>
                   <View
                     style={[
-                      styles.firm_detail_ops_timeline_right,
-                      {
-                        backgroundColor:
-                          item.type === '买入'
-                            ? constant.text_green
-                            : constant.text_red,
-                      },
+                      styles.firm_detail_ops_tl_right,
+                      { backgroundColor: this.setColor(item) },
                     ]}
                   >
-                    <Text
-                      style={{
-                        color: constant.text_white,
-                        textAlign: 'center',
-                      }}
-                    >
+                    <Text style={{ color: CONST.N0, textAlign: 'center' }}>
                       {item.type}
                     </Text>
                   </View>
                   <View style={{ marginTop: 6, marginLeft: 4 }}>
-                    <Text style={{ color: constant.text_gray }}>
+                    <Text style={{ color: CONST.N96 }}>
                       {`${item.name} 在【${item.place} ${item.token}】以`}
                     </Text>
-                    <Text style={{ marginTop: 4, color: constant.text_gray }}>
+                    <Text style={{ marginTop: 4, color: CONST.N96 }}>
                       均价
                       <Text
-                        style={{
-                          color:
-                            item.type === '买入'
-                              ? constant.text_green
-                              : constant.text_red,
-                        }}
+                        style={{ color: this.setColor(item) }}
                       >{`【${item.price}】`}</Text>
                       {item.type}
                       <Text
-                        style={{
-                          color:
-                            item.type === '买入'
-                              ? constant.text_green
-                              : constant.text_red,
-                        }}
+                        style={{ color: this.setColor(item) }}
                       >{`【${item.amount}】`}</Text>
                       个
                     </Text>
@@ -147,6 +90,14 @@ export default class Operation extends Component {
                 </View>
               </View>
             ))}
+            <View
+              style={[
+                styles.firm_detail_ops_tl_head,
+                { marginLeft: '20%', paddingLeft: 12 },
+              ]}
+            >
+              <Icon name='environment' color={CONST.PRIMARY} />
+            </View>
           </View>
         </ScrollView>
       </View>

@@ -1,15 +1,15 @@
-import React, { Component, Fragment } from 'react'
-import { Text, View, TouchableOpacity, Image, StatusBar } from 'react-native'
-import { Tabs } from '@ant-design/react-native'
-import { Actions } from 'react-native-router-flux'
+import React, { Component } from 'react'
+import { Text, View, TouchableOpacity, Image } from 'react-native'
+import { Tabs, Icon } from '@ant-design/react-native'
 
-import * as constant from '../../../style/constant'
-import styles, { screenHeight, screenWidth } from '../../../style'
+import * as CONST from '../../../style/constant'
+import styles from '../../../style'
 
 import Assets from '../../Firm/Detail/Assets'
 import Position from '../../Firm/Detail/Position'
 import Operation from '../../Firm/Detail/Operation'
 import Activity from '../../Firm/Detail/Activity'
+import Avatar from '../../../components/Avatar'
 
 import avatar from '../../../assets/image/ai.jpg'
 import avatar2 from '../../../assets/image/ai2.jpg'
@@ -29,6 +29,12 @@ const tabs = [
 const firm_tab = [{ title: '现货' }, { title: '合约' }]
 
 export default class Homepage extends Component {
+  state = { favorite: false }
+
+  onClickFavorite = () => {
+    this.setState({ favorite: !this.state.favorite })
+  }
+
   renderTabBar = tabProps => (
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
       {tabProps.tabs.map((tab, i) => (
@@ -39,7 +45,7 @@ export default class Homepage extends Component {
           style={{
             marginHorizontal: 16,
             paddingVertical: 10,
-            borderColor: constant.primary_color,
+            borderColor: CONST.PRIMARY,
             borderStyle: 'solid',
             borderBottomWidth: tabProps.activeTab === i ? 1 : 0,
           }}
@@ -51,10 +57,7 @@ export default class Homepage extends Component {
         >
           <Text
             style={{
-              color:
-                tabProps.activeTab === i
-                  ? constant.primary_color
-                  : constant.text_gray,
+              color: tabProps.activeTab === i ? CONST.PRIMARY : CONST.N96,
               textAlign: 'center',
               fontWeight: 'bold',
             }}
@@ -71,17 +74,24 @@ export default class Homepage extends Component {
       <View style={[styles.page_box]}>
         <View style={[styles.border_bottom, styles.firm_avatar_bar]}>
           <View style={{ flexDirection: 'row' }}>
-            <Image
-              source={avatar}
-              style={{ height: 50, width: 50, borderRadius: 25 }}
-            />
+            <Avatar source={avatar} size={50} />
             <View style={{ marginLeft: 16 }}>
-              <Text>in_vane</Text>
-              <Text style={{ marginTop: 8, color: constant.text_gray }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text>in_vane</Text>
+                <TouchableOpacity onPress={this.onClickFavorite}>
+                  <Icon
+                    name='star'
+                    style={{ marginLeft: 16 }}
+                    color={this.state.favorite ? CONST.PRIMARY : null}
+                  />
+                </TouchableOpacity>
+              </View>
+              <Text style={{ marginTop: 8, color: CONST.N96 }}>
                 我就看着你们抄底嘻嘻嘻~
               </Text>
             </View>
           </View>
+
           <View />
         </View>
 
@@ -98,25 +108,20 @@ export default class Homepage extends Component {
         >
           {firm_tab.map((item, index) => (
             <View key={index} style={{ flex: 1 }}>
-              <View
-                style={[styles.border_bottom, styles.firm_detail_exchanges]}
-              >
+              <View style={[styles.border_bottom, styles.firm_detail_exs]}>
                 {logos.map((item, index) => (
                   <TouchableOpacity
                     key={index}
                     style={{ alignItems: 'center' }}
                   >
-                    <Image
-                      source={item.logo}
-                      style={{ height: 50, width: 50, borderRadius: 25 }}
-                    />
+                    <Avatar source={item.logo} size={50} />
                     <Text style={{ marginTop: 8 }}>{item.name}</Text>
                   </TouchableOpacity>
                 ))}
               </View>
               <Tabs
                 tabs={tabs}
-                initialPage={0}
+                initialPage={2}
                 styles={{
                   topTabBarSplitLine: {
                     borderBottomWidth: 8,

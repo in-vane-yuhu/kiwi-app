@@ -7,12 +7,11 @@ import { Actions } from 'react-native-router-flux'
 import * as CONST from '../../../style/constant'
 import styles from '../../../style'
 
-@inject('UserStore')
+@inject('FirmStore')
 @observer
-export default class Nickname extends Component {
+export default class NewActivity extends Component {
   state = {
     param_textarea: '',
-    param_length: 0,
   }
 
   navigateBack = () => {
@@ -20,23 +19,15 @@ export default class Nickname extends Component {
   }
 
   onChange = value => {
-    if (value.length > 30) {
-      return
-    }
-    this.setState({
-      param_textarea: value,
-      param_length: value.length,
-    })
+    this.setState({ param_textarea: value })
   }
 
   render() {
-    const { param_length } = this.state
-    const { userInfo } = this.props.UserStore
     return (
       <View style={[styles.page_box, { justifyContent: 'space-between' }]}>
         <View style={{ padding: 16, paddingLeft: 24, paddingRight: 24 }}>
           <Text style={{ fontSize: 16, marginBottom: 16 }}>
-            用一句话来介绍自己吧！
+            发布你的动态吧～
           </Text>
           <View style={{ position: 'relative' }}>
             <TextareaItem
@@ -44,10 +35,8 @@ export default class Nickname extends Component {
               placeholder='请输入'
               rows={5}
               last
-              defaultValue={userInfo.introduction}
               onChange={this.onChange}
             />
-            <Text style={[styles.intro_length]}>{`${param_length}/30`}</Text>
           </View>
         </View>
 
@@ -62,7 +51,7 @@ export default class Nickname extends Component {
               fontSize: 18,
             }}
           >
-            确认保存
+            确认发布
           </Text>
         </TouchableOpacity>
       </View>

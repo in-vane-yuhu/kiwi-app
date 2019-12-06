@@ -14,4 +14,4 @@ export default {
   buttonBackground: '#292929',
   submitButtonBackground: '#7f7f7f',
   navBackground: '#222222',
-};
+}

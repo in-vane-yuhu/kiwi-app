@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { observer, inject } from 'mobx-react'
 import {
   Text,
   View,
@@ -6,19 +7,21 @@ import {
   TouchableOpacity,
   StatusBar,
 } from 'react-native'
-import { Tabs, Icon } from '@ant-design/react-native'
+import { Tabs } from '@ant-design/react-native'
 
-import * as constant from '../../../style/constant'
-import styles, { screenHeight, screenWidth } from '../../../style'
+import * as CONST from '../../../style/constant'
+import styles from '../../../style'
 
 import Spot from './Spot'
 import Contract from './Contract'
-import Subscription from './Subscription'
+import Subscription from '../../Mine/Subscription'
 
+@inject('FirmStore')
+@observer
 export default class FirmMain extends Component {
   onChangeTab = (tab, index) => {
-    const { changeTab } = this.props.firmAction
-    changeTab(index)
+    const { setCurrentTab } = this.props.FirmStore
+    setCurrentTab(index)
   }
 
   renderTabBar = tabProps => (
@@ -31,7 +34,7 @@ export default class FirmMain extends Component {
           style={{
             marginHorizontal: 16,
             paddingVertical: 8,
-            borderColor: constant.primary_color,
+            borderColor: CONST.PRIMARY,
             borderStyle: 'solid',
             borderBottomWidth: tabProps.activeTab === i ? 1 : 0,
           }}
@@ -45,8 +48,8 @@ export default class FirmMain extends Component {
             style={{
               color:
                 tabProps.activeTab === i
-                  ? constant.primary_color
-                  : constant.text_gray,
+                  ? CONST.PRIMARY
+                  : CONST.N96,
               textAlign: 'center',
               fontWeight: 'bold',
             }}

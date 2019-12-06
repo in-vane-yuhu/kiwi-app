@@ -1,15 +1,13 @@
 import React, { Component } from 'react'
 import { Text, View, TouchableOpacity, Clipboard } from 'react-native'
 import { Toast } from '@ant-design/react-native'
-import { Actions } from 'react-native-router-flux'
 
-import * as constant from '../../style/constant'
-import styles, { screenHeight, screenWidth } from '../../style'
+import styles from '../../../style'
 
 export default class Markets extends Component {
-  onCopyWechatID = () => {
-    Clipboard.setString('in_vane')
-    Toast.success('已复制')
+  onCopyWechatID = id => {
+    Clipboard.setString(id)
+    Toast.success('已复制', 0.5)
   }
 
   render() {
@@ -34,7 +32,7 @@ export default class Markets extends Component {
             <Text style={{ fontSize: 16 }}>微信号：in_vane</Text>
             <TouchableOpacity
               style={[styles.service_wechat_btn]}
-              onPress={this.onCopyWechatID}
+              onPress={() => this.onCopyWechatID('wechat_id')}
             >
               <Text style={[styles.service_wechat_btn_text]}>复制微信号</Text>
             </TouchableOpacity>

@@ -2,9 +2,9 @@
  * Created by guoshuyu on 2017/11/7.
  */
 import React from 'react'
-import { Scene, Router, Tabs, Drawer, Actions } from 'react-native-router-flux'
+import { Scene, Router } from 'react-native-router-flux'
 import { Icon } from '@ant-design/react-native'
-import { Text, Image, TouchableOpacity } from 'react-native'
+import * as CONST from '../style/constant'
 import styles from '../style'
 
 import Login from '../page/Login/Login'
@@ -16,8 +16,60 @@ import * as Firm from '../page/Firm'
 import Community from '../page/Community/Community'
 
 const isActive = focused => {
-  return focused ? '#ff5e00' : '#969696'
+  return focused ? CONST.PRIMARY : CONST.N96
 }
+
+const renderSwitch = () => (
+  <Scene
+    key='switchTab'
+    lazy
+    tabs
+    hideNavBar
+    tabBarPosition='bottom'
+    activeTintColor={CONST.PRIMARY}
+    inactiveTintColor={CONST.N96}
+    tabBarStyle={[styles.tabbar]}
+  >
+    <Scene
+      key='home'
+      title='首页'
+      icon={({ focused }) => <Icon name='global' color={isActive(focused)} />}
+      component={Home}
+      hideNavBar
+    />
+    <Scene
+      key='firm'
+      title='实盘'
+      icon={({ focused }) => (
+        <Icon name='radar-chart' color={isActive(focused)} />
+      )}
+      component={Firm.Main}
+      hideNavBar
+    />
+    <Scene
+      key='markets'
+      title='行情'
+      icon={({ focused }) => (
+        <Icon name='area-chart' color={isActive(focused)} />
+      )}
+      component={Markets}
+    />
+    <Scene
+      key='data'
+      title='大数据'
+      icon={({ focused }) => (
+        <Icon name='pie-chart' color={isActive(focused)} />
+      )}
+      component={Data}
+    />
+    <Scene
+      key='community'
+      title='社区'
+      icon={({ focused }) => <Icon name='home' color={isActive(focused)} />}
+      component={Community}
+    />
+  </Scene>
+)
 
 /**
  * 全局路由
@@ -26,76 +78,27 @@ const getRouter = () => {
   return (
     <Router>
       <Scene key='root'>
-        <Scene key='login' hideNavBar component={Login} />
-        <Scene key='mine' hideNavBar title='我的' component={Mine.Mine} />
-        <Scene key='account' title='账户设置' component={Mine.Account} />
-        <Scene
-          key='switchTab'
-          lazy
-          tabs
-          hideNavBar
-          tabBarPosition='bottom'
-          activeTintColor='#ff5e00'
-          inactiveTintColor='#969696'
-          tabBarStyle={[styles.tabbar]}
-        >
-          <Scene
-            key='home'
-            title='首页'
-            icon={({ focused }) => (
-              <Icon name='global' color={isActive(focused)} />
-            )}
-            component={Home}
-            hideNavBar
-          />
-          <Scene
-            key='firm'
-            title='实盘'
-            icon={({ focused }) => (
-              <Icon name='radar-chart' color={isActive(focused)} />
-            )}
-            component={Firm.Main}
-            hideNavBar
-          />
-          <Scene
-            key='markets'
-            title='行情'
-            icon={({ focused }) => (
-              <Icon name='area-chart' color={isActive(focused)} />
-            )}
-            component={Markets}
-          />
-          <Scene
-            key='data'
-            title='大数据'
-            icon={({ focused }) => (
-              <Icon name='pie-chart' color={isActive(focused)} />
-            )}
-            component={Data}
-          />
-          <Scene
-            key='community'
-            title='社区'
-            icon={({ focused }) => (
-              <Icon name='home' color={isActive(focused)} />
-            )}
-            component={Community}
-          />
-        </Scene>
         <Scene key='homepage' title='个人主页' component={Mine.Homepage} />
+        <Scene key='login' hideNavBar component={Login} />
+        {renderSwitch()}
+        {/* mine */}
+        <Scene key='mine' hideNavBar title='我的' component={Mine.Mine} />
         <Scene key='sub' title='我的订阅' component={Mine.Subscription} />
-        <Scene key='favor' title='我的收藏' component={Mine.Favorite} />
-        <Scene key='fans' title='我的粉丝' component={Mine.Fans} />
         <Scene key='wallet' title='我的钱包' component={Mine.Wallet} />
         <Scene key='recharge' title='充值' component={Mine.Recharge} />
-        <Scene key='firmAccess' title='实盘接入' component={Mine.FirmAccess} />
-        <Scene key='apiAccess' title='API接入' component={Mine.ApiAccess} />
+        <Scene key='access' title='实盘接入' component={Mine.FirmAccess} />
+        <Scene key='api' title='API接入' component={Mine.ApiAccess} />
         <Scene key='firmSet' title='实盘设置' component={Mine.FirmSet} />
+        <Scene key='account' title='账户设置' component={Mine.Account} />
         <Scene key='nickname' title='设置昵称' component={Mine.Nickname} />
         <Scene key='intro' title='个人简介' component={Mine.SelfIntroduction} />
         <Scene key='service' title='联系客服' component={Mine.Service} />
-        <Scene key='firmComments' title='动态详情' component={Firm.Comments} />
+        <Scene key='favor' title='我的收藏' component={Mine.Favorite} />
+        <Scene key='fans' title='我的粉丝' component={Mine.Fans} />
+        {/* firm */}
         <Scene key='firmDetail' title='详情' component={Firm.Detail} />
+        <Scene key='firmCmts' title='动态详情' component={Firm.Comments} />
+        <Scene key='newAct' title='发布动态' component={Firm.NewActivity} />
       </Scene>
     </Router>
   )

@@ -1,4 +1,4 @@
-import * as constant from './constant';
+import * as CONST from './constant'
 
 export const style_firm = {
   firm_search_box: {
@@ -7,16 +7,20 @@ export const style_firm = {
     justifyContent: 'space-between',
   },
   firm_search: {
-    backgroundColor: '#fff',
-    paddingVertical: 8,
+    backgroundColor: CONST.N0,
     paddingHorizontal: 16,
-    borderRadius: 19,
     flexDirection: 'row',
     alignItems: 'center',
-    shadowColor: constant.primary_color,
-    shadowOffset: {height: 0, width: 0},
+    shadowColor: CONST.PRIMARY,
+    shadowOffset: { height: 0, width: 0 },
     shadowOpacity: 0.1,
     shadowRadius: 10,
+    height: 40,
+    borderRadius: 20,
+  },
+  firm_search_ipt: {
+    marginLeft: 8,
+    width: '100%',
   },
   firm_avatar_bar: {
     flexDirection: 'row',
@@ -26,19 +30,20 @@ export const style_firm = {
     paddingVertical: 16,
   },
   firm_subscription: {
+    height: 24,
+    paddingHorizontal: 8,
+    justifyContent: 'center',
+    borderRadius: 12,
     borderStyle: 'solid',
     borderWidth: 1,
-    borderRadius: 12.5,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
   },
-  firm_subscription_primary: {
-    color: constant.primary_color,
-    borderColor: constant.primary_color,
+  firm_subscription_PRIMARY: {
+    color: CONST.PRIMARY,
+    borderColor: CONST.PRIMARY,
   },
   firm_subscription_gray: {
-    color: constant.border_gray_dark,
-    borderColor: constant.border_gray_dark,
+    color: CONST.N200,
+    borderColor: CONST.N200,
   },
   firm_statistic: {
     flexDirection: 'row',
@@ -60,7 +65,7 @@ export const style_firm = {
     alignItems: 'center',
     marginLeft: 16,
   },
-  firm_detail_exchanges: {
+  firm_detail_exs: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     paddingVertical: 16,
@@ -94,7 +99,7 @@ export const style_firm = {
     fontSize: 18,
     fontWeight: 'bold',
     position: 'absolute',
-    left: 8,
+    left: 16,
   },
   firm_detail_position_percent: {
     marginHorizontal: 8,
@@ -103,7 +108,7 @@ export const style_firm = {
   },
   firm_detail_position_percent_text: {
     textAlign: 'center',
-    color: constant.text_white,
+    color: CONST.N0,
     fontWeight: 'bold',
   },
   firm_detail_position_percent_label: {
@@ -118,48 +123,46 @@ export const style_firm = {
   },
   firm_detail_position_tabel_title_box: {
     marginHorizontal: 8,
-    paddingVertical: 10,
+    paddingVertical: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   firm_detail_position_tabel_title_text: {
-    color: constant.text_gray,
+    color: CONST.N96,
     textAlign: 'center',
   },
-  firm_detail_position_tabel_column_center: {
-    color: constant.text_gray,
+  firm_detail_position_tabel_col_center: {
+    color: CONST.N96,
     fontSize: 18,
     textAlign: 'center',
   },
-  firm_detail_position_tabel_column_end: {
-    color: constant.text_green,
-    fontSize: 18,
-    marginTop: 4,
+  firm_detail_position_tabel_col_end: {
+    color: CONST.GREEN,
   },
-  firm_detail_ops_timeline_tail: {
+  firm_detail_ops_tl_tail: {
     position: 'absolute',
     left: 10.5,
     top: 10.5,
     height: '120%',
     borderStyle: 'solid',
-    borderColor: '#c8c8c8',
+    borderColor: CONST.N200,
     borderLeftWidth: 1,
   },
-  firm_detail_ops_timeline_head: {
+  firm_detail_ops_tl_head: {
     zIndex: 999,
-    backgroundColor: '#fff',
+    backgroundColor: CONST.N0,
   },
-  firm_detail_ops_timeline_left: {
-    color: constant.text_gray,
+  firm_detail_ops_tl_left: {
+    color: CONST.N96,
     textAlign: 'right',
   },
-  firm_detail_ops_timeline_right: {
+  firm_detail_ops_tl_right: {
     paddingVertical: 4,
     borderRadius: 11,
     width: 48,
   },
-  firm_detail_activity_title: {
+  firm_detail_act_title: {
     marginHorizontal: 8,
     paddingHorizontal: 16,
     paddingVertical: 10,
@@ -167,7 +170,7 @@ export const style_firm = {
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  firm_detail_activity_none: {
+  firm_detail_act_none: {
     marginHorizontal: 8,
     paddingHorizontal: 16,
     paddingVertical: 10,
@@ -175,12 +178,12 @@ export const style_firm = {
     alignItems: 'center',
     paddingVertical: 24,
   },
-  firm_detail_activity_item: {
+  firm_detail_act_item: {
     marginHorizontal: 8,
     padding: 16,
     flexDirection: 'row',
   },
-  firm_detail_activity_ipt_box: {
+  firm_detail_act_ipt_box: {
     position: 'relative',
     bottom: 0,
     borderStyle: 'solid',
@@ -192,17 +195,17 @@ export const style_firm = {
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    backgroundColor: constant.text_white,
+    backgroundColor: CONST.N0,
   },
-  firm_detail_activity_ipt: {
+  firm_detail_act_ipt: {
     backgroundColor: '#f5f5f5',
     width: '75%',
     paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 15,
+    height: 40,
+    borderRadius: 20,
   },
-  firm_detail_activity_btn: {
-    backgroundColor: constant.primary_color,
+  firm_detail_act_btn: {
+    backgroundColor: CONST.PRIMARY,
     width: '20%',
     alignItems: 'center',
     justifyContent: 'center',
@@ -218,7 +221,7 @@ export const style_firm = {
     left: 0,
   },
   firm_contract_list_label: {
-    color: constant.text_white,
+    color: CONST.N0,
     fontSize: 10,
     paddingHorizontal: 8,
   },
@@ -231,9 +234,9 @@ export const style_firm = {
     alignItems: 'center',
   },
   firm_contract_detail_list_label: {
-    color: constant.primary_color,
+    color: CONST.PRIMARY,
     borderStyle: 'solid',
-    borderColor: constant.primary_color,
+    borderColor: CONST.PRIMARY,
     borderWidth: 1,
     fontSize: 12,
     paddingHorizontal: 8,
@@ -247,4 +250,4 @@ export const style_firm = {
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-};
+}

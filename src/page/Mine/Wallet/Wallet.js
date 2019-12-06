@@ -1,10 +1,12 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { Text, View, TouchableOpacity, ImageBackground } from 'react-native'
 import { Icon } from '@ant-design/react-native'
 import { Actions } from 'react-native-router-flux'
 
-import * as constant from '../../../style/constant'
-import styles, { screenHeight, screenWidth } from '../../../style'
+import * as CONST from '../../../style/constant'
+import styles from '../../../style'
+
+import avatar from '../../../assets/image/wallet_bg.jpg'
 
 export default class Wallet extends Component {
   navigateToRecharge = () => {
@@ -16,43 +18,35 @@ export default class Wallet extends Component {
       <View style={[styles.page_box]}>
         <View style={{ padding: 24 }}>
           <ImageBackground
-            source={require('../../../assets/image/wallet_bg.jpg')}
-            style={{ width: '100%', borderRadius: 10 }}
+            source={avatar}
+            style={{ borderRadius: 10 }}
             imageStyle={{ borderRadius: 10 }}
           >
-            <View style={{ padding: 8 }}>
-              <View
-                style={{ flexDirection: 'row', justifyContent: 'flex-end' }}
-              >
-                <TouchableOpacity>
-                  <Icon name='qrcode' color={constant.gold} />
-                </TouchableOpacity>
-                <View style={[styles.wallet_divider]} />
-                <TouchableOpacity>
-                  <Icon name='question-circle' color={constant.gold} />
-                </TouchableOpacity>
-              </View>
+            <View style={[styles.wallet_icon_box]}>
+              <TouchableOpacity>
+                <Icon name='qrcode' color={CONST.GOLD} />
+              </TouchableOpacity>
+              <View style={[styles.wallet_divider]} />
+              <TouchableOpacity>
+                <Icon name='question-circle' color={CONST.GOLD} />
+              </TouchableOpacity>
             </View>
             <View style={[styles.wallet_amount]}>
-              <Text style={{ color: constant.gold, fontSize: 28 }}>5000.5</Text>
-              <Text
-                style={{ color: constant.gold, fontSize: 16, marginLeft: 8 }}
-              >
-                A币（个）
-              </Text>
+              <Text style={[styles.wallet_amount]}>5000.5</Text>
+              <Text style={[styles.wallet_unit]}>A币（个）</Text>
             </View>
             <View style={[styles.wallet_btn_box]}>
               <TouchableOpacity style={[styles.wallet_btn]}>
-                <Text style={{ color: constant.gold }}>转账</Text>
+                <Text style={{ color: CONST.GOLD }}>转账</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.wallet_btn]}>
-                <Text style={{ color: constant.gold }}>提现</Text>
+                <Text style={{ color: CONST.GOLD }}>提现</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[styles.wallet_btn_gold]}
+                style={[styles.wallet_btn_GOLD]}
                 onPress={this.navigateToRecharge}
               >
-                <Text style={{ color: constant.gold_dark }}>充值</Text>
+                <Text style={{ color: CONST.GOLD_DARK }}>充值</Text>
               </TouchableOpacity>
             </View>
           </ImageBackground>

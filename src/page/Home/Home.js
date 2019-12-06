@@ -10,8 +10,8 @@ import {
 import { Icon, Carousel } from '@ant-design/react-native'
 import { Actions } from 'react-native-router-flux'
 
-import * as constant from '../../style/constant'
-import styles, { screenHeight, screenWidth } from '../../style'
+import * as CONST from '../../style/constant'
+import styles from '../../style'
 
 import avatar from '../../assets/image/ai.jpg'
 
@@ -33,8 +33,9 @@ export default class Home extends Component {
           }}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Image source={avatar} style={{ height: 20, width: 20 }} />
-            <Text>{`<-it's logo`}</Text>
+            <Text style={{ color: CONST.PRIMARY, fontWeight: 'bold' }}>
+              AI-Trade
+            </Text>
           </View>
           <TouchableOpacity onPress={this.navigateToMine}>
             <Icon name='user' />
@@ -42,14 +43,14 @@ export default class Home extends Component {
         </View>
         <View style={[styles.firm_search_box]}>
           <View style={[styles.firm_search, { width: '75%' }]}>
-            <Icon name='search' color={constant.primary_color} />
+            <Icon name='search' color={CONST.PRIMARY} />
             <TextInput
               placeholder='搜索字段'
               style={{ marginLeft: 8, width: '100%' }}
             />
           </View>
           <TouchableOpacity style={[styles.firm_search]}>
-            <Icon name='filter' color={constant.primary_color} />
+            <Icon name='filter' color={CONST.PRIMARY} />
             <Text>筛选</Text>
           </TouchableOpacity>
         </View>
@@ -59,7 +60,7 @@ export default class Home extends Component {
               <View
                 key={index}
                 style={{
-                  backgroundColor: constant.primary_color,
+                  backgroundColor: CONST.N238,
                   marginHorizontal: 24,
                   height: 100,
                   borderRadius: 10,

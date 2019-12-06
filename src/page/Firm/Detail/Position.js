@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from 'react'
 import { Text, View, ScrollView, SafeAreaView } from 'react-native'
-import { Tabs } from '@ant-design/react-native'
 import { Actions } from 'react-native-router-flux'
 
-import * as constant from '../../../style/constant'
-import styles, { screenHeight, screenWidth } from '../../../style'
+import * as CONST from '../../../style/constant'
+import styles from '../../../style'
 
 import Statistic from '../../../components/Statistic'
+import Nomore from '../../../components/Nomore'
 
 const data = [
   {
@@ -21,7 +21,7 @@ const data = [
   {
     name: 'ETH',
     percent: '26%',
-    color: '#ff5e00',
+    color: CONST.PRIMARY,
     value: '¥210000',
     amount: 31,
     cost: '¥6.00',
@@ -30,7 +30,7 @@ const data = [
   {
     name: 'EOS',
     percent: '14%',
-    color: '#969696',
+    color: CONST.N96,
     value: '¥210000',
     amount: 31,
     cost: '¥6.00',
@@ -39,7 +39,7 @@ const data = [
   {
     name: '其他',
     percent: '10%',
-    color: '#c8c8c8',
+    color: CONST.N200,
     value: '¥210000',
     amount: 31,
     cost: '¥6.00',
@@ -72,6 +72,7 @@ const data_contract = [
 
 export default class Position extends Component {
   renderSpotPosition = () => {
+    const title = ['名称/价值', '数量', '成本/现价']
     return (
       <Fragment>
         <View
@@ -80,21 +81,13 @@ export default class Position extends Component {
             styles.firm_detail_position_tabel_title_box,
           ]}
         >
-          <View style={{ width: '30%' }}>
-            <Text style={[styles.firm_detail_position_tabel_title_text]}>
-              名称/价值
-            </Text>
-          </View>
-          <View style={{ width: '30%' }}>
-            <Text style={[styles.firm_detail_position_tabel_title_text]}>
-              数量
-            </Text>
-          </View>
-          <View style={{ width: '30%' }}>
-            <Text style={[styles.firm_detail_position_tabel_title_text]}>
-              成本/现价
-            </Text>
-          </View>
+          {title.map((item, index) => (
+            <View key={index} style={{ width: '30%' }}>
+              <Text style={[styles.firm_detail_position_tabel_title_text]}>
+                {item}
+              </Text>
+            </View>
+          ))}
         </View>
         {data.map((item, index) => (
           <View
@@ -105,22 +98,23 @@ export default class Position extends Component {
             ]}
           >
             <View style={{ alignItems: 'center', width: '30%' }}>
-              <Text style={{ color: constant.text_gray }}>{item.name}</Text>
-              <Text style={{ fontSize: 18, marginTop: 4 }}>{item.value}</Text>
+              <Text style={{ color: CONST.N96 }}>{item.name}</Text>
+              <Text>{item.value}</Text>
             </View>
             <View style={{ width: '30%' }}>
-              <Text style={[styles.firm_detail_position_tabel_column_center]}>
+              <Text style={[styles.firm_detail_position_tabel_col_center]}>
                 {item.amount}
               </Text>
             </View>
             <View style={{ alignItems: 'center', width: '30%' }}>
-              <Text style={{ color: constant.text_gray }}>{item.cost}</Text>
-              <Text style={[styles.firm_detail_position_tabel_column_end]}>
+              <Text style={{ color: CONST.N96 }}>{item.cost}</Text>
+              <Text style={[styles.firm_detail_position_tabel_col_end]}>
                 {item.current}
               </Text>
             </View>
           </View>
         ))}
+        <Nomore />
       </Fragment>
     )
   }
@@ -141,7 +135,7 @@ export default class Position extends Component {
                 style={{
                   fontSize: 16,
                   fontWeight: 'bold',
-                  color: item.type ? constant.text_green : constant.text_red,
+                  color: item.type ? CONST.GREEN : CONST.RED,
                 }}
               >{`Huobi BTC季度${item.type ? '多' : '空'} ${
                 item.times
@@ -173,20 +167,16 @@ export default class Position extends Component {
             </View>
             <View style={{ paddingTop: 16 }}>
               <View style={[styles.firm_contract_detail_list_line]}>
-                <Text style={{ color: constant.text_gray }}>最大持仓量</Text>
-                <Text style={{ color: constant.text_dark }}>
-                  {item.maxPosition}
-                </Text>
+                <Text style={{ color: CONST.N96 }}>最大持仓量</Text>
+                <Text style={{ color: CONST.N32 }}>{item.maxPosition}</Text>
               </View>
               <View style={[styles.firm_contract_detail_list_line]}>
-                <Text style={{ color: constant.text_gray }}>最大保证金</Text>
-                <Text style={{ color: constant.text_dark }}>
-                  {item.maxMargin}
-                </Text>
+                <Text style={{ color: CONST.N96 }}>最大保证金</Text>
+                <Text style={{ color: CONST.N32 }}>{item.maxMargin}</Text>
               </View>
               <View style={[styles.firm_contract_detail_list_line]}>
-                <Text style={{ color: constant.text_gray }}>保证金率</Text>
-                <Text style={{ color: constant.text_dark }}>
+                <Text style={{ color: CONST.N96 }}>保证金率</Text>
+                <Text style={{ color: CONST.N32 }}>
                   {item.percentMargin}
                 </Text>
               </View>
@@ -200,7 +190,7 @@ export default class Position extends Component {
   }
 
   render() {
-    const { currentTabIndex } = this.props.state.firm
+    const currentTabIndex = 0
     return (
       <SafeAreaView style={[styles.page_box]}>
         <ScrollView>
@@ -242,7 +232,7 @@ export default class Position extends Component {
                   <Text style={{ color: item.color, fontWeight: 'bold' }}>
                     {item.name}
                   </Text>
-                  <Text style={{ color: constant.text_gray, marginLeft: 8 }}>
+                  <Text style={{ color: CONST.N96, marginLeft: 8 }}>
                     {item.percent}
                   </Text>
                 </View>

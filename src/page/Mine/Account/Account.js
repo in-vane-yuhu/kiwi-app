@@ -4,8 +4,10 @@ import { Text, View, TouchableOpacity, Image } from 'react-native'
 import { Icon } from '@ant-design/react-native'
 import { Actions } from 'react-native-router-flux'
 
-import * as constant from '../../../style/constant'
+import * as CONST from '../../../style/constant'
 import styles from '../../../style'
+
+import Avatar from '../../../components/Avatar'
 
 import avatar from '../../../assets/image/ai.jpg'
 
@@ -38,10 +40,7 @@ export default class Markets extends Component {
             ]}
           >
             <Text style={{ fontSize: 16 }}>头像</Text>
-            <Image
-              source={avatar}
-              style={{ height: 50, width: 50, borderRadius: 25 }}
-            />
+            <Avatar source={avatar} size={50} />
           </View>
 
           <TouchableOpacity
@@ -54,9 +53,7 @@ export default class Markets extends Component {
               >{`昵称：${userInfo.nickName}`}</Text>
             </View>
             <View style={[styles.flex_row_center]}>
-              <Text style={{ color: constant.text_gray, fontSize: 16 }}>
-                修改
-              </Text>
+              <Text style={{ color: CONST.N96, fontSize: 16 }}>修改</Text>
               <Icon name='right' />
             </View>
           </TouchableOpacity>
@@ -68,15 +65,13 @@ export default class Markets extends Component {
             <View>
               <Text style={{ fontSize: 16 }}>
                 个人介绍：
-                <Text style={{ color: constant.text_gray }}>
+                <Text style={{ color: CONST.N96 }}>
                   {userInfo.introduction}
                 </Text>
               </Text>
             </View>
             <View style={[styles.flex_row_center]}>
-              <Text style={{ color: constant.text_gray, fontSize: 16 }}>
-                修改
-              </Text>
+              <Text style={{ color: CONST.N96, fontSize: 16 }}>修改</Text>
               <Icon name='right' />
             </View>
           </TouchableOpacity>
@@ -89,7 +84,7 @@ export default class Markets extends Component {
               </View>
             </View>
             <View style={[styles.flex_row_center]}>
-              <Text style={{ color: constant.text_gray, fontSize: 16 }}>
+              <Text style={{ color: CONST.N96, fontSize: 16 }}>
                 159****3976
               </Text>
             </View>
@@ -108,14 +103,12 @@ export default class Markets extends Component {
               </View>
             </View>
             <View style={[styles.flex_row_center]}>
-              <Text style={{ color: constant.text_gray, fontSize: 16 }}>
-                鱼**
-              </Text>
+              <Text style={{ color: CONST.N96, fontSize: 16 }}>鱼**</Text>
             </View>
           </View>
         </View>
 
-        <View style={{ height: 10, backgroundColor: '#eee' }} />
+        <View style={{ height: 10, backgroundColor: CONST.N238 }} />
 
         <View style={{ padding: 16 }}>
           <TouchableOpacity
@@ -125,7 +118,7 @@ export default class Markets extends Component {
               <Text style={{ fontSize: 16 }}>语言</Text>
             </View>
             <View style={[styles.flex_row_center]}>
-              <Text style={{ color: constant.text_gray, fontSize: 16 }}>
+              <Text style={{ color: CONST.N96, fontSize: 16 }}>
                 简体中文
               </Text>
               <Icon name='right' />
@@ -142,15 +135,13 @@ export default class Markets extends Component {
               <Text style={{ fontSize: 16 }}>清理缓存</Text>
             </View>
             <View style={[styles.flex_row_center]}>
-              <Text style={{ color: constant.text_gray, fontSize: 16 }}>
-                2.1M
-              </Text>
+              <Text style={{ color: CONST.N96, fontSize: 16 }}>2.1M</Text>
               <Icon name='right' />
             </View>
           </TouchableOpacity>
         </View>
 
-        <View style={{ height: 10, backgroundColor: '#eee' }} />
+        <View style={{ height: 10, backgroundColor: CONST.N238 }} />
 
         <View style={{ padding: 16 }}>
           <TouchableOpacity
@@ -169,7 +160,7 @@ export default class Markets extends Component {
               <Text style={{ fontSize: 16 }}>当前版本：{`1.0.2`}</Text>
             </View>
             <View style={[styles.flex_row_center]}>
-              <Text style={{ color: constant.text_gray, fontSize: 16 }}>
+              <Text style={{ color: CONST.N96, fontSize: 16 }}>
                 检查更新
               </Text>
               <Icon name='right' />

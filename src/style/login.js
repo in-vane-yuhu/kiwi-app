@@ -1,22 +1,22 @@
-import * as constant from './constant';
+import * as CONST from './constant'
 
 export const style_login = {
   login_logo: {
     height: 100,
     width: 100,
     borderRadius: 16,
-    marginTop: 160,
+    marginTop: '25%',
   },
   login_title: {
     fontSize: 25,
     marginTop: 16,
-    color: constant.primary_color,
+    color: CONST.PRIMARY,
     fontWeight: 'bold',
   },
   login_ipt_phone: {
     borderStyle: 'solid',
     borderWidth: 1,
-    borderColor: constant.border_gray,
+    borderColor: CONST.N238,
     width: '70%',
     height: 40,
     borderRadius: 8,
@@ -30,7 +30,7 @@ export const style_login = {
     alignItems: 'center',
     borderStyle: 'solid',
     borderWidth: 1,
-    borderColor: constant.border_gray,
+    borderColor: CONST.N238,
     borderRadius: 8,
     marginTop: 24,
   },
@@ -42,15 +42,19 @@ export const style_login = {
   login_ipt_code_btn: {
     width: '30%',
     borderStyle: 'solid',
-    borderColor: constant.border_gray,
+    borderColor: CONST.N238,
     borderLeftWidth: 1,
   },
   login_ipt_code_btn_text: {
     alignSelf: 'center',
-    color: '#ff5e00',
+    color: CONST.PRIMARY,
+  },
+  login_ipt_code_btn_count: {
+    alignSelf: 'center',
+    color: CONST.N96,
   },
   login_tip: {
-    color: constant.text_red,
+    color: CONST.RED,
     fontSize: 12,
     marginLeft: 10,
     marginTop: 10,
@@ -63,11 +67,11 @@ export const style_login = {
     height: 40,
     borderRadius: 20,
     marginTop: 64,
-    backgroundColor: constant.primary_color,
+    backgroundColor: CONST.PRIMARY,
     justifyContent: 'center',
   },
   login_btn_text: {
-    color: constant.text_white,
+    color: CONST.N0,
     alignSelf: 'center',
   },
-};
+}

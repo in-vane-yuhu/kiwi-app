@@ -3,8 +3,10 @@ import { Text, View, TouchableOpacity, ScrollView, Image } from 'react-native'
 import { Icon } from '@ant-design/react-native'
 import { Actions } from 'react-native-router-flux'
 
-import * as constant from '../../../style/constant'
-import styles, { screenHeight, screenWidth } from '../../../style'
+import * as CONST from '../../../style/constant'
+import styles from '../../../style'
+
+import Avatar from '../../../components/Avatar'
 
 import avatar from '../../../assets/image/ai.jpg'
 
@@ -12,7 +14,11 @@ export default class Activity extends Component {
   state = { like: false }
 
   navigateToComments = () => {
-    Actions.firmComments()
+    Actions.firmCmts()
+  }
+
+  navigateToPublish = () => {
+    Actions.newAct()
   }
 
   setLikeStatus = () => {
@@ -36,18 +42,18 @@ export default class Activity extends Component {
     const { like } = this.state
     return (
       <View style={[styles.page_box]}>
-        <View style={[styles.border_bottom, styles.firm_detail_activity_title]}>
+        <View style={[styles.border_bottom, styles.firm_detail_act_title]}>
           <Text style={{ fontSize: 18, fontWeight: 'bold' }}>最新操作</Text>
-          <TouchableOpacity>
-            <Icon name='plus-circle' color={constant.primary_color} />
+          <TouchableOpacity onPress={this.navigateToPublish}>
+            <Icon name='plus-circle' color={CONST.PRIMARY} />
           </TouchableOpacity>
         </View>
         <ScrollView>
           {data.length === 0 && (
             <View
-              style={[styles.border_bottom, styles.firm_detail_activity_none]}
+              style={[styles.border_bottom, styles.firm_detail_act_none]}
             >
-              <Text style={{ color: constant.text_gray }}>
+              <Text style={{ color: CONST.N96 }}>
                 点击右上角“+”发布你的第一条动态吧～
               </Text>
             </View>
@@ -55,15 +61,12 @@ export default class Activity extends Component {
           {data.map((item, index) => (
             <View
               key={index}
-              style={[styles.border_bottom, styles.firm_detail_activity_item]}
+              style={[styles.border_bottom, styles.firm_detail_act_item]}
             >
-              <Image
-                source={avatar}
-                style={{ height: 40, width: 40, borderRadius: 20 }}
-              />
+              <Avatar source={avatar} size={40} />
               <View style={{ marginLeft: 16, width: '80%' }}>
                 <Text style={{ lineHeight: 20 }}>in_vane</Text>
-                <Text style={{ color: constant.text_gray, lineHeight: 20 }}>
+                <Text style={{ color: CONST.N96, lineHeight: 20 }}>
                   2019-12-01 12:00
                 </Text>
                 <Text style={{ marginTop: 4, lineHeight: 20 }}>
@@ -83,7 +86,7 @@ export default class Activity extends Component {
                     >
                       <Text style={{ lineHeight: 20 }}>
                         {`${item.name}：`}
-                        <Text style={{ color: constant.text_gray }}>
+                        <Text style={{ color: CONST.N96 }}>
                           {item.content}
                         </Text>
                       </Text>
@@ -106,10 +109,7 @@ export default class Activity extends Component {
                     }}
                     onPress={this.setLikeStatus}
                   >
-                    <Icon
-                      name='like'
-                      color={like ? constant.primary_color : null}
-                    />
+                    <Icon name='like' color={like ? CONST.PRIMARY : null} />
                     <Text style={{ marginLeft: 8 }}>5</Text>
                   </TouchableOpacity>
                 </View>

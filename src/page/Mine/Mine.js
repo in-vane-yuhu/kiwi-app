@@ -1,14 +1,49 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { observer, inject } from 'mobx-react'
-import { Text, View, TouchableOpacity, Image, SafeAreaView } from 'react-native'
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  SafeAreaView,
+  ScrollView,
+} from 'react-native'
 import { Icon } from '@ant-design/react-native'
 import { Actions } from 'react-native-router-flux'
 import LinearGradient from 'react-native-linear-gradient'
 
-import * as constant from '../../style/constant'
+import * as CONST from '../../style/constant'
 import styles from '../../style'
 
+import Avatar from '../../components/Avatar'
+
 import avatar from '../../assets/image/ai.jpg'
+
+const LinearGradientOptions = {
+  colors: ['#252c44', '#465173', '#4a5478'],
+  start: { x: 0.6, y: 0.9 },
+  end: { x: 0.4, y: 0.1 },
+  style: [styles.mine_linearGradient],
+}
+const bar = [
+  { title: '订阅', id: 'sub', amount: 1 },
+  { title: '收藏', id: 'favor', amount: 14 },
+  { title: '粉丝', id: 'fans', amount: 7 },
+]
+const list = [
+  [
+    { title: '订阅管理', icon: 'contacts', id: 'sub' },
+    { title: '我的钱包', icon: 'wallet', id: 'wallet' },
+    { title: '实盘接入', icon: 'bank', id: 'access' },
+    { title: '实盘设置', icon: 'tool', id: 'firmSet' },
+  ],
+  [
+    { title: '账户设置', icon: 'setting', id: 'account' },
+    { title: 'VIP中心', icon: 'crown', id: 'vip' },
+    { title: '邀请好友', icon: 'user-add', id: 'invite' },
+    { title: '联系客服', icon: 'phone', id: 'service' },
+  ],
+]
 
 @inject('UserStore')
 @observer
@@ -18,205 +53,111 @@ export default class Mine extends Component {
     getUserInfo()
   }
 
-  navigateToSubscription = () => {
-    Actions.sub()
+  navigate = id => {
+    if (id === 'sub') {
+      Actions.sub()
+    }
+    if (id === 'wallet') {
+      Actions.wallet()
+    }
+    if (id === 'access') {
+      Actions.access()
+    }
+    if (id === 'firmSet') {
+      Actions.firmSet()
+    }
+    if (id === 'account') {
+      Actions.account()
+    }
+    if (id === 'service') {
+      Actions.service()
+    }
+    if (id === 'favor') {
+      Actions.favor()
+    }
+    if (id === 'fans') {
+      Actions.fans()
+    }
+    if (id === 'homepage') {
+      Actions.homepage()
+    }
   }
 
-  navigateToFavorite = () => {
-    Actions.favor()
+  renderUserInfo = () => {
+    const { userInfo } = this.props.UserStore
+    return (
+      <View style={[styles.mine_card_box]}>
+        <Avatar source={avatar} size={60} />
+        <View style={[styles.mine_card_left]}>
+          <Text style={[styles.mine_nickname]}>
+            {`昵称：${userInfo.nickName}`}
+          </Text>
+          <TouchableOpacity
+            style={[styles.mine_userinfo_btn]}
+            onPress={() => this.navigate('homepage')}
+          >
+            <Text style={{ color: CONST.N0 }}>个人主页</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    )
   }
 
-  navigateToFans = () => {
-    Actions.fans()
-  }
-
-  navigateToWallet = () => {
-    Actions.wallet()
-  }
-
-  navigateToFirmAccess = () => {
-    Actions.firmAccess()
-  }
-
-  navigateToFirmSet = () => {
-    Actions.firmSet()
-  }
-
-  navigateToAccount = () => {
-    Actions.account()
-  }
-
-  navigateToService = () => {
-    Actions.service()
-  }
-
-  navigateToHomepage = () => {
-    Actions.homepage()
+  renderBar = () => {
+    return (
+      <View style={[styles.mine_grid_box]}>
+        {bar.map((item, index) => (
+          <Fragment>
+            <TouchableOpacity
+              style={[styles.mine_bar]}
+              onPress={() => this.navigate(item.id)}
+            >
+              <Text style={[styles.mine_bar_item]}>{item.amount}</Text>
+              <Text style={[styles.mine_grid_desc]}>{item.title}</Text>
+            </TouchableOpacity>
+            {index !== 2 && <View style={[styles.mine_grid_divider]} />}
+          </Fragment>
+        ))}
+      </View>
+    )
   }
 
   render() {
-    const { userInfo } = this.props.UserStore
     return (
       <View style={[styles.page_box]}>
-        <LinearGradient
-          colors={['#252c44', '#465173', '#4a5478']}
-          start={{ x: 0.6, y: 0.9 }}
-          end={{ x: 0.4, y: 0.1 }}
-          style={[styles.mine_linearGradient]}
-        >
-          <SafeAreaView>
-            <View style={{ padding: 24, flexDirection: 'row' }}>
-              <Image source={avatar} style={[styles.mine_avatar]} />
-              <View style={{ marginLeft: 16, paddingTop: 4, paddingBottom: 4 }}>
-                <Text style={{ color: constant.text_white, fontSize: 20 }}>
-                  {`昵称：${userInfo.nickName}`}
-                </Text>
-                <TouchableOpacity
-                  style={[styles.mine_userinfo_btn]}
-                  onPress={this.navigateToHomepage}
-                >
-                  <Text
-                    style={{ color: constant.text_white }}
-                  >{`个人主页 >`}</Text>
-                </TouchableOpacity>
+        <ScrollView>
+          <LinearGradient {...LinearGradientOptions}>
+            <SafeAreaView>
+              {this.renderUserInfo()}
+              {this.renderBar()}
+            </SafeAreaView>
+          </LinearGradient>
+          {list.map((item, index) => (
+            <Fragment key={index}>
+              <View style={[styles.mine_list_box]}>
+                {item.map((children, childrenIndex) => (
+                  <TouchableOpacity
+                    key={childrenIndex}
+                    onPress={() => this.navigate(children.id)}
+                    style={[
+                      styles.mine_list_line,
+                      { borderBottomWidth: childrenIndex === 3 ? 0 : 1 },
+                    ]}
+                  >
+                    <View style={[styles.mine_list_lin_box]}>
+                      <Icon name={children.icon} color={CONST.N255} />
+                      <Text style={[styles.mine_list_line_text]}>
+                        {children.title}
+                      </Text>
+                    </View>
+                    <Icon name='right' />
+                  </TouchableOpacity>
+                ))}
               </View>
-            </View>
-            <View style={[styles.mine_grid_box]}>
-              <TouchableOpacity
-                style={{ flexGrow: 1, alignItems: 'center' }}
-                onPress={this.navigateToSubscription}
-              >
-                <Text style={{ color: constant.text_white, fontSize: 20 }}>
-                  1
-                </Text>
-                <Text style={[styles.mine_grid_desc]}>订阅</Text>
-              </TouchableOpacity>
-              <View style={[styles.mine_grid_divider]} />
-              <TouchableOpacity
-                style={{ flexGrow: 1, alignItems: 'center' }}
-                onPress={this.navigateToFavorite}
-              >
-                <Text style={{ color: constant.text_white, fontSize: 20 }}>
-                  14
-                </Text>
-                <Text style={[styles.mine_grid_desc]}>收藏</Text>
-              </TouchableOpacity>
-              <View style={[styles.mine_grid_divider]} />
-              <TouchableOpacity
-                style={{ flexGrow: 1, alignItems: 'center' }}
-                onPress={this.navigateToFans}
-              >
-                <Text style={{ color: constant.text_white, fontSize: 20 }}>
-                  4
-                </Text>
-                <Text style={[styles.mine_grid_desc]}>粉丝</Text>
-              </TouchableOpacity>
-            </View>
-          </SafeAreaView>
-        </LinearGradient>
-        <View>
-          <View style={{ padding: 16, paddingBottom: 8 }}>
-            <TouchableOpacity
-              style={[styles.mine_list_line]}
-              onPress={this.navigateToSubscription}
-            >
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Icon name='contacts' color={constant.icon_black} />
-                <Text style={{ fontSize: 16, marginLeft: 16 }}>订阅管理</Text>
-              </View>
-              <View>
-                <Icon name='right' />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.mine_list_line]}
-              onPress={this.navigateToWallet}
-            >
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Icon name='wallet' color={constant.icon_black} />
-                <Text style={{ fontSize: 16, marginLeft: 16 }}>我的钱包</Text>
-              </View>
-              <View>
-                <Icon name='right' />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.mine_list_line]}
-              onPress={this.navigateToFirmAccess}
-            >
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Icon name='bank' color={constant.icon_black} />
-                <Text style={{ fontSize: 16, marginLeft: 16 }}>实盘接入</Text>
-              </View>
-              <View>
-                <Icon name='right' />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.mine_list_line, { borderBottomWidth: 0 }]}
-              onPress={this.navigateToFirmSet}
-            >
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Icon name='tool' color={constant.icon_black} />
-                <Text style={{ fontSize: 16, marginLeft: 16 }}>实盘设置</Text>
-              </View>
-              <View>
-                <Icon name='right' />
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View style={{ height: 10, backgroundColor: '#eee' }} />
-        <View>
-          <View style={{ padding: 16, paddingTop: 8, paddingBottom: 8 }}>
-            <TouchableOpacity
-              style={[styles.mine_list_line]}
-              onPress={this.navigateToAccount}
-            >
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Icon name='setting' color={constant.icon_black} />
-                <Text style={{ fontSize: 16, marginLeft: 16 }}>账户设置</Text>
-              </View>
-              <View>
-                <Icon name='right' />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.mine_list_line]}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Icon name='crown' color={constant.icon_black} />
-                <Text style={{ fontSize: 16, marginLeft: 16 }}>VIP中心</Text>
-              </View>
-              <View>
-                <Icon name='right' />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.mine_list_line]}
-              onPress={this.test}
-            >
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Icon name='user-add' color={constant.icon_black} />
-                <Text style={{ fontSize: 16, marginLeft: 16 }}>邀请好友</Text>
-              </View>
-              <View>
-                <Icon name='right' />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.mine_list_line, { borderBottomWidth: 0 }]}
-              onPress={this.navigateToService}
-            >
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Icon name='phone' color={constant.icon_black} />
-                <Text style={{ fontSize: 16, marginLeft: 16 }}>联系客服</Text>
-              </View>
-              <View>
-                <Icon name='right' />
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View style={{ height: 10, backgroundColor: '#eee' }} />
-        </View>
+              <View style={styles.divider} />
+            </Fragment>
+          ))}
+        </ScrollView>
       </View>
     )
   }

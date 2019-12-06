@@ -4,47 +4,30 @@ import {
   View,
   TouchableOpacity,
   TextInput,
-  Image,
   ScrollView,
 } from 'react-native'
 import { Icon } from '@ant-design/react-native'
 import { Actions } from 'react-native-router-flux'
 
-import * as constant from '../../../style/constant'
-import styles, { screenHeight, screenWidth } from '../../../style'
+import * as CONST from '../../../style/constant'
+import styles from '../../../style'
+
+import Avatar from '../../../components/Avatar'
 
 import avatar from '../../../assets/image/ai.jpg'
 
 const data = [
   {
-    subscription: {
-      subscribed: false,
-      price: 0,
-    },
-    lever: {
-      type: false,
-      times: '2.1',
-    },
+    subscription: { subscribed: false, price: 0 },
+    lever: { type: false, times: '2.1' },
   },
   {
-    subscription: {
-      subscribed: true,
-      price: 0,
-    },
-    lever: {
-      type: true,
-      times: '2.1',
-    },
+    subscription: { subscribed: true, price: 0 },
+    lever: { type: true, times: '2.1' },
   },
   {
-    subscription: {
-      subscribed: false,
-      price: 49,
-    },
-    lever: {
-      type: true,
-      times: '2.1',
-    },
+    subscription: { subscribed: false, price: 49 },
+    lever: { type: true, times: '2.1' },
   },
 ]
 const statistic = [
@@ -78,19 +61,22 @@ export default class Spot extends Component {
     return content
   }
 
+  setColor = item =>
+    item.subscription.subscribed ? CONST.N200 : CONST.PRIMARY
+
   render() {
     return (
       <View style={{ flex: 1 }}>
         <View style={[styles.firm_search_box]}>
           <View style={[styles.firm_search, { width: '75%' }]}>
-            <Icon name='search' color={constant.primary_color} />
+            <Icon name='search' color={CONST.PRIMARY} />
             <TextInput
               placeholder='搜索字段'
-              style={{ marginLeft: 8, width: '100%' }}
+              style={[styles.firm_search_ipt]}
             />
           </View>
           <TouchableOpacity style={[styles.firm_search]}>
-            <Icon name='sort-ascending' color={constant.primary_color} />
+            <Icon name='sort-ascending' color={CONST.PRIMARY} />
             <Text>排序</Text>
           </TouchableOpacity>
         </View>
@@ -98,31 +84,27 @@ export default class Spot extends Component {
           {data.map((item, index) => (
             <TouchableOpacity
               key={index}
-              style={{ backgroundColor: '#fff' }}
+              style={{ backgroundColor: CONST.N0 }}
               onPress={this.navigateToFirmDetail}
             >
               <View style={[styles.border_bottom, styles.firm_avatar_bar]}>
                 <View style={{ flexDirection: 'row' }}>
-                  <Image
-                    source={avatar}
-                    style={{ height: 50, width: 50, borderRadius: 25 }}
-                  />
+                  <Avatar source={avatar} size={50} />
                   <View style={{ marginLeft: 16 }}>
                     <Text>in_vane</Text>
-                    <Text style={{ marginTop: 8, color: constant.text_gray }}>
+                    <Text style={{ marginTop: 8, color: CONST.N96 }}>
                       我就看着你们抄底嘻嘻嘻~
                     </Text>
                   </View>
                 </View>
-                <TouchableOpacity onPress={this.onSubscription}>
-                  <Text
-                    style={[
-                      styles.firm_subscription,
-                      item.subscription.subscribed
-                        ? styles.firm_subscription_gray
-                        : styles.firm_subscription_primary,
-                    ]}
-                  >
+                <TouchableOpacity
+                  onPress={this.onSubscription}
+                  style={[
+                    styles.firm_subscription,
+                    { borderColor: this.setColor(item) },
+                  ]}
+                >
+                  <Text style={{ color: this.setColor(item) }}>
                     {this.enumSubscription(item.subscription)}
                   </Text>
                 </TouchableOpacity>
@@ -130,7 +112,7 @@ export default class Spot extends Component {
               <View style={[styles.firm_statistic]}>
                 {statistic.map((item, index) => (
                   <View key={index} style={{ alignItems: 'center' }}>
-                    <Text style={{ fontSize: 12, color: constant.text_gray }}>
+                    <Text style={{ fontSize: 12, color: CONST.N96 }}>
                       {item.title}
                     </Text>
                     <Text
@@ -139,8 +121,8 @@ export default class Spot extends Component {
                         fontWeight: 'bold',
                         marginTop: 4,
                         color: item.sign
-                          ? constant.text_green
-                          : constant.red || constant.text_dark,
+                          ? CONST.GREEN
+                          : CONST.red || CONST.N32,
                       }}
                     >
                       {item.amount}

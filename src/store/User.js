@@ -11,6 +11,14 @@ class UserStore {
   @observable SMSCode = ''
   @observable isSMSVerified = false
   @observable userInfo = {}
+  @observable recharge_price = [
+    { amount: '1', price: '1', selected: false },
+    { amount: '10', price: '10', selected: false },
+    { amount: '20', price: '20', selected: false },
+    { amount: '30', price: '30', selected: false },
+    { amount: '50', price: '50', selected: false },
+    { amount: '100', price: '100', selected: false },
+  ]
 
   /**
    * action
@@ -67,6 +75,14 @@ class UserStore {
     `
     let res = await query(body, variables)
     this.userInfo = res.me.user
+  }
+
+  /**
+   * func
+   */
+  @action setRechargePrice = index => {
+    this.recharge_price.map(item => (item.selected = false))
+    this.recharge_price[index].selected = true
   }
 }
 
