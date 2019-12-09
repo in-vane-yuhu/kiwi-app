@@ -49,7 +49,7 @@ export default class Login extends Component {
   getVerificationCode = () => {
     const { getSMS } = this.props.UserStore
     const { param_phone } = this.state
-    getSMS(param_phone)
+    /* getSMS(param_phone) */
     this.setState({ disabled: true, count: 60 })
     this.startCount()
   }
@@ -71,7 +71,7 @@ export default class Login extends Component {
     const { login } = this.props.UserStore
     const { param_phone, param_code } = this.state
 
-    login(param_phone, param_code)
+    /* login(param_phone, param_code) */
   }
 
   startCount = () => {

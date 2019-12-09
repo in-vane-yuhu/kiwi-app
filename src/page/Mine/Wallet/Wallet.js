@@ -31,7 +31,7 @@ export default class Wallet extends Component {
                 <Icon name='question-circle' color={CONST.GOLD} />
               </TouchableOpacity>
             </View>
-            <View style={[styles.wallet_amount]}>
+            <View style={[styles.wallet_amount_box]}>
               <Text style={[styles.wallet_amount]}>5000.5</Text>
               <Text style={[styles.wallet_unit]}>A币（个）</Text>
             </View>

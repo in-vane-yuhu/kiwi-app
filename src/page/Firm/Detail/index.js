@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableOpacity, Image } from 'react-native'
+import { Text, View, TouchableOpacity, ScrollView } from 'react-native'
 import { Tabs, Icon } from '@ant-design/react-native'
 
 import * as CONST from '../../../style/constant'
@@ -93,61 +93,66 @@ export default class FirmDetail extends Component {
     ]
     return (
       <View style={[styles.page_box]}>
-        <View style={[styles.border_bottom, styles.firm_avatar_bar]}>
-          <View style={{ flexDirection: 'row' }}>
-            <Avatar source={avatar} size={50} />
-            <View style={{ marginLeft: 16 }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text>in_vane</Text>
-                <TouchableOpacity onPress={this.onClickFavorite}>
-                  <Icon
-                    name='star'
-                    style={{ marginLeft: 16 }}
-                    color={this.state.favorite ? CONST.PRIMARY : null}
-                  />
-                </TouchableOpacity>
+        <ScrollView>
+          <View style={[styles.border_bottom, styles.firm_avatar_bar]}>
+            <View style={{ flexDirection: 'row' }}>
+              <Avatar source={avatar} size={50} />
+              <View style={{ marginLeft: 16 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Text>in_vane</Text>
+                  <TouchableOpacity onPress={this.onClickFavorite}>
+                    <Icon
+                      name='star'
+                      style={{ marginLeft: 16 }}
+                      color={this.state.favorite ? CONST.PRIMARY : null}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <Text style={{ marginTop: 8, color: CONST.N96 }}>
+                  我就看着你们抄底嘻嘻嘻~
+                </Text>
               </View>
-              <Text style={{ marginTop: 8, color: CONST.N96 }}>
-                我就看着你们抄底嘻嘻嘻~
-              </Text>
             </View>
-          </View>
-          <TouchableOpacity
-            onPress={this.onSubscription}
-            style={[
-              styles.firm_subscription,
-              { borderColor: this.setColor(info) },
-            ]}
-          >
-            <Text style={{ color: this.setColor(info) }}>
-              {this.enumSubscription(info.subscription)}
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={[styles.border_bottom, styles.firm_detail_exs]}>
-          {logos.map((item, index) => (
-            <TouchableOpacity key={index} style={{ alignItems: 'center' }}>
-              <Avatar source={item.logo} size={50} />
-              <Text style={{ marginTop: 8 }}>{item.name}</Text>
+            <TouchableOpacity
+              onPress={this.onSubscription}
+              style={[
+                styles.firm_subscription,
+                { borderColor: this.setColor(info) },
+              ]}
+            >
+              <Text style={{ color: this.setColor(info) }}>
+                {this.enumSubscription(info.subscription)}
+              </Text>
             </TouchableOpacity>
-          ))}
-        </View>
-        <Tabs
-          tabs={tabs}
-          initialPage={0}
-          styles={{
-            topTabBarSplitLine: {
-              borderBottomWidth: 8,
-              borderBottomColor: '#f0f0f0',
-            },
-          }}
-          renderTabBar={tabProps => this.renderTabBar(tabProps)}
-        >
-          <Assets />
-          <Position />
-          <Operation />
-          <Activity />
-        </Tabs>
+          </View>
+          <View style={[styles.border_bottom, styles.firm_detail_exs]}>
+            {logos.map((item, index) => (
+              <TouchableOpacity key={index} style={{ alignItems: 'center' }}>
+                <Avatar source={item.logo} size={50} />
+                <Text style={{ marginTop: 8 }}>{item.name}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+          <View>
+            <Tabs
+              tabs={tabs}
+              initialPage={0}
+              style={{ flex: 1 }}
+              styles={{
+                topTabBarSplitLine: {
+                  borderBottomWidth: 8,
+                  borderBottomColor: '#f0f0f0',
+                },
+              }}
+              renderTabBar={tabProps => this.renderTabBar(tabProps)}
+            >
+              <Assets />
+              <Position />
+              <Operation />
+              <Activity />
+            </Tabs>
+          </View>
+        </ScrollView>
       </View>
     )
   }

@@ -50,7 +50,7 @@ const list = [
 export default class Mine extends Component {
   componentDidMount = async () => {
     const { getUserInfo } = this.props.UserStore
-    getUserInfo()
+    /* getUserInfo() */
   }
 
   navigate = id => {

@@ -46,10 +46,7 @@ export default class FirmMain extends Component {
         >
           <Text
             style={{
-              color:
-                tabProps.activeTab === i
-                  ? CONST.PRIMARY
-                  : CONST.N96,
+              color: tabProps.activeTab === i ? CONST.PRIMARY : CONST.N96,
               textAlign: 'center',
               fontWeight: 'bold',
             }}
@@ -70,6 +67,7 @@ export default class FirmMain extends Component {
           <Tabs
             tabs={tabs}
             initialPage={0}
+            style={{ paddingTop: 16 }}
             styles={{
               topTabBarSplitLine: {
                 borderBottomWidth: 0,

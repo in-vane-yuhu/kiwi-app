@@ -16,7 +16,7 @@ import avatar from '../../../assets/image/ai.jpg'
 export default class Markets extends Component {
   componentDidMount = async () => {
     const { getUserInfo } = this.props.UserStore
-    getUserInfo()
+    /* getUserInfo() */
   }
 
   navigateToNickname = () => {

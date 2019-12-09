@@ -11,7 +11,7 @@ import Login from '../page/Login/Login'
 import Home from '../page/Home/Home'
 import * as Mine from '../page/Mine'
 import Markets from '../page/Markets/Markets'
-import Data from '../page/Data/Data'
+import * as Data from '../page/Data'
 import * as Firm from '../page/Firm'
 import Community from '../page/Community/Community'
 
@@ -43,7 +43,16 @@ const renderSwitch = () => (
       icon={({ focused }) => (
         <Icon name='radar-chart' color={isActive(focused)} />
       )}
-      component={Firm.Main}
+      component={Firm.Home}
+      hideNavBar
+    />
+    <Scene
+      key='data'
+      title='大数据'
+      icon={({ focused }) => (
+        <Icon name='pie-chart' color={isActive(focused)} />
+      )}
+      component={Data.Home}
       hideNavBar
     />
     <Scene
@@ -53,14 +62,6 @@ const renderSwitch = () => (
         <Icon name='area-chart' color={isActive(focused)} />
       )}
       component={Markets}
-    />
-    <Scene
-      key='data'
-      title='大数据'
-      icon={({ focused }) => (
-        <Icon name='pie-chart' color={isActive(focused)} />
-      )}
-      component={Data}
     />
     <Scene
       key='community'
@@ -78,11 +79,10 @@ const getRouter = () => {
   return (
     <Router>
       <Scene key='root'>
-        <Scene key='homepage' title='个人主页' component={Mine.Homepage} />
-        <Scene key='login' hideNavBar component={Login} />
         {renderSwitch()}
+        <Scene key='login' hideNavBar component={Login} />
         {/* mine */}
-        <Scene key='mine' hideNavBar title='我的' component={Mine.Mine} />
+        <Scene key='mine' hideNavBar title='我的' component={Mine.Home} />
         <Scene key='sub' title='我的订阅' component={Mine.Subscription} />
         <Scene key='wallet' title='我的钱包' component={Mine.Wallet} />
         <Scene key='recharge' title='充值' component={Mine.Recharge} />
@@ -99,6 +99,7 @@ const getRouter = () => {
         <Scene key='firmDetail' title='详情' component={Firm.Detail} />
         <Scene key='firmCmts' title='动态详情' component={Firm.Comments} />
         <Scene key='newAct' title='发布动态' component={Firm.NewActivity} />
+        <Scene key='homepage' title='个人主页' component={Mine.Homepage} />
       </Scene>
     </Router>
   )

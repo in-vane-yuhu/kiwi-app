@@ -1,4 +1,4 @@
-import Mine from './Mine'
+import Home from './Home'
 import Homepage from './Homepage'
 import Subscription from './Subscription'
 import Favorite from './Favorite'
@@ -14,7 +14,7 @@ import SelfIntroduction from './Account/SelfIntroduction'
 import Service from './Service'
 
 export {
-  Mine,
+  Home,
   Homepage,
   Subscription,
   Favorite,

@@ -86,6 +86,11 @@ export const style_mine = {
     justifyContent: 'flex-end',
     padding: 8,
   },
+  wallet_amount_box: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'baseline',
+  },
   wallet_amount: {
     color: CONST.GOLD,
     fontSize: 28,
@@ -100,11 +105,6 @@ export const style_mine = {
     borderColor: CONST.GOLD,
     borderWidth: 1,
     marginHorizontal: 10,
-  },
-  wallet_amount: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'baseline',
   },
   wallet_btn_box: {
     flexDirection: 'row',

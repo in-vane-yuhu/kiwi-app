@@ -176,9 +176,7 @@ export default class Position extends Component {
               </View>
               <View style={[styles.firm_contract_detail_list_line]}>
                 <Text style={{ color: CONST.N96 }}>保证金率</Text>
-                <Text style={{ color: CONST.N32 }}>
-                  {item.percentMargin}
-                </Text>
+                <Text style={{ color: CONST.N32 }}>{item.percentMargin}</Text>
               </View>
             </View>
 
@@ -193,55 +191,50 @@ export default class Position extends Component {
     const currentTabIndex = 0
     return (
       <SafeAreaView style={[styles.page_box]}>
-        <ScrollView>
-          <View style={[styles.border_bottom, styles.firm_detail_assets_title]}>
-            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>仓位一览</Text>
+        <View style={[styles.border_bottom, styles.firm_detail_assets_title]}>
+          <Text style={{ fontSize: 18, fontWeight: 'bold' }}>仓位一览</Text>
+        </View>
+        <View
+          style={[
+            styles.firm_detail_position_percent,
+            currentTabIndex === 0 && styles.border_bottom,
+          ]}
+        >
+          <View style={{ flexDirection: 'row', height: 20 }}>
+            {data.map((item, index) => (
+              <View
+                key={index}
+                style={{
+                  width: item.percent,
+                  backgroundColor: item.color,
+                  justifyContent: 'center',
+                  borderTopLeftRadius: index === 0 ? 10 : 0,
+                  borderBottomLeftRadius: index === 0 ? 10 : 0,
+                  borderTopRightRadius: index === data.length - 1 ? 10 : 0,
+                  borderBottomRightRadius: index === data.length - 1 ? 10 : 0,
+                }}
+              >
+                <Text style={[styles.firm_detail_position_percent_text]}>
+                  {item.name}
+                </Text>
+              </View>
+            ))}
           </View>
-          <View
-            style={[
-              styles.firm_detail_position_percent,
-              currentTabIndex === 0 && styles.border_bottom,
-            ]}
-          >
-            <View style={{ flexDirection: 'row', height: 20 }}>
-              {data.map((item, index) => (
-                <View
-                  key={index}
-                  style={{
-                    width: item.percent,
-                    backgroundColor: item.color,
-                    justifyContent: 'center',
-                    borderTopLeftRadius: index === 0 ? 10 : 0,
-                    borderBottomLeftRadius: index === 0 ? 10 : 0,
-                    borderTopRightRadius: index === data.length - 1 ? 10 : 0,
-                    borderBottomRightRadius: index === data.length - 1 ? 10 : 0,
-                  }}
-                >
-                  <Text style={[styles.firm_detail_position_percent_text]}>
-                    {item.name}
-                  </Text>
-                </View>
-              ))}
-            </View>
-            <View style={[styles.firm_detail_position_percent_label]}>
-              {data.map((item, index) => (
-                <View
-                  key={index}
-                  style={[styles.firm_detail_position_label_box]}
-                >
-                  <Text style={{ color: item.color, fontWeight: 'bold' }}>
-                    {item.name}
-                  </Text>
-                  <Text style={{ color: CONST.N96, marginLeft: 8 }}>
-                    {item.percent}
-                  </Text>
-                </View>
-              ))}
-            </View>
+          <View style={[styles.firm_detail_position_percent_label]}>
+            {data.map((item, index) => (
+              <View key={index} style={[styles.firm_detail_position_label_box]}>
+                <Text style={{ color: item.color, fontWeight: 'bold' }}>
+                  {item.name}
+                </Text>
+                <Text style={{ color: CONST.N96, marginLeft: 8 }}>
+                  {item.percent}
+                </Text>
+              </View>
+            ))}
           </View>
-          {currentTabIndex === 0 && this.renderSpotPosition()}
-          {currentTabIndex === 1 && this.renderContractPosition()}
-        </ScrollView>
+        </View>
+        {currentTabIndex === 0 && this.renderSpotPosition()}
+        {currentTabIndex === 1 && this.renderContractPosition()}
       </SafeAreaView>
     )
   }

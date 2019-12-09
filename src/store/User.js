@@ -10,7 +10,10 @@ class UserStore {
    */
   @observable SMSCode = ''
   @observable isSMSVerified = false
-  @observable userInfo = {}
+  @observable userInfo = {
+    nickName: '',
+    introduction: '',
+  }
   @observable recharge_price = [
     { amount: '1', price: '1', selected: false },
     { amount: '10', price: '10', selected: false },
