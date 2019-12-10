@@ -4,9 +4,9 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image,
   SafeAreaView,
   ScrollView,
+  RefreshControl,
 } from 'react-native'
 import { Icon } from '@ant-design/react-native'
 import { Actions } from 'react-native-router-flux'
@@ -50,7 +50,7 @@ const list = [
 export default class Mine extends Component {
   componentDidMount = async () => {
     const { getUserInfo } = this.props.UserStore
-    /* getUserInfo() */
+    getUserInfo()
   }
 
   navigate = id => {
@@ -107,7 +107,7 @@ export default class Mine extends Component {
     return (
       <View style={[styles.mine_grid_box]}>
         {bar.map((item, index) => (
-          <Fragment>
+          <Fragment key={index}>
             <TouchableOpacity
               style={[styles.mine_bar]}
               onPress={() => this.navigate(item.id)}
@@ -124,41 +124,39 @@ export default class Mine extends Component {
 
   render() {
     return (
-      <View style={[styles.page_box]}>
-        <ScrollView>
-          <LinearGradient {...LinearGradientOptions}>
-            <SafeAreaView>
-              {this.renderUserInfo()}
-              {this.renderBar()}
-            </SafeAreaView>
-          </LinearGradient>
-          {list.map((item, index) => (
-            <Fragment key={index}>
-              <View style={[styles.mine_list_box]}>
-                {item.map((children, childrenIndex) => (
-                  <TouchableOpacity
-                    key={childrenIndex}
-                    onPress={() => this.navigate(children.id)}
-                    style={[
-                      styles.mine_list_line,
-                      { borderBottomWidth: childrenIndex === 3 ? 0 : 1 },
-                    ]}
-                  >
-                    <View style={[styles.mine_list_lin_box]}>
-                      <Icon name={children.icon} color={CONST.N255} />
-                      <Text style={[styles.mine_list_line_text]}>
-                        {children.title}
-                      </Text>
-                    </View>
-                    <Icon name='right' />
-                  </TouchableOpacity>
-                ))}
-              </View>
-              <View style={styles.divider} />
-            </Fragment>
-          ))}
-        </ScrollView>
-      </View>
+      <ScrollView style={[styles.page_box]}>
+        <LinearGradient {...LinearGradientOptions}>
+          <SafeAreaView>
+            {this.renderUserInfo()}
+            {this.renderBar()}
+          </SafeAreaView>
+        </LinearGradient>
+        {list.map((item, index) => (
+          <Fragment key={index}>
+            <View style={[styles.mine_list_box]}>
+              {item.map((children, childrenIndex) => (
+                <TouchableOpacity
+                  key={childrenIndex}
+                  onPress={() => this.navigate(children.id)}
+                  style={[
+                    styles.mine_list_line,
+                    { borderBottomWidth: childrenIndex === 3 ? 0 : 1 },
+                  ]}
+                >
+                  <View style={[styles.mine_list_lin_box]}>
+                    <Icon name={children.icon} color={CONST.N255} />
+                    <Text style={[styles.mine_list_line_text]}>
+                      {children.title}
+                    </Text>
+                  </View>
+                  <Icon name='right' />
+                </TouchableOpacity>
+              ))}
+            </View>
+            <View style={styles.divider} />
+          </Fragment>
+        ))}
+      </ScrollView>
     )
   }
 }

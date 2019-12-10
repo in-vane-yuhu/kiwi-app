@@ -35,6 +35,8 @@ class FirmStore {
     },
   ]
   @observable currentTabIndex = 0
+  /* loading */
+  @observable loading = false
 
   /**
    * action

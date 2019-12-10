@@ -77,9 +77,6 @@ export const style_mine = {
     alignItems: 'center',
     marginHorizontal: 16,
     padding: 16,
-    borderStyle: 'solid',
-    borderColor: CONST.N238,
-    borderBottomWidth: 1,
   },
   wallet_icon_box: {
     flexDirection: 'row',
@@ -192,6 +189,7 @@ export const style_mine = {
     padding: 8,
     marginBottom: 24,
     borderRadius: 5,
+    height: 175,
   },
   api_access_sticky_btn: {
     backgroundColor: CONST.PRIMARY,

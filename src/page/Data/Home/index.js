@@ -20,7 +20,7 @@ const data_bar = [
 export default class Data extends Component {
   render() {
     return (
-      <SafeAreaView style={[styles.page_box, { backgroundColor: '#fafafa' }]}>
+      <SafeAreaView style={[styles.page_box]}>
         <ScrollView>
           <View style={[styles.data_box]}>
             <View style={[styles.data_title_box]}>

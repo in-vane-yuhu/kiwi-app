@@ -10,7 +10,7 @@ import ApiAccess from './Firm/ApiAccess'
 import FirmSet from './Firm/FirmSet'
 import Account from './Account/Account'
 import Nickname from './Account/Nickname'
-import SelfIntroduction from './Account/SelfIntroduction'
+import Introduction from './Account/Introduction'
 import Service from './Service'
 
 export {
@@ -26,6 +26,6 @@ export {
   FirmSet,
   Account,
   Nickname,
-  SelfIntroduction,
+  Introduction,
   Service,
 }

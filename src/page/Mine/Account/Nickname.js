@@ -9,8 +9,16 @@ import styles from '../../../style'
 @inject('UserStore')
 @observer
 export default class Nickname extends Component {
-  navigateBack = () => {
-    Actions.pop()
+  state = { param_nickName: '' }
+
+  setParamNickName = text => {
+    this.setState({ param_nickName: text })
+  }
+
+  onPress = () => {
+    const { modifyNickName } = this.props.UserStore
+    const { param_nickName } = this.state
+    modifyNickName(param_nickName)
   }
 
   render() {
@@ -25,12 +33,13 @@ export default class Nickname extends Component {
             style={[styles.api_access_input]}
             placeholder='请输入您的昵称'
             defaultValue={userInfo.nickName}
+            onChangeText={this.setParamNickName}
           />
         </View>
 
         <TouchableOpacity
           style={[styles.nickname_sticky_btn]}
-          onPress={this.navigateBack}
+          onPress={this.onPress}
         >
           <Text
             style={{

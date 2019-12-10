@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
-import { Text, View, TouchableOpacity } from 'react-native'
+import { Text, View, TouchableOpacity, TextInput, Keyboard } from 'react-native'
 import { TextareaItem } from '@ant-design/react-native'
 import { Actions } from 'react-native-router-flux'
 
@@ -9,14 +9,15 @@ import styles from '../../../style'
 
 @inject('UserStore')
 @observer
-export default class Nickname extends Component {
+export default class Introduction extends Component {
   state = {
     param_textarea: '',
     param_length: 0,
   }
 
-  navigateBack = () => {
-    Actions.pop()
+  componentDidMount = () => {
+    const { userInfo } = this.props.UserStore
+    this.setState({ param_textarea: userInfo.introduction })
   }
 
   onChange = value => {
@@ -29,8 +30,14 @@ export default class Nickname extends Component {
     })
   }
 
+  onPress = () => {
+    const { modifyIntroduction } = this.props.UserStore
+    const { param_textarea } = this.state
+    modifyIntroduction(param_textarea)
+  }
+
   render() {
-    const { param_length } = this.state
+    const { param_textarea, param_length } = this.state
     const { userInfo } = this.props.UserStore
     return (
       <View style={[styles.page_box, { justifyContent: 'space-between' }]}>
@@ -39,21 +46,24 @@ export default class Nickname extends Component {
             用一句话来介绍自己吧！
           </Text>
           <View style={{ position: 'relative' }}>
-            <TextareaItem
+            <TextInput
               style={[styles.api_access_input]}
               placeholder='请输入'
-              rows={5}
-              last
-              defaultValue={userInfo.introduction}
-              onChange={this.onChange}
+              multiline={true}
+              onChangeText={this.onChange}
+              value={param_textarea}
+              returnKeyType='done'
+              onSubmitEditing={Keyboard.dismiss}
+              blurOnSubmit={true}
             />
-            <Text style={[styles.intro_length]}>{`${param_length}/30`}</Text>
+            <Text style={[styles.intro_length]}>{`${param_length ||
+              userInfo.introduction.length}/30`}</Text>
           </View>
         </View>
 
         <TouchableOpacity
           style={[styles.nickname_sticky_btn]}
-          onPress={this.navigateBack}
+          onPress={this.onPress}
         >
           <Text
             style={{

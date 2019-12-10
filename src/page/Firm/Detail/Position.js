@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
-import { Text, View, ScrollView, SafeAreaView } from 'react-native'
+import { observer, inject } from 'mobx-react'
+import { Text, View, SafeAreaView } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 
 import * as CONST from '../../../style/constant'
@@ -70,6 +71,8 @@ const data_contract = [
   },
 ]
 
+@inject('FirmStore')
+@observer
 export default class Position extends Component {
   renderSpotPosition = () => {
     const title = ['名称/价值', '数量', '成本/现价']
@@ -188,7 +191,7 @@ export default class Position extends Component {
   }
 
   render() {
-    const currentTabIndex = 0
+    const { currentTabIndex } = this.props.FirmStore
     return (
       <SafeAreaView style={[styles.page_box]}>
         <View style={[styles.border_bottom, styles.firm_detail_assets_title]}>

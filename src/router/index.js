@@ -30,20 +30,20 @@ const renderSwitch = () => (
     inactiveTintColor={CONST.N96}
     tabBarStyle={[styles.tabbar]}
   >
+  <Scene
+    key='firm'
+    title='实盘'
+    icon={({ focused }) => (
+      <Icon name='radar-chart' color={isActive(focused)} />
+    )}
+    component={Firm.Home}
+    hideNavBar
+  />
     <Scene
       key='home'
       title='首页'
       icon={({ focused }) => <Icon name='global' color={isActive(focused)} />}
       component={Home}
-      hideNavBar
-    />
-    <Scene
-      key='firm'
-      title='实盘'
-      icon={({ focused }) => (
-        <Icon name='radar-chart' color={isActive(focused)} />
-      )}
-      component={Firm.Home}
       hideNavBar
     />
     <Scene
@@ -80,9 +80,11 @@ const getRouter = () => {
     <Router>
       <Scene key='root'>
         {renderSwitch()}
+        <Scene key='homepage' title='个人主页' component={Mine.Homepage} />
         <Scene key='login' hideNavBar component={Login} />
         {/* mine */}
         <Scene key='mine' hideNavBar title='我的' component={Mine.Home} />
+        <Scene key='nickname' title='设置昵称' component={Mine.Nickname} />
         <Scene key='sub' title='我的订阅' component={Mine.Subscription} />
         <Scene key='wallet' title='我的钱包' component={Mine.Wallet} />
         <Scene key='recharge' title='充值' component={Mine.Recharge} />
@@ -90,8 +92,7 @@ const getRouter = () => {
         <Scene key='api' title='API接入' component={Mine.ApiAccess} />
         <Scene key='firmSet' title='实盘设置' component={Mine.FirmSet} />
         <Scene key='account' title='账户设置' component={Mine.Account} />
-        <Scene key='nickname' title='设置昵称' component={Mine.Nickname} />
-        <Scene key='intro' title='个人简介' component={Mine.SelfIntroduction} />
+        <Scene key='intro' title='个人简介' component={Mine.Introduction} />
         <Scene key='service' title='联系客服' component={Mine.Service} />
         <Scene key='favor' title='我的收藏' component={Mine.Favorite} />
         <Scene key='fans' title='我的粉丝' component={Mine.Fans} />
@@ -99,7 +100,6 @@ const getRouter = () => {
         <Scene key='firmDetail' title='详情' component={Firm.Detail} />
         <Scene key='firmCmts' title='动态详情' component={Firm.Comments} />
         <Scene key='newAct' title='发布动态' component={Firm.NewActivity} />
-        <Scene key='homepage' title='个人主页' component={Mine.Homepage} />
       </Scene>
     </Router>
   )

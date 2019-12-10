@@ -250,4 +250,9 @@ export const style_firm = {
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  firm_empty_box: {
+    height: 80,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 }

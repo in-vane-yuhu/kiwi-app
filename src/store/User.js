@@ -22,6 +22,8 @@ class UserStore {
     { amount: '50', price: '50', selected: false },
     { amount: '100', price: '100', selected: false },
   ]
+  /* loading */
+  @observable loading = false
 
   /**
    * action
@@ -78,6 +80,48 @@ class UserStore {
     `
     let res = await query(body, variables)
     this.userInfo = res.me.user
+  }
+
+  @action modifyNickName = async nickName => {
+    const variables = { nickName }
+    const body = `
+      mutation modifyNickName(
+        $nickName: String
+      ){
+        changenickName(
+          nickName:$nickName
+        ){
+          isSuccess
+          errMessage
+        }
+      }
+    `
+    let res = await mutation(body, variables)
+    if (res.changenickName.isSuccess) {
+      Actions.pop()
+      this.getUserInfo()
+    }
+  }
+
+  @action modifyIntroduction = async introduction => {
+    const variables = { introduction }
+    const body = `
+      mutation modifyIntroduction(
+        $introduction: String
+      ){
+        changeIntroduction(
+          introduction:$introduction
+        ){
+          isSuccess
+          errMessage
+        }
+      }
+    `
+    let res = await mutation(body, variables)
+    if (res.changeIntroduction.isSuccess) {
+      Actions.pop()
+      this.getUserInfo()
+    }
   }
 
   /**

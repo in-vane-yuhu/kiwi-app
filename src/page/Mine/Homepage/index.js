@@ -12,14 +12,15 @@ import Activity from '../../Firm/Detail/Activity'
 import Avatar from '../../../components/Avatar'
 
 import avatar from '../../../assets/image/ai.jpg'
-import avatar2 from '../../../assets/image/ai2.jpg'
-import avatar3 from '../../../assets/image/ai3.jpg'
+import binance_n from '../../../assets/image/binance_n.png'
+import binance from '../../../assets/image/binance.png'
+import bitmex_n from '../../../assets/image/bitmex_n.png'
+import bitmex from '../../../assets/image/bitmex.png'
+import huobi_n from '../../../assets/image/huobi_n.png'
+import huobi from '../../../assets/image/huobi.png'
+import okex_n from '../../../assets/image/okex_n.png'
+import okex from '../../../assets/image/okex.png'
 
-const logos = [
-  { name: 'BINANCE', logo: avatar },
-  { name: 'Huobi', logo: avatar2 },
-  { name: 'BitMex', logo: avatar3 },
-]
 const tabs = [
   { title: '资产' },
   { title: '持仓' },
@@ -29,16 +30,29 @@ const tabs = [
 const firm_tab = [{ title: '现货' }, { title: '合约' }]
 
 export default class Homepage extends Component {
-  state = { favorite: false }
+  state = {
+    favorite: false,
+    logos: [
+      { name: 'Binance', selected: true, logo: binance, logo_n: binance_n },
+      { name: 'Huobi', selected: false, logo: huobi, logo_n: huobi_n },
+      { name: 'BitMEX', selected: false, logo: bitmex, logo_n: bitmex_n },
+      { name: 'OKEx', selected: false, logo: okex, logo_n: okex_n },
+    ],
+  }
 
   onClickFavorite = () => {
     this.setState({ favorite: !this.state.favorite })
   }
 
+  onSelectPlatform = idx => {
+    let temp = this.state.logos
+    temp.map((item, index) => (item.selected = index === idx ? true : false))
+    this.setState({ logos: temp })
+  }
+
   renderTabBar = tabProps => (
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
       {tabProps.tabs.map((tab, i) => (
-        // change the style to fit your needs
         <TouchableOpacity
           activeOpacity={0.9}
           key={tab.key || i}
@@ -70,6 +84,7 @@ export default class Homepage extends Component {
   )
 
   render() {
+    const { logos } = this.state
     return (
       <View style={[styles.page_box]}>
         <ScrollView>
@@ -110,13 +125,19 @@ export default class Homepage extends Component {
             {firm_tab.map((item, index) => (
               <View key={index} style={{ flex: 1 }}>
                 <View style={[styles.border_bottom, styles.firm_detail_exs]}>
-                  {logos.map((item, index) => (
+                  {logos.map((platform, idx) => (
                     <TouchableOpacity
-                      key={index}
+                      key={idx}
                       style={{ alignItems: 'center' }}
+                      onPress={() => this.onSelectPlatform(idx)}
                     >
-                      <Avatar source={item.logo} size={50} />
-                      <Text style={{ marginTop: 8 }}>{item.name}</Text>
+                      <Avatar
+                        source={
+                          platform.selected ? platform.logo : platform.logo_n
+                        }
+                        size={50}
+                      />
+                      <Text style={{ marginTop: 8 }}>{platform.name}</Text>
                     </TouchableOpacity>
                   ))}
                 </View>
