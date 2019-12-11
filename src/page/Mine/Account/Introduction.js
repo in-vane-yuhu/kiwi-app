@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import { Text, View, TouchableOpacity, TextInput, Keyboard } from 'react-native'
-import { TextareaItem } from '@ant-design/react-native'
 import { Actions } from 'react-native-router-flux'
 
 import * as CONST from '../../../style/constant'
@@ -47,7 +46,7 @@ export default class Introduction extends Component {
           </Text>
           <View style={{ position: 'relative' }}>
             <TextInput
-              style={[styles.api_access_input]}
+              style={[styles.api_access_inputarea]}
               placeholder='请输入'
               multiline={true}
               onChangeText={this.onChange}

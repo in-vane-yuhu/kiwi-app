@@ -67,7 +67,7 @@ export default class FirmMain extends Component {
         <SafeAreaView style={{ flex: 1 }}>
           <Tabs
             tabs={tabs}
-            initialPage={1}
+            initialPage={0}
             style={{ paddingTop: 16 }}
             styles={{
               topTabBarSplitLine: {

@@ -14,6 +14,7 @@ export const style_data = {
   data_title_text: {
     color: CONST.PRIMARY,
     marginLeft: 8,
+    fontWeight: 'bold',
   },
   data_bar_title: {
     textAlign: 'center',
@@ -35,5 +36,38 @@ export const style_data = {
     paddingRight: 8,
     justifyContent: 'center',
     alignItems: 'flex-end',
+  },
+  data_firmStat_box: {
+    flexDirection: 'row',
+    width: '100%',
+    position: 'relative',
+  },
+  data_firmStat_green: {
+    width: '24%',
+    backgroundColor: CONST.GREEN,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    height: 20,
+    borderRadius: 10,
+    position: 'absolute',
+    left: 0,
+    zIndex: 999,
+  },
+  data_firmStat_red: {
+    width: '30%',
+    backgroundColor: CONST.RED,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    height: 20,
+    borderRadius: 10,
+    position: 'absolute',
+    right: 0,
+    zIndex: 999,
+  },
+  data_firmStat_gray: {
+    width: '100%',
+    backgroundColor: CONST.N238,
+    height: 20,
+    borderRadius: 10,
   },
 }

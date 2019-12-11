@@ -14,6 +14,10 @@ import avatar from '../../../assets/image/ai.jpg'
 @inject('UserStore')
 @observer
 export default class Subscription extends Component {
+  componentDidMount = () => {
+    this.onRefresh()
+  }
+
   navigateToUserInfo = () => {
     Actions.homepage()
   }
@@ -26,14 +30,15 @@ export default class Subscription extends Component {
     >
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <Avatar source={avatar} size={40} />
-        <Text style={{ marginLeft: 16 }}>一个用户</Text>
+        <Text style={{ marginLeft: 16 }}>{item.nickName}</Text>
       </View>
       <Icon name='right' />
     </TouchableOpacity>
   )
 
   onRefresh = () => {
-    console.log('getSpotList')
+    const { getSubscriptions } = this.props.UserStore
+    getSubscriptions(10, 0)
   }
 
   onEndReached = () => {
@@ -41,12 +46,11 @@ export default class Subscription extends Component {
   }
 
   render() {
-    const { loading } = this.props.UserStore
-    const sub_list = [1, 1, 1, 1, 1]
+    const { loading, subscriptions } = this.props.UserStore
     return (
       <View style={[styles.page_box]}>
         <FlatList
-          data={sub_list}
+          data={subscriptions}
           keyExtractor={(item, index) => index.toString()}
           ItemSeparatorComponent={() => <View style={[styles.border_bottom]} />}
           onEndReachedThreshold={0}

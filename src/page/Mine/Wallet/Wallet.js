@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { observer, inject } from 'mobx-react'
 import { Text, View, TouchableOpacity, ImageBackground } from 'react-native'
 import { Icon } from '@ant-design/react-native'
 import { Actions } from 'react-native-router-flux'
@@ -8,7 +9,13 @@ import styles from '../../../style'
 
 import avatar from '../../../assets/image/wallet_bg.jpg'
 
+@inject('UserStore')
+@observer
 export default class Wallet extends Component {
+  componentDidMount=()=>{
+    
+  }
+
   navigateToRecharge = () => {
     Actions.recharge()
   }

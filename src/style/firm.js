@@ -254,5 +254,6 @@ export const style_firm = {
     height: 80,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 40,
   },
 }

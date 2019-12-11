@@ -7,7 +7,7 @@ const onError = err => {
 }
 
 const options = {
-  uri: 'http://192.168.1.175:4001/',
+  uri: 'http://192.168.1.19:4001/',
   onError: onError,
 }
 

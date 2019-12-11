@@ -60,6 +60,10 @@ const statistic = [
 @inject('FirmStore')
 @observer
 export default class Spot extends Component {
+  componentDidMount = () => {
+    this.onRefresh()
+  }
+
   navigateToFirmDetail = () => {
     Actions.firmDetail()
   }
@@ -102,28 +106,31 @@ export default class Spot extends Component {
     >
       <View style={[styles.border_bottom, styles.firm_avatar_bar]}>
         <View style={{ flexDirection: 'row', width: '75%' }}>
-          <Avatar source={item.avatar} size={50} />
+          <Avatar source={avatar} size={50} />
           <View style={{ marginLeft: 16, width: '80%' }}>
-            <Text>{item.name}</Text>
-            <Text style={{ marginTop: 8, color: CONST.N96 }}>{item.intro}</Text>
+            <Text>{item.nickName}</Text>
+            <Text style={{ marginTop: 8, color: CONST.N96 }}>
+              {item.introduction}
+            </Text>
           </View>
         </View>
         <TouchableOpacity
           onPress={this.onSubscription}
           style={[
             styles.firm_subscription,
-            { borderColor: this.setColor(item) },
+            { borderColor: /* this.setColor(item) */ CONST.PRIMARY },
           ]}
         >
-          <Text style={{ color: this.setColor(item) }}>
-            {this.enumSubscription(item.subscription)}
+          <Text style={{ color: /* this.setColor(item) */ CONST.PRIMARY }}>
+            {/* {this.enumSubscription(item.subscription)} */}免费订阅
           </Text>
         </TouchableOpacity>
       </View>
       <View style={[styles.firm_statistic]}>
         {statistic.map((item, index) => (
           <View key={index} style={{ alignItems: 'center' }}>
-            <Text style={{ fontSize: 12, color: CONST.N96 }}>{item.title}</Text>
+            {/* <Text style={{ fontSize: 12, color: CONST.N96 }}>{item.title}</Text> */}
+            <Text style={{ fontSize: 12, color: CONST.N96 }}>总资产</Text>
             <Text
               style={{
                 fontSize: 16,
@@ -132,24 +139,24 @@ export default class Spot extends Component {
                 color: item.sign ? CONST.GREEN : CONST.red || CONST.N32,
               }}
             >
-              {item.amount}
+              {/* {item.amount} */}1000000
             </Text>
           </View>
         ))}
       </View>
       <View style={[styles.firm_logos_box]}>
-        {item.platform.map((platform, index) => (
-          <View key={index} style={[styles.firm_logos_item]}>
-            <Avatar source={platform.logo} size={16} />
-            <Text style={{ fontSize: 10 }}>{platform.name}</Text>
-          </View>
-        ))}
+        <View key={index} style={[styles.firm_logos_item]}>
+          <Avatar source={okex} size={16} />
+          <Text style={{ fontSize: 10 }}>OKEx</Text>
+        </View>
       </View>
     </TouchableOpacity>
   )
 
   onRefresh = () => {
     console.log('getSpotList')
+    const { getSpotList } = this.props.FirmStore
+    getSpotList(10, 0)
   }
 
   onEndReached = () => {
@@ -158,11 +165,11 @@ export default class Spot extends Component {
   }
 
   render() {
-    const { loading } = this.props.FirmStore
+    const { loading, spotList } = this.props.FirmStore
     return (
       <View style={[styles.page_box]}>
         <FlatList
-          data={data}
+          data={spotList}
           keyExtractor={(item, index) => index.toString()}
           ItemSeparatorComponent={() => <View style={[styles.divider]} />}
           onEndReachedThreshold={0}

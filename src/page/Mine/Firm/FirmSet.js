@@ -22,7 +22,7 @@ export default class ApiAccess extends Component {
       >
         {firm_set.map((item, index) => (
           <View key={index} style={[styles.firm_set_item_box]}>
-            <Text style={{ fontSize: 16 }}>资产设置</Text>
+            <Text style={{ fontSize: 16 }}>{item.title}</Text>
             <View style={[styles.firm_set_radio_box]}>
               {item.children.map((child, childIndex) => (
                 <TouchableOpacity

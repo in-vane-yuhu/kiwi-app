@@ -3,6 +3,7 @@ import { Text, View } from 'react-native'
 import { Icon } from '@ant-design/react-native'
 
 import * as CONST from '../../style/constant'
+import styles from "../../style";
 
 export default class Empty extends Component {
   render() {

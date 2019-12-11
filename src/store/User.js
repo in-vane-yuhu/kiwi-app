@@ -22,6 +22,15 @@ class UserStore {
     { amount: '50', price: '50', selected: false },
     { amount: '100', price: '100', selected: false },
   ]
+  @observable fans = []
+  @observable favorites = []
+  @observable subscriptions = []
+  @observable counts = [
+    { title: '订阅', id: 'sub', count: 0 },
+    { title: '收藏', id: 'favor', count: 0 },
+    { title: '粉丝', id: 'fans', count: 0 },
+  ]
+
   /* loading */
   @observable loading = false
 
@@ -122,6 +131,126 @@ class UserStore {
       Actions.pop()
       this.getUserInfo()
     }
+  }
+
+  @action getFans = async (first, skip) => {
+    this.loading = true
+    const variables = {
+      first,
+      skip,
+    }
+    const body = `
+      query getFans(
+        $first: Int
+        $skip: Int
+      ){
+        getFollowers(
+          first:$first
+          skip:$skip
+        ){
+          isSuccess
+          errMessage
+          users{
+            id
+            nickName
+          }
+        }
+      }
+    `
+    let res = await query(body, variables)
+    console.log(res)
+    this.fans = Array.isArray(res.getFollowers.users)
+      ? res.getFollowers.users
+      : []
+    this.loading = false
+  }
+
+  @action getFavorites = async (first, skip) => {
+    this.loading = true
+    const variables = {
+      first,
+      skip,
+    }
+    const body = `
+      query getFavorites(
+        $first: Int
+        $skip: Int
+      ){
+        getAttentions(
+          first:$first
+          skip:$skip
+        ){
+          isSuccess
+          errMessage
+          users{
+            id
+            nickName
+          }
+        }
+      }
+    `
+    let res = await query(body, variables)
+    console.log(res)
+    this.favorites = Array.isArray(res.getAttentions.users)
+      ? res.getAttentions.users
+      : []
+    this.loading = false
+  }
+
+  @action getSubscriptions = async (first, skip) => {
+    this.loading = true
+    const variables = {
+      first,
+      skip,
+    }
+    const body = `
+      query getSubscriptions(
+        $first: Int
+        $skip: Int
+      ){
+        getSubscribes(
+          first:$first
+          skip:$skip
+        ){
+          isSuccess
+          errMessage
+          users{
+            id
+            nickName
+          }
+        }
+      }
+    `
+    let res = await query(body, variables)
+    console.log(res)
+    this.subscriptions = Array.isArray(res.getSubscribes.users)
+      ? res.getSubscribes.users
+      : []
+    this.loading = false
+  }
+
+  @action getCounts = async () => {
+    this.loading = true
+    const variables = {}
+    const body = `
+      query getCounts{
+        getCount{
+          isSuccess
+          errMessage
+          subscribeCount
+          followerCount
+          attentionCount
+        }
+      }
+    `
+    let res = await query(body, variables)
+    console.log(res)
+    if (res.getCount.isSuccess) {
+      this.counts[0].count = res.getCount.subscribeCount
+      this.counts[1].count = res.getCount.attentionCount
+      this.counts[2].count = res.getCount.followerCount
+    }
+    this.loading = false
   }
 
   /**
