@@ -57,7 +57,7 @@ export default class CloseOut extends Component {
           <View
             key={index}
             style={{
-              backgroundColor: index % 2 === 0 ? CONST.N238 : CONST.N0,
+              backgroundColor: index % 2 === 0 ? 'rgba(255,94,0,0.1)' : CONST.N0,
               flexDirection: 'row',
               justifyContent: 'space-between',
               padding: 8,

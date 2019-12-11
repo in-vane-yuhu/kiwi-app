@@ -27,10 +27,10 @@ export default class BigOrder extends Component {
         >
           <Text style={{ color: CONST.GREEN, fontWeight: 'bold' }}>多单</Text>
           <View style={{ flexDirection: 'row', paddingTop: 8 }}>
-            <Text style={{ color: CONST.N32, width: '30%' }}>
+            <Text style={{ color: CONST.N32, width: '50%' }}>
               挂单<Text style={{ color: CONST.GREEN }}>29笔</Text>/成交
             </Text>
-            <Text style={{ color: CONST.GREEN, width: '30%' }}>
+            <Text style={{ color: CONST.GREEN, width: '50%' }}>
               15笔<Text style={{ color: CONST.N32 }}>/成交</Text>52万张
             </Text>
           </View>
@@ -43,10 +43,10 @@ export default class BigOrder extends Component {
         >
           <Text style={{ color: CONST.RED, fontWeight: 'bold' }}>空单</Text>
           <View style={{ flexDirection: 'row', paddingTop: 8 }}>
-            <Text style={{ color: CONST.N32, width: '30%' }}>
+            <Text style={{ color: CONST.N32, width: '50%' }}>
               挂单<Text style={{ color: CONST.RED }}>29笔</Text>/成交
             </Text>
-            <Text style={{ color: CONST.RED, width: '30%' }}>
+            <Text style={{ color: CONST.RED, width: '50%' }}>
               15笔<Text style={{ color: CONST.N32 }}>/成交</Text>52万张
             </Text>
           </View>

@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
-  RefreshControl,
 } from 'react-native'
 import { Icon } from '@ant-design/react-native'
 import { Actions } from 'react-native-router-flux'
@@ -84,7 +83,7 @@ export default class Mine extends Component {
       <View style={[styles.mine_card_box]}>
         <Avatar source={avatar} size={60} />
         <View style={[styles.mine_card_left]}>
-          <Text style={[styles.mine_nickname]}>{`昵称：`}</Text>
+          <Text style={[styles.mine_nickname]}>{`昵称：${userInfo.nickName}`}</Text>
           <TouchableOpacity
             style={[styles.mine_userinfo_btn]}
             onPress={() => this.navigate('homepage')}
@@ -97,7 +96,7 @@ export default class Mine extends Component {
   }
 
   renderBar = () => {
-    const {counts} = this.props.UserStore
+    const { counts } = this.props.UserStore
     return (
       <View style={[styles.mine_grid_box]}>
         {counts.map((item, index) => (

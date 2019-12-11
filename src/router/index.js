@@ -79,8 +79,9 @@ const getRouter = () => {
   return (
     <Router>
       <Scene key='root'>
-        {renderSwitch()}
         <Scene key='mine' hideNavBar title='我的' component={Mine.Home} />
+        <Scene key='firmSet' title='实盘设置' component={Mine.FirmSet} />
+        {renderSwitch()}
         <Scene key='login' hideNavBar component={Login} />
         {/* mine */}
         <Scene key='nickname' title='设置昵称' component={Mine.Nickname} />
@@ -91,7 +92,6 @@ const getRouter = () => {
         <Scene key='recharge' title='充值' component={Mine.Recharge} />
         <Scene key='access' title='实盘接入' component={Mine.FirmAccess} />
         <Scene key='api' title='API接入' component={Mine.ApiAccess} />
-        <Scene key='firmSet' title='实盘设置' component={Mine.FirmSet} />
         <Scene key='account' title='账户设置' component={Mine.Account} />
         <Scene key='intro' title='个人简介' component={Mine.Introduction} />
         <Scene key='service' title='联系客服' component={Mine.Service} />
