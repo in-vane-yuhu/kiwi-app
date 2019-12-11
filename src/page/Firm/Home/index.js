@@ -46,12 +46,10 @@ export default class FirmMain extends Component {
         >
           <Text
             style={{
-              color:
-                tabProps.activeTab === i
-                  ? CONST.PRIMARY
-                  : CONST.N96,
+              color: tabProps.activeTab === i ? CONST.PRIMARY : CONST.N96,
               textAlign: 'center',
               fontWeight: 'bold',
+              fontSize: 16,
             }}
           >
             {tab.title}
@@ -64,12 +62,13 @@ export default class FirmMain extends Component {
   render() {
     const tabs = [{ title: '现货' }, { title: '合约' }, { title: '订阅' }]
     return (
-      <View style={[styles.page_box, { backgroundColor: '#fafafa' }]}>
+      <View style={[styles.page_box]}>
         <StatusBar barStyle='dark-content' />
         <SafeAreaView style={{ flex: 1 }}>
           <Tabs
             tabs={tabs}
             initialPage={0}
+            style={{ paddingTop: 16 }}
             styles={{
               topTabBarSplitLine: {
                 borderBottomWidth: 0,

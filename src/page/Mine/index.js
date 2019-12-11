@@ -1,4 +1,4 @@
-import Mine from './Mine'
+import Home from './Home'
 import Homepage from './Homepage'
 import Subscription from './Subscription'
 import Favorite from './Favorite'
@@ -10,11 +10,11 @@ import ApiAccess from './Firm/ApiAccess'
 import FirmSet from './Firm/FirmSet'
 import Account from './Account/Account'
 import Nickname from './Account/Nickname'
-import SelfIntroduction from './Account/SelfIntroduction'
+import Introduction from './Account/Introduction'
 import Service from './Service'
 
 export {
-  Mine,
+  Home,
   Homepage,
   Subscription,
   Favorite,
@@ -26,6 +26,6 @@ export {
   FirmSet,
   Account,
   Nickname,
-  SelfIntroduction,
+  Introduction,
   Service,
 }

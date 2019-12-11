@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
-import { Text, View, TouchableOpacity, Image } from 'react-native'
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
+  RefreshControl,
+} from 'react-native'
 import { Icon } from '@ant-design/react-native'
 import { Actions } from 'react-native-router-flux'
 
@@ -14,11 +20,6 @@ import avatar from '../../../assets/image/ai.jpg'
 @inject('UserStore')
 @observer
 export default class Markets extends Component {
-  componentDidMount = async () => {
-    const { getUserInfo } = this.props.UserStore
-    getUserInfo()
-  }
-
   navigateToNickname = () => {
     Actions.nickname()
   }
@@ -30,7 +31,7 @@ export default class Markets extends Component {
   render() {
     const { userInfo } = this.props.UserStore
     return (
-      <View style={[styles.page_box]}>
+      <ScrollView style={[styles.page_box]}>
         <View style={{ padding: 16 }}>
           <View
             style={[
@@ -118,9 +119,7 @@ export default class Markets extends Component {
               <Text style={{ fontSize: 16 }}>语言</Text>
             </View>
             <View style={[styles.flex_row_center]}>
-              <Text style={{ color: CONST.N96, fontSize: 16 }}>
-                简体中文
-              </Text>
+              <Text style={{ color: CONST.N96, fontSize: 16 }}>简体中文</Text>
               <Icon name='right' />
             </View>
           </TouchableOpacity>
@@ -160,14 +159,12 @@ export default class Markets extends Component {
               <Text style={{ fontSize: 16 }}>当前版本：{`1.0.2`}</Text>
             </View>
             <View style={[styles.flex_row_center]}>
-              <Text style={{ color: CONST.N96, fontSize: 16 }}>
-                检查更新
-              </Text>
+              <Text style={{ color: CONST.N96, fontSize: 16 }}>检查更新</Text>
               <Icon name='right' />
             </View>
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
     )
   }
 }

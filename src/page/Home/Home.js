@@ -30,6 +30,7 @@ export default class Home extends Component {
             justifyContent: 'space-between',
             alignItems: 'center',
             paddingHorizontal: 24,
+            paddingVertical: 16,
           }}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>

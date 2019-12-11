@@ -4,7 +4,6 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image,
   SafeAreaView,
   ScrollView,
 } from 'react-native'
@@ -25,11 +24,6 @@ const LinearGradientOptions = {
   end: { x: 0.4, y: 0.1 },
   style: [styles.mine_linearGradient],
 }
-const bar = [
-  { title: '订阅', id: 'sub', amount: 1 },
-  { title: '收藏', id: 'favor', amount: 14 },
-  { title: '粉丝', id: 'fans', amount: 7 },
-]
 const list = [
   [
     { title: '订阅管理', icon: 'contacts', id: 'sub' },
@@ -89,9 +83,7 @@ export default class Mine extends Component {
       <View style={[styles.mine_card_box]}>
         <Avatar source={avatar} size={60} />
         <View style={[styles.mine_card_left]}>
-          <Text style={[styles.mine_nickname]}>
-            {`昵称：${userInfo.nickName}`}
-          </Text>
+          <Text style={[styles.mine_nickname]}>{`昵称：${userInfo.nickName}`}</Text>
           <TouchableOpacity
             style={[styles.mine_userinfo_btn]}
             onPress={() => this.navigate('homepage')}
@@ -104,15 +96,16 @@ export default class Mine extends Component {
   }
 
   renderBar = () => {
+    const { counts } = this.props.UserStore
     return (
       <View style={[styles.mine_grid_box]}>
-        {bar.map((item, index) => (
-          <Fragment>
+        {counts.map((item, index) => (
+          <Fragment key={index}>
             <TouchableOpacity
               style={[styles.mine_bar]}
               onPress={() => this.navigate(item.id)}
             >
-              <Text style={[styles.mine_bar_item]}>{item.amount}</Text>
+              <Text style={[styles.mine_bar_item]}>{item.count}</Text>
               <Text style={[styles.mine_grid_desc]}>{item.title}</Text>
             </TouchableOpacity>
             {index !== 2 && <View style={[styles.mine_grid_divider]} />}
@@ -124,41 +117,39 @@ export default class Mine extends Component {
 
   render() {
     return (
-      <View style={[styles.page_box]}>
-        <ScrollView>
-          <LinearGradient {...LinearGradientOptions}>
-            <SafeAreaView>
-              {this.renderUserInfo()}
-              {this.renderBar()}
-            </SafeAreaView>
-          </LinearGradient>
-          {list.map((item, index) => (
-            <Fragment key={index}>
-              <View style={[styles.mine_list_box]}>
-                {item.map((children, childrenIndex) => (
-                  <TouchableOpacity
-                    key={childrenIndex}
-                    onPress={() => this.navigate(children.id)}
-                    style={[
-                      styles.mine_list_line,
-                      { borderBottomWidth: childrenIndex === 3 ? 0 : 1 },
-                    ]}
-                  >
-                    <View style={[styles.mine_list_lin_box]}>
-                      <Icon name={children.icon} color={CONST.N255} />
-                      <Text style={[styles.mine_list_line_text]}>
-                        {children.title}
-                      </Text>
-                    </View>
-                    <Icon name='right' />
-                  </TouchableOpacity>
-                ))}
-              </View>
-              <View style={styles.divider} />
-            </Fragment>
-          ))}
-        </ScrollView>
-      </View>
+      <ScrollView style={[styles.page_box]}>
+        <LinearGradient {...LinearGradientOptions}>
+          <SafeAreaView>
+            {this.renderUserInfo()}
+            {this.renderBar()}
+          </SafeAreaView>
+        </LinearGradient>
+        {list.map((item, index) => (
+          <Fragment key={index}>
+            <View style={[styles.mine_list_box]}>
+              {item.map((children, childrenIndex) => (
+                <TouchableOpacity
+                  key={childrenIndex}
+                  onPress={() => this.navigate(children.id)}
+                  style={[
+                    styles.mine_list_line,
+                    { borderBottomWidth: childrenIndex === 3 ? 0 : 1 },
+                  ]}
+                >
+                  <View style={[styles.mine_list_lin_box]}>
+                    <Icon name={children.icon} color={CONST.N255} />
+                    <Text style={[styles.mine_list_line_text]}>
+                      {children.title}
+                    </Text>
+                  </View>
+                  <Icon name='right' />
+                </TouchableOpacity>
+              ))}
+            </View>
+            <View style={styles.divider} />
+          </Fragment>
+        ))}
+      </ScrollView>
     )
   }
 }

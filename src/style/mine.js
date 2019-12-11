@@ -77,14 +77,16 @@ export const style_mine = {
     alignItems: 'center',
     marginHorizontal: 16,
     padding: 16,
-    borderStyle: 'solid',
-    borderColor: CONST.N238,
-    borderBottomWidth: 1,
   },
   wallet_icon_box: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
     padding: 8,
+  },
+  wallet_amount_box: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'baseline',
   },
   wallet_amount: {
     color: CONST.GOLD,
@@ -100,11 +102,6 @@ export const style_mine = {
     borderColor: CONST.GOLD,
     borderWidth: 1,
     marginHorizontal: 10,
-  },
-  wallet_amount: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'baseline',
   },
   wallet_btn_box: {
     flexDirection: 'row',
@@ -193,13 +190,25 @@ export const style_mine = {
     marginBottom: 24,
     borderRadius: 5,
   },
+  api_access_inputarea: {
+    borderStyle: 'solid',
+    borderColor: CONST.N238,
+    borderWidth: 1,
+    padding: 8,
+    marginBottom: 24,
+    borderRadius: 5,
+    height: 175,
+  },
   api_access_sticky_btn: {
     backgroundColor: CONST.PRIMARY,
     width: '80%',
     alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 16,
-    borderRadius: 23,
     marginBottom: 50,
+    height: 50,
+    borderRadius: 25,
   },
   firm_set_item_box: {
     borderStyle: 'solid',

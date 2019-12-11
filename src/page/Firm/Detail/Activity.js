@@ -48,75 +48,69 @@ export default class Activity extends Component {
             <Icon name='plus-circle' color={CONST.PRIMARY} />
           </TouchableOpacity>
         </View>
-        <ScrollView>
-          {data.length === 0 && (
-            <View
-              style={[styles.border_bottom, styles.firm_detail_act_none]}
-            >
-              <Text style={{ color: CONST.N96 }}>
-                点击右上角“+”发布你的第一条动态吧～
+        {data.length === 0 && (
+          <View style={[styles.border_bottom, styles.firm_detail_act_none]}>
+            <Text style={{ color: CONST.N96 }}>
+              点击右上角“+”发布你的第一条动态吧～
+            </Text>
+          </View>
+        )}
+        {data.map((item, index) => (
+          <View
+            key={index}
+            style={[styles.border_bottom, styles.firm_detail_act_item]}
+          >
+            <Avatar source={avatar} size={40} />
+            <View style={{ marginLeft: 16, width: '80%' }}>
+              <Text style={{ lineHeight: 20 }}>in_vane</Text>
+              <Text style={{ color: CONST.N96, lineHeight: 20 }}>
+                2019-12-01 12:00
               </Text>
-            </View>
-          )}
-          {data.map((item, index) => (
-            <View
-              key={index}
-              style={[styles.border_bottom, styles.firm_detail_act_item]}
-            >
-              <Avatar source={avatar} size={40} />
-              <View style={{ marginLeft: 16, width: '80%' }}>
-                <Text style={{ lineHeight: 20 }}>in_vane</Text>
-                <Text style={{ color: CONST.N96, lineHeight: 20 }}>
-                  2019-12-01 12:00
-                </Text>
-                <Text style={{ marginTop: 4, lineHeight: 20 }}>
-                  这是一条动态。一开始他们叫我发动态，我是拒绝的，因为不能你叫我发，我就发。首先我要试一下，诶你看我发完动态是这样的，别人发完动态也是这样的。不然别人一看，诶你发的动态加了特技，duang～的一下就很酷炫。
-                </Text>
-                <View
-                  style={{
-                    backgroundColor: '#f5f5f5',
-                    padding: 8,
-                    marginTop: 16,
-                  }}
+              <Text style={{ marginTop: 4, lineHeight: 20 }}>
+                这是一条动态。一开始他们叫我发动态，我是拒绝的，因为不能你叫我发，我就发。首先我要试一下，诶你看我发完动态是这样的，别人发完动态也是这样的。不然别人一看，诶你发的动态加了特技，duang～的一下就很酷炫。
+              </Text>
+              <View
+                style={{
+                  backgroundColor: '#f5f5f5',
+                  padding: 8,
+                  marginTop: 16,
+                }}
+              >
+                {item.comments.map((item, index) => (
+                  <View
+                    key={index}
+                    style={{ flexDirection: 'row', marginBottom: 4 }}
+                  >
+                    <Text style={{ lineHeight: 20 }}>
+                      {`${item.name}：`}
+                      <Text style={{ color: CONST.N96 }}>{item.content}</Text>
+                    </Text>
+                  </View>
+                ))}
+              </View>
+              <View style={{ flexDirection: 'row', marginTop: 16 }}>
+                <TouchableOpacity
+                  style={{ flexDirection: 'row', alignItems: 'center' }}
+                  onPress={this.navigateToComments}
                 >
-                  {item.comments.map((item, index) => (
-                    <View
-                      key={index}
-                      style={{ flexDirection: 'row', marginBottom: 4 }}
-                    >
-                      <Text style={{ lineHeight: 20 }}>
-                        {`${item.name}：`}
-                        <Text style={{ color: CONST.N96 }}>
-                          {item.content}
-                        </Text>
-                      </Text>
-                    </View>
-                  ))}
-                </View>
-                <View style={{ flexDirection: 'row', marginTop: 16 }}>
-                  <TouchableOpacity
-                    style={{ flexDirection: 'row', alignItems: 'center' }}
-                    onPress={this.navigateToComments}
-                  >
-                    <Icon name='message' />
-                    <Text style={{ marginLeft: 8 }}>2</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{
-                      marginLeft: '60%',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                    }}
-                    onPress={this.setLikeStatus}
-                  >
-                    <Icon name='like' color={like ? CONST.PRIMARY : null} />
-                    <Text style={{ marginLeft: 8 }}>5</Text>
-                  </TouchableOpacity>
-                </View>
+                  <Icon name='message' />
+                  <Text style={{ marginLeft: 8 }}>2</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    marginLeft: '60%',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}
+                  onPress={this.setLikeStatus}
+                >
+                  <Icon name='like' color={like ? CONST.PRIMARY : null} />
+                  <Text style={{ marginLeft: 8 }}>5</Text>
+                </TouchableOpacity>
               </View>
             </View>
-          ))}
-        </ScrollView>
+          </View>
+        ))}
       </View>
     )
   }
