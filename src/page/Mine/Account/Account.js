@@ -41,7 +41,7 @@ export default class Markets extends Component {
             ]}
           >
             <Text style={{ fontSize: 16 }}>头像</Text>
-            <Avatar source={avatar} size={50} />
+            <Avatar id={userInfo.id} size={50} />
           </View>
 
           <TouchableOpacity

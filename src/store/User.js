@@ -30,6 +30,7 @@ class UserStore {
     { title: '收藏', id: 'favor', count: 0 },
     { title: '粉丝', id: 'fans', count: 0 },
   ]
+  @observable wallet_balance = ''
 
   /* loading */
   @observable loading = false
@@ -64,10 +65,11 @@ class UserStore {
       }
     `
     let res = await mutation(body, variables)
+    console.log(res)
     if (res.login.isSuccess) {
-      setData('token', res.login.token)
+      await setData('token', res.login.token)
+      Actions.reset('switchTab')
     }
-    Actions.reset('switchTab')
   }
 
   @action getUserInfo = async () => {
@@ -88,7 +90,10 @@ class UserStore {
       }
     `
     let res = await query(body, variables)
-    this.userInfo = res.me.user
+    console.log(res)
+    if (res.me.isSuccess) {
+      this.userInfo = res.me.user
+    }
   }
 
   @action modifyNickName = async nickName => {
@@ -106,6 +111,7 @@ class UserStore {
       }
     `
     let res = await mutation(body, variables)
+    console.log(res)
     if (res.changenickName.isSuccess) {
       Actions.pop()
       this.getUserInfo()
@@ -127,6 +133,7 @@ class UserStore {
       }
     `
     let res = await mutation(body, variables)
+    console.log(res)
     if (res.changeIntroduction.isSuccess) {
       Actions.pop()
       this.getUserInfo()
@@ -159,9 +166,11 @@ class UserStore {
     `
     let res = await query(body, variables)
     console.log(res)
-    this.fans = Array.isArray(res.getFollowers.users)
-      ? res.getFollowers.users
-      : []
+    if (res.getFollowers.isSuccess) {
+      this.fans = Array.isArray(res.getFollowers.users)
+        ? res.getFollowers.users
+        : []
+    }
     this.loading = false
   }
 
@@ -251,6 +260,24 @@ class UserStore {
       this.counts[2].count = res.getCount.followerCount
     }
     this.loading = false
+  }
+
+  @action getWallet = async () => {
+    const variables = {}
+    const body = `
+      query getWallet{
+        getWallet{
+          isSuccess
+          errMessage
+          balance
+        }
+      }
+    `
+    let res = await query(body, variables)
+    console.log(res)
+    if (res.getWallet.isSuccess) {
+      this.wallet_balance = res.getWallet.balance
+    }
   }
 
   /**

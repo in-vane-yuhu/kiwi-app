@@ -8,6 +8,7 @@ import styles from '../../../style'
 
 import Statistic from '../../../components/Statistic'
 import Nomore from '../../../components/Nomore'
+import Empty from '../../../components/Empty'
 
 const data = [
   {
@@ -75,6 +76,7 @@ const data_contract = [
 @observer
 export default class Position extends Component {
   renderSpotPosition = () => {
+    const { currentSpotUserPosition } = this.props.FirmStore
     const title = ['名称/价值', '数量', '成本/现价']
     return (
       <Fragment>
@@ -92,7 +94,7 @@ export default class Position extends Component {
             </View>
           ))}
         </View>
-        {data.map((item, index) => (
+        {currentSpotUserPosition.map((item, index) => (
           <View
             key={index}
             style={[
@@ -101,18 +103,18 @@ export default class Position extends Component {
             ]}
           >
             <View style={{ alignItems: 'center', width: '30%' }}>
-              <Text style={{ color: CONST.N96 }}>{item.name}</Text>
-              <Text>{item.value}</Text>
+              <Text style={{ color: CONST.N96 }}>{item.currency}</Text>
+              <Text>{`¥${item.totalprice || 0}`}</Text>
             </View>
             <View style={{ width: '30%' }}>
               <Text style={[styles.firm_detail_position_tabel_col_center]}>
-                {item.amount}
+                {item.balance || 0}
               </Text>
             </View>
             <View style={{ alignItems: 'center', width: '30%' }}>
-              <Text style={{ color: CONST.N96 }}>{item.cost}</Text>
+              <Text style={{ color: CONST.N96 }}>{`¥${item.cost || 0}`}</Text>
               <Text style={[styles.firm_detail_position_tabel_col_end]}>
-                {item.current}
+                {`¥${item.price || 0}`}
               </Text>
             </View>
           </View>
@@ -123,10 +125,11 @@ export default class Position extends Component {
   }
 
   renderContractPosition = () => {
+    const { currentSpotUserContract } = this.props.FirmStore
     return (
       <Fragment>
         <View style={{ height: 8, backgroundColor: '#f0f0f0' }} />
-        {data_contract.map((item, index) => (
+        {currentSpotUserContract.map((item, index) => (
           <View key={index}>
             <View
               style={[
@@ -138,12 +141,14 @@ export default class Position extends Component {
                 style={{
                   fontSize: 16,
                   fontWeight: 'bold',
-                  color: item.type ? CONST.GREEN : CONST.RED,
+                  color: item.side === 'long' ? CONST.GREEN : CONST.RED,
                 }}
-              >{`Huobi BTC季度${item.type ? '多' : '空'} ${
-                item.times
-              }倍`}</Text>
-              <Text style={[styles.firm_contract_detail_list_label]}>持仓</Text>
+              >{`OKEx ${item.instrument_id}${
+                item.side === 'long' ? '多' : '空'
+              } ${item.leverage}倍`}</Text>
+              <Text style={[styles.firm_contract_detail_list_label]}>{`${
+                item.side === 'long' ? '多' : '空'
+              }头仓位`}</Text>
             </View>
             <View
               style={[
@@ -157,41 +162,44 @@ export default class Position extends Component {
             >
               <Statistic
                 title='总收益'
-                value={`${item.incomeAmount} ${item.incomeToken}`}
-                sign={item.type ? 'plus' : 'minus'}
+                value={`${item.total_pnl} ${item.instrument_id}`}
+                sign={item.total_pnl > 0 ? 'plus' : 'minus'}
                 width='30%'
               />
               <Statistic
                 title='收益率'
-                value={item.percent}
-                sign={item.type ? 'plus' : 'minus'}
+                value={item.totalRate}
+                sign={item.totalRate > 0 ? 'plus' : 'minus'}
                 width='30%'
               />
             </View>
             <View style={{ paddingTop: 16 }}>
               <View style={[styles.firm_contract_detail_list_line]}>
                 <Text style={{ color: CONST.N96 }}>最大持仓量</Text>
-                <Text style={{ color: CONST.N32 }}>{item.maxPosition}</Text>
+                <Text style={{ color: CONST.N32 }}>{item.position}</Text>
               </View>
               <View style={[styles.firm_contract_detail_list_line]}>
                 <Text style={{ color: CONST.N96 }}>最大保证金</Text>
-                <Text style={{ color: CONST.N32 }}>{item.maxMargin}</Text>
+                <Text style={{ color: CONST.N32 }}>{item.margin}</Text>
               </View>
               <View style={[styles.firm_contract_detail_list_line]}>
                 <Text style={{ color: CONST.N96 }}>保证金率</Text>
-                <Text style={{ color: CONST.N32 }}>{item.percentMargin}</Text>
+                <Text style={{ color: CONST.N32 }}>
+                  {item.maint_margin_ratio}
+                </Text>
               </View>
             </View>
 
             <View style={{ height: 8, backgroundColor: '#f0f0f0' }} />
           </View>
         ))}
+        {!currentSpotUserContract.length && <Empty />}
       </Fragment>
     )
   }
 
   render() {
-    const { currentTabIndex } = this.props.FirmStore
+    const { currentTabIndex, currentSpotUserPosition } = this.props.FirmStore
     return (
       <SafeAreaView style={[styles.page_box]}>
         <View style={[styles.border_bottom, styles.firm_detail_assets_title]}>
@@ -204,33 +212,35 @@ export default class Position extends Component {
           ]}
         >
           <View style={{ flexDirection: 'row', height: 20 }}>
-            {data.map((item, index) => (
+            {currentSpotUserPosition.map((item, index) => (
               <View
                 key={index}
                 style={{
-                  width: item.percent,
-                  backgroundColor: item.color,
+                  width: '100%',
+                  backgroundColor: CONST.PRIMARY,
                   justifyContent: 'center',
                   borderTopLeftRadius: index === 0 ? 10 : 0,
                   borderBottomLeftRadius: index === 0 ? 10 : 0,
-                  borderTopRightRadius: index === data.length - 1 ? 10 : 0,
-                  borderBottomRightRadius: index === data.length - 1 ? 10 : 0,
+                  borderTopRightRadius:
+                    index === currentSpotUserPosition.length - 1 ? 10 : 0,
+                  borderBottomRightRadius:
+                    index === currentSpotUserPosition.length - 1 ? 10 : 0,
                 }}
               >
                 <Text style={[styles.firm_detail_position_percent_text]}>
-                  {item.name}
+                  {item.currency}
                 </Text>
               </View>
             ))}
           </View>
           <View style={[styles.firm_detail_position_percent_label]}>
-            {data.map((item, index) => (
+            {currentSpotUserPosition.map((item, index) => (
               <View key={index} style={[styles.firm_detail_position_label_box]}>
-                <Text style={{ color: item.color, fontWeight: 'bold' }}>
-                  {item.name}
+                <Text style={{ color: CONST.PRIMARY, fontWeight: 'bold' }}>
+                  {item.currency}
                 </Text>
                 <Text style={{ color: CONST.N96, marginLeft: 8 }}>
-                  {item.percent}
+                  {`100%`}
                 </Text>
               </View>
             ))}

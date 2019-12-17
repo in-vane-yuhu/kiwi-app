@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableOpacity, ScrollView, Image } from 'react-native'
+import { observer, inject } from 'mobx-react'
+import { Text, View, TouchableOpacity } from 'react-native'
 import { Icon } from '@ant-design/react-native'
 import { Actions } from 'react-native-router-flux'
 
@@ -10,6 +11,8 @@ import Avatar from '../../../components/Avatar'
 
 import avatar from '../../../assets/image/ai.jpg'
 
+@inject('UserStore', 'FirmStore')
+@observer
 export default class Activity extends Component {
   state = { like: false }
 
@@ -31,22 +34,23 @@ export default class Activity extends Component {
     const data = [
       {
         comments: [
-          {
-            name: '89年的网民',
-            content: '这人在说啥玩意儿呢？onedayday的duangduangduang',
-          },
+          { name: '89年的网民', content: '这人在说啥玩意儿呢？' },
           { name: '精神小伙', content: '别爱我，没结果，除非花手摇过我。' },
         ],
       },
     ]
     const { like } = this.state
+    const { currentUser } = this.props.FirmStore
+    const { userInfo } = this.props.UserStore
     return (
       <View style={[styles.page_box]}>
         <View style={[styles.border_bottom, styles.firm_detail_act_title]}>
-          <Text style={{ fontSize: 18, fontWeight: 'bold' }}>最新操作</Text>
-          <TouchableOpacity onPress={this.navigateToPublish}>
-            <Icon name='plus-circle' color={CONST.PRIMARY} />
-          </TouchableOpacity>
+          <Text style={{ fontSize: 18, fontWeight: 'bold' }}>最新动态</Text>
+          {currentUser.id === userInfo.id && (
+            <TouchableOpacity onPress={this.navigateToPublish}>
+              <Icon name='plus-circle' color={CONST.PRIMARY} />
+            </TouchableOpacity>
+          )}
         </View>
         {data.length === 0 && (
           <View style={[styles.border_bottom, styles.firm_detail_act_none]}>
@@ -60,9 +64,9 @@ export default class Activity extends Component {
             key={index}
             style={[styles.border_bottom, styles.firm_detail_act_item]}
           >
-            <Avatar source={avatar} size={40} />
+            <Avatar id={currentUser.id} size={40} />
             <View style={{ marginLeft: 16, width: '80%' }}>
-              <Text style={{ lineHeight: 20 }}>in_vane</Text>
+              <Text style={{ lineHeight: 20 }}>{currentUser.nickName}</Text>
               <Text style={{ color: CONST.N96, lineHeight: 20 }}>
                 2019-12-01 12:00
               </Text>

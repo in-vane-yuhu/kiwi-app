@@ -31,7 +31,8 @@ const list = [
 @observer
 export default class Data extends Component {
   onRefresh = () => {
-    console.log('getDataList')
+    const { getUpAndDown } = this.props.DataStore
+    getUpAndDown()
   }
 
   onEndReached = () => {

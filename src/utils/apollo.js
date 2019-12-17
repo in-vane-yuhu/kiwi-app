@@ -7,12 +7,12 @@ const onError = err => {
 }
 
 const options = {
-  uri: 'http://192.168.1.19:4001/',
+  uri: 'http://192.168.1.13:4001/',
   onError: onError,
 }
 
 const query = async (body, variables) => {
-  const global = Toast.loading('加载中')
+  const global = Toast.loading('加载中', 0)
   const token = await getData('token')
   return new ApolloClient({
     ...options,
@@ -30,10 +30,14 @@ const query = async (body, variables) => {
       Portal.remove(global)
       return res.data
     })
+    .catch(err => {
+      Portal.remove(global)
+      console.log(err)
+    })
 }
 
 const mutation = async (body, variables) => {
-  const global = Toast.loading('加载中')
+  const global = Toast.loading('加载中', 0)
   const token = await getData('token')
   return new ApolloClient({
     ...options,
@@ -50,6 +54,10 @@ const mutation = async (body, variables) => {
     .then(res => {
       Portal.remove(global)
       return res.data
+    })
+    .catch(err => {
+      Portal.remove(global)
+      console.log(err)
     })
 }
 

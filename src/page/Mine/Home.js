@@ -39,12 +39,13 @@ const list = [
   ],
 ]
 
-@inject('UserStore')
+@inject('UserStore', 'FirmStore')
 @observer
 export default class Mine extends Component {
   componentDidMount = async () => {
-    const { getUserInfo } = this.props.UserStore
+    const { getUserInfo, getCounts } = this.props.UserStore
     getUserInfo()
+    getCounts()
   }
 
   navigate = id => {
@@ -73,6 +74,9 @@ export default class Mine extends Component {
       Actions.fans()
     }
     if (id === 'homepage') {
+      const { getUser } = this.props.FirmStore
+      const { userInfo } = this.props.UserStore
+      getUser(userInfo.id)
       Actions.homepage()
     }
   }
@@ -81,9 +85,11 @@ export default class Mine extends Component {
     const { userInfo } = this.props.UserStore
     return (
       <View style={[styles.mine_card_box]}>
-        <Avatar source={avatar} size={60} />
+        <Avatar id={userInfo.id} size={60} />
         <View style={[styles.mine_card_left]}>
-          <Text style={[styles.mine_nickname]}>{`昵称：${userInfo.nickName}`}</Text>
+          <Text
+            style={[styles.mine_nickname]}
+          >{`昵称：${userInfo.nickName}`}</Text>
           <TouchableOpacity
             style={[styles.mine_userinfo_btn]}
             onPress={() => this.navigate('homepage')}

@@ -1,49 +1,82 @@
 import React, { Component } from 'react'
-import { Text, View, ScrollView, SafeAreaView } from 'react-native'
+import { observer, inject } from 'mobx-react'
+import { Text, View, SafeAreaView } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import { Echarts, echarts } from 'react-native-secharts'
+import {
+  VictoryChart,
+  VictoryLine,
+  VictoryAxis,
+  VictoryScatter,
+  VictoryCursorContainer,
+} from 'victory-native'
+import moment from 'moment'
 
 import * as CONST from '../../../style/constant'
 import styles, { EchartsHeight } from '../../../style'
 
 import Statistic from '../../../components/Statistic'
 
-export default class Assets extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      image: '',
-      option: {
-        tooltip: { trigger: 'axis', position: pt => [pt[0], '10%'] },
-        xAxis: {
-          type: 'category',
-          boundaryGap: false,
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-          axisLine: { show: false, lineStyle: { color: CONST.N96 } },
-          axisTick: { show: false },
-        },
-        yAxis: {
-          type: 'value',
-          axisLine: { show: false, lineStyle: { color: CONST.N96 } },
-          axisTick: { show: false },
-        },
-        color: CONST.PRIMARY,
-        series: [
-          { data: [830, 932, 901, 934, 1290, 1330, 1320], type: 'line' },
-        ],
-        grid: { x2: 10, y: 10 },
-      },
-      flag: false,
-    }
-    this.echart = React.createRef()
+const axis_x = [...Array(7).keys()].map(days =>
+  moment(new Date(Date.now() - 86400000 * days)).format('MM-DD')
+)
+const data = axis_x.map(item => {
+  return {
+    x: item,
+    y: Math.random() * (900 - 200) + 200,
   }
+})
 
-  onPress = e => {
-    console.log(e)
-  }
+@inject('FirmStore')
+@observer
+export default class Assets extends Component {
+  state = {}
+
+  renderChart = () => (
+    <VictoryChart
+      padding={{ top: 10, right: 40, bottom: 32, left: 40 }}
+      minDomain={{ y: 0 }}
+      maxDomain={{ y: 1000 }}
+      height={200}
+    >
+      <VictoryLine
+        style={{
+          data: { stroke: CONST.PRIMARY },
+        }}
+        data={data}
+        interpolation='monotoneX'
+      />
+      <VictoryAxis
+        tickValues={axis_x}
+        style={{
+          axis: { stroke: CONST.N200 },
+          tickLabels: { fill: CONST.N200 },
+        }}
+      />
+      <VictoryAxis
+        dependentAxis
+        style={{
+          grid: { stroke: CONST.N200, strokeDasharray: '5 5' },
+          axis: { stroke: null },
+          tickLabels: { fill: CONST.N200 },
+        }}
+      />
+      <VictoryScatter
+        data={data}
+        style={{ data: { fill: CONST.PRIMARY } }}
+        containerComponent={
+          <VictoryCursorContainer
+            cursorLabel={({ datum }) =>
+              `${round(datum.x, 2)}, ${round(datum.y, 2)}`
+            }
+          />
+        }
+      />
+    </VictoryChart>
+  )
 
   render() {
-    const { option } = this.state
+    const { currentSpotUserAssets } = this.props.FirmStore
     return (
       <SafeAreaView style={[styles.page_box]}>
         <View>
@@ -53,18 +86,53 @@ export default class Assets extends Component {
           <View
             style={[styles.border_bottom, styles.firm_detail_assets_total_bar]}
           >
-            <Statistic title='总资产' value='¥10000' />
-            <Statistic title='总收益率' value='+95.00%' sign='plus' />
+            <Statistic
+              title='总资产'
+              value={currentSpotUserAssets.totalProperty || 0}
+            />
+            <Statistic
+              title='总收益率'
+              value={`${currentSpotUserAssets.earnRate || 0}%`}
+              sign='plus'
+            />
           </View>
           <View style={[styles.firm_detail_assets_bar]}>
-            <Statistic title='总收益' value='-¥1000' sign='minus' width='30%' />
-            <Statistic title='交易胜率' value='3.00%' sign='plus' width='30%' />
-            <Statistic title='交易时常' value='22天' width='30%' />
+            <Statistic
+              title='总收益'
+              value={`¥${currentSpotUserAssets.earnRate || 0}`}
+              sign='minus'
+              width='30%'
+            />
+            <Statistic
+              title='交易胜率'
+              value={`${currentSpotUserAssets.winRate || 0}%`}
+              sign='plus'
+              width='30%'
+            />
+            <Statistic
+              title='交易时常'
+              value={`${currentSpotUserAssets.duration || 0}天`}
+              width='30%'
+            />
           </View>
           <View style={[styles.firm_detail_assets_bar]}>
-            <Statistic title='周收益' value='+¥10000' sign='plus' width='30%' />
-            <Statistic title='周收益率' value='3.00%' sign='plus' width='30%' />
-            <Statistic title='交易频次' value='8次/周' width='30%' />
+            <Statistic
+              title='周收益'
+              value={`¥${currentSpotUserAssets.weeklyEarning || 0}`}
+              sign='plus'
+              width='30%'
+            />
+            <Statistic
+              title='周收益率'
+              value={`${currentSpotUserAssets.weeklyWinRate || 0}%`}
+              sign='plus'
+              width='30%'
+            />
+            <Statistic
+              title='交易频次'
+              value={`${currentSpotUserAssets.frequency || 0}次/周`}
+              width='30%'
+            />
           </View>
           <View
             style={{ height: 8, backgroundColor: '#f0f0f0', marginTop: 24 }}
@@ -75,7 +143,7 @@ export default class Assets extends Component {
         </View>
         <View style={{ paddingHorizontal: 16 }}>
           <View style={{ flexDirection: 'row', paddingVertical: 16 }}>
-            <Text style={{ color: CONST.N96 }}>总收益</Text>
+            <Text style={{ color: CONST.N96, marginRight: 16 }}>总收益</Text>
             <View style={{ flexDirection: 'row', marginRight: 24 }}>
               <Text style={{ color: CONST.N96 }}>最高：</Text>
               <Text style={{ color: CONST.N32 }}>¥8564.40</Text>
@@ -85,17 +153,11 @@ export default class Assets extends Component {
               <Text style={{ color: CONST.N32 }}>-¥8564.40</Text>
             </View>
           </View>
-          <Echarts
-            ref={this.echart}
-            option={option}
-            height={200}
-            width={EchartsHeight}
-            onPress={this.onPress}
-          />
+          {this.renderChart()}
         </View>
         <View style={{ marginHorizontal: 16 }}>
           <View style={{ flexDirection: 'row', paddingVertical: 16 }}>
-            <Text style={{ color: CONST.N96 }}>收益率</Text>
+            <Text style={{ color: CONST.N96, marginRight: 16 }}>收益率</Text>
             <View style={{ flexDirection: 'row', marginRight: 24 }}>
               <Text style={{ color: CONST.N96 }}>最高：</Text>
               <Text style={{ color: CONST.N32 }}>¥8564.40</Text>
@@ -105,13 +167,7 @@ export default class Assets extends Component {
               <Text style={{ color: CONST.N32 }}>-¥8564.40</Text>
             </View>
           </View>
-          <Echarts
-            ref={this.echart}
-            option={option}
-            height={200}
-            width={EchartsHeight}
-            onPress={this.onPress}
-          />
+          {this.renderChart()}
         </View>
       </SafeAreaView>
     )

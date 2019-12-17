@@ -251,7 +251,6 @@ export const style_firm = {
     alignItems: 'center',
   },
   firm_empty_box: {
-    height: 80,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 40,

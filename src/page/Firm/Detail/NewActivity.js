@@ -14,12 +14,14 @@ export default class NewActivity extends Component {
     param_textarea: '',
   }
 
-  navigateBack = () => {
-    Actions.pop()
+  onSubmit = () => {
+    const { postNewActivity } = this.props.FirmStore
+    const { param_textarea } = this.state
+    postNewActivity(param_textarea)
   }
 
   onChange = value => {
-    this.setState({ param_textarea: value })
+    this.setState()
   }
 
   render() {
@@ -42,7 +44,7 @@ export default class NewActivity extends Component {
 
         <TouchableOpacity
           style={[styles.nickname_sticky_btn]}
-          onPress={this.navigateBack}
+          onPress={this.onSubmit}
         >
           <Text
             style={{

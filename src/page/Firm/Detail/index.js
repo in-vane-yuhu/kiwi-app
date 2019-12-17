@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { observer, inject } from 'mobx-react'
 import { Text, View, TouchableOpacity, ScrollView } from 'react-native'
 import { Tabs, Icon } from '@ant-design/react-native'
 
@@ -12,25 +13,9 @@ import Activity from './Activity'
 import Avatar from '../../../components/Avatar'
 
 import avatar from '../../../assets/image/ai.jpg'
-import binance_n from '../../../assets/image/binance_n.png'
-import binance from '../../../assets/image/binance.png'
-import bitmex_n from '../../../assets/image/bitmex_n.png'
-import bitmex from '../../../assets/image/bitmex.png'
-import huobi_n from '../../../assets/image/huobi_n.png'
-import huobi from '../../../assets/image/huobi.png'
 import okex_n from '../../../assets/image/okex_n.png'
 import okex from '../../../assets/image/okex.png'
 
-const info = {
-  subscription: {
-    subscribed: false,
-    price: 0,
-  },
-  lever: {
-    type: false,
-    times: '空2.1倍',
-  },
-}
 const tabs = [
   { title: '资产' },
   { title: '持仓' },
@@ -38,29 +23,44 @@ const tabs = [
   { title: '动态' },
 ]
 
+@inject('FirmStore')
+@observer
 export default class FirmDetail extends Component {
   state = {
-    favorite: false,
-    logos: [
-      { name: 'Binance', selected: true, logo: binance, logo_n: binance_n },
-      { name: 'Huobi', selected: false, logo: huobi, logo_n: huobi_n },
-      { name: 'BitMEX', selected: false, logo: bitmex, logo_n: bitmex_n },
-      { name: 'OKEx', selected: false, logo: okex, logo_n: okex_n },
-    ],
+    logos: [{ name: 'OKEx', selected: true, logo: okex, logo_n: okex_n }],
   }
 
-  enumSubscription = subscription => {
-    let content = ''
-    if (subscription.subscribed) {
-      content = '已订阅'
-    } else {
-      content =
-        subscription.price === 0 ? '免费订阅' : `${subscription.price}A币/月`
+  enumSubscription = item => {
+    if (item.subscribed) {
+      return '已订阅'
     }
-    return content
+    if (!item.subscribeCost) {
+      return '免费订阅'
+    }
+    return `${item.subscribeCost}A币/月`
   }
 
-  setColor = item => (item.subscription.subscribed ? CONST.N200 : CONST.PRIMARY)
+  setColor = subscribed => (subscribed ? CONST.N200 : CONST.PRIMARY)
+
+  onClickFavorite = () => {
+    const { currentUser, doFavorite, doUnfavorite } = this.props.FirmStore
+    currentUser.followed ? doUnfavorite() : doFavorite()
+  }
+
+  onSubscription = () => {
+    const { doSubscribe, doUnsubscribe, currentUser } = this.props.FirmStore
+    if (currentUser.subscribed) {
+      doUnsubscribe(currentUser.id)
+    } else {
+      doSubscribe(currentUser.id)
+    }
+  }
+
+  onSelectPlatform = idx => {
+    let temp = this.state.logos
+    temp.map((item, index) => (item.selected = index === idx ? true : false))
+    this.setState({ logos: temp })
+  }
 
   renderTabBar = tabProps => (
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -95,45 +95,40 @@ export default class FirmDetail extends Component {
     </View>
   )
 
-  renderUserInfo = () => (
-    <View style={[styles.border_bottom, styles.firm_avatar_bar]}>
-      <View style={{ flexDirection: 'row' }}>
-        <Avatar source={avatar} size={50} />
-        <View style={{ marginLeft: 16 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text>in_vane</Text>
-            <TouchableOpacity onPress={this.onClickFavorite}>
-              <Icon
-                name='star'
-                style={{ marginLeft: 16 }}
-                color={this.state.favorite ? CONST.PRIMARY : null}
-              />
-            </TouchableOpacity>
+  renderUserInfo = () => {
+    const { currentUser } = this.props.FirmStore
+    return (
+      <View style={[styles.border_bottom, styles.firm_avatar_bar]}>
+        <View style={{ flexDirection: 'row' }}>
+          <Avatar id={currentUser.id} size={50} />
+          <View style={{ marginLeft: 16 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={{ marginRight: 16 }}>{currentUser.nickName}</Text>
+              <TouchableOpacity onPress={this.onClickFavorite}>
+                <Icon
+                  name='star'
+                  color={currentUser.followed && CONST.PRIMARY}
+                />
+              </TouchableOpacity>
+            </View>
+            <Text style={{ marginTop: 8, color: CONST.N96 }}>
+              {currentUser.introduction}
+            </Text>
           </View>
-          <Text style={{ marginTop: 8, color: CONST.N96 }}>
-            我就看着你们抄底嘻嘻嘻~
-          </Text>
         </View>
+        <TouchableOpacity
+          onPress={this.onSubscription}
+          style={[
+            styles.firm_subscription,
+            { borderColor: this.setColor(currentUser.subscribed) },
+          ]}
+        >
+          <Text style={{ color: this.setColor(currentUser.subscribed) }}>
+            {this.enumSubscription(currentUser)}
+          </Text>
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity
-        onPress={this.onSubscription}
-        style={[styles.firm_subscription, { borderColor: this.setColor(info) }]}
-      >
-        <Text style={{ color: this.setColor(info) }}>
-          {this.enumSubscription(info.subscription)}
-        </Text>
-      </TouchableOpacity>
-    </View>
-  )
-
-  onClickFavorite = () => {
-    this.setState({ favorite: !this.state.favorite })
-  }
-
-  onSelectPlatform = idx => {
-    let temp = this.state.logos
-    temp.map((item, index) => (item.selected = index === idx ? true : false))
-    this.setState({ logos: temp })
+    )
   }
 
   render() {

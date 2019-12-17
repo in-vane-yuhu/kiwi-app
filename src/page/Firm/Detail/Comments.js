@@ -1,16 +1,15 @@
 import React, { Component } from 'react'
+import { inject, observer } from 'mobx-react'
 import {
   Text,
   View,
   TouchableOpacity,
   ScrollView,
-  Image,
   TextInput,
   KeyboardAvoidingView,
   SafeAreaView,
 } from 'react-native'
 import { Icon } from '@ant-design/react-native'
-import { Actions } from 'react-native-router-flux'
 
 import * as CONST from '../../../style/constant'
 import styles from '../../../style'
@@ -18,9 +17,23 @@ import styles from '../../../style'
 import Nomore from '../../../components/Nomore'
 import Avatar from '../../../components/Avatar'
 
-import avatar from '../../../assets/image/ai.jpg'
-import avatar2 from '../../../assets/image/ai2.jpg'
+const comments = [
+  {
+    name: '89年的网民',
+    date: '2019-12-01 12:00',
+    content: '这人在说啥玩意儿呢？onedayday的duangduangduang',
+    id: 'd6fe8c82fb0abac17a702fd2a94eff37',
+  },
+  {
+    name: '精神小伙',
+    date: '2019-12-01 12:00',
+    content: '别爱我，没结果，除非花手摇过我。',
+    id: 'ck3pssbf7001f0751mu64wssv',
+  },
+]
 
+@inject('FirmStore')
+@observer
 export default class Comments extends Component {
   state = { like: false }
 
@@ -31,27 +44,15 @@ export default class Comments extends Component {
   }
 
   render() {
-    const comments = [
-      {
-        name: '89年的网民',
-        date: '2019-12-01 12:00',
-        content: '这人在说啥玩意儿呢？onedayday的duangduangduang',
-      },
-      {
-        name: '精神小伙',
-        date: '2019-12-01 12:00',
-        content: '别爱我，没结果，除非花手摇过我。',
-      },
-    ]
     const { like } = this.state
+    const { currentUser } = this.props.FirmStore
+    console.log(currentUser.id)
     return (
       <KeyboardAvoidingView style={[styles.page_box]} behavior='padding'>
         <SafeAreaView style={[styles.page_box]}>
           <ScrollView>
-            <View
-              style={[styles.border_bottom, styles.firm_detail_act_item]}
-            >
-              <Avatar source={avatar} size={50} />
+            <View style={[styles.border_bottom, styles.firm_detail_act_item]}>
+              <Avatar id={currentUser.id} size={50} />
               <View style={{ marginLeft: 16, width: '80%' }}>
                 <Text style={{ lineHeight: 20 }}>in_vane</Text>
                 <Text style={{ color: CONST.N96, lineHeight: 20 }}>
@@ -96,7 +97,7 @@ export default class Comments extends Component {
                 key={index}
                 style={[styles.border_bottom, styles.firm_detail_act_item]}
               >
-                <Avatar source={avatar2} size={40} />
+                <Avatar id={item.id} size={40} />
                 <View style={{ marginLeft: 16, width: '80%' }}>
                   <Text style={{ lineHeight: 20 }}>{item.name}</Text>
                   <Text style={{ color: CONST.N96, lineHeight: 20 }}>
