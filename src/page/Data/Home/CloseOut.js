@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
+import { observer, inject } from 'mobx-react'
 import { Text, View } from 'react-native'
 import { Icon } from '@ant-design/react-native'
 
 import * as CONST from '../../../style/constant'
 import styles from '../../../style'
+
+import Empty from '../../../components/Empty'
 
 const orders = [
   { name: 'BTC', count: 3216, percent: '1.15%' },
@@ -14,9 +17,16 @@ const orders = [
   { name: 'ETC', count: 1, percent: '0.01%' },
   { name: 'BCH', count: 108, percent: '0.70%' },
 ]
-
+@inject('DataStore')
+@observer
 export default class CloseOut extends Component {
+  componentDidMount = () => {
+    const { getCloseoutSummary } = this.props.DataStore
+    getCloseoutSummary()
+  }
+
   render() {
+    const { closeOutOrder } = this.props.DataStore
     return (
       <View style={[styles.data_box]}>
         <View style={[styles.data_title_box]}>
@@ -53,17 +63,18 @@ export default class CloseOut extends Component {
           </Text>
         </View>
         <Text style={{ color: CONST.N96, padding: 8 }}>OKEx爆仓单</Text>
-        {orders.map((item, index) => (
+        {closeOutOrder.map((item, index) => (
           <View
             key={index}
             style={{
-              backgroundColor: index % 2 === 0 ? 'rgba(255,94,0,0.1)' : CONST.N0,
+              backgroundColor:
+                index % 2 === 0 ? 'rgba(255,94,0,0.1)' : CONST.N0,
               flexDirection: 'row',
               justifyContent: 'space-between',
               padding: 8,
             }}
           >
-            <Text style={{ flexGrow: 1 }}>{item.name}</Text>
+            <Text style={{ flexGrow: 1 }}>{item.coin}</Text>
             <Text
               style={{
                 color: item.count > 500 ? CONST.RED : CONST.N32,
@@ -71,14 +82,15 @@ export default class CloseOut extends Component {
                 flexGrow: 1,
                 textAlign: 'center',
               }}
-            >{`¥${item.count}万`}</Text>
+            >{`¥${item.loss}万`}</Text>
             <Text
               style={{ fontWeight: 'bold', flexGrow: 1, textAlign: 'right' }}
             >
-              {item.percent}
+              {item.percentage}
             </Text>
           </View>
         ))}
+        {closeOutOrder.length === 0 && <Empty />}
       </View>
     )
   }

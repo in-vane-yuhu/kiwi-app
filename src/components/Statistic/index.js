@@ -7,10 +7,10 @@ import styles from '../../style'
 
 export default class Statistic extends Component {
   static propTypes = {
-    title: PropTypes.string,
-    value: PropTypes.string,
+    title: PropTypes.any,
+    value: PropTypes.any,
     sign: PropTypes.oneOf(['plus', 'minus', 'none']),
-    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    width: PropTypes.any,
   }
 
   static defaultProps = {

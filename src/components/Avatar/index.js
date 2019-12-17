@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Image } from 'react-native'
+import Identicon from 'identicon.js'
+import md5 from 'blueimp-md5'
 
 export default class Statistic extends Component {
   static propTypes = {
     source: PropTypes.any,
-    size: PropTypes.number,
+    size: PropTypes.any,
+    id: PropTypes.any,
   }
 
   static defaultProps = {
@@ -13,10 +16,18 @@ export default class Statistic extends Component {
   }
 
   render() {
-    const { source, size } = this.props
+    const { source, size, id } = this.props
+    const uri = id
+      ? {
+          uri: `data:image/svg+xml;base64,${new Identicon(
+            md5(id || 0),
+            420
+          ).toString()}`,
+        }
+      : source
     return (
       <Image
-        source={source}
+        source={uri}
         style={{ height: size, width: size, borderRadius: size / 2 }}
       />
     )

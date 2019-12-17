@@ -31,12 +31,10 @@ const renderSwitch = () => (
     tabBarStyle={[styles.tabbar]}
   >
     <Scene
-      key='data'
-      title='大数据'
-      icon={({ focused }) => (
-        <Icon name='pie-chart' color={isActive(focused)} />
-      )}
-      component={Data.Home}
+      key='home'
+      title='首页'
+      icon={({ focused }) => <Icon name='global' color={isActive(focused)} />}
+      component={Home}
       hideNavBar
     />
     <Scene
@@ -49,10 +47,12 @@ const renderSwitch = () => (
       hideNavBar
     />
     <Scene
-      key='home'
-      title='首页'
-      icon={({ focused }) => <Icon name='global' color={isActive(focused)} />}
-      component={Home}
+      key='data'
+      title='大数据'
+      icon={({ focused }) => (
+        <Icon name='pie-chart' color={isActive(focused)} />
+      )}
+      component={Data.Home}
       hideNavBar
     />
     <Scene
@@ -79,11 +79,10 @@ const getRouter = () => {
   return (
     <Router>
       <Scene key='root'>
-        <Scene key='mine' hideNavBar title='我的' component={Mine.Home} />
-        <Scene key='firmSet' title='实盘设置' component={Mine.FirmSet} />
-        {renderSwitch()}
         <Scene key='login' hideNavBar component={Login} />
+        {renderSwitch()}
         {/* mine */}
+        <Scene key='mine' hideNavBar title='我的' component={Mine.Home} />
         <Scene key='nickname' title='设置昵称' component={Mine.Nickname} />
         <Scene key='sub' title='我的订阅' component={Mine.Subscription} />
         <Scene key='favor' title='我的收藏' component={Mine.Favorite} />
@@ -91,6 +90,7 @@ const getRouter = () => {
         <Scene key='wallet' title='我的钱包' component={Mine.Wallet} />
         <Scene key='recharge' title='充值' component={Mine.Recharge} />
         <Scene key='access' title='实盘接入' component={Mine.FirmAccess} />
+        <Scene key='firmSet' title='实盘设置' component={Mine.FirmSet} />
         <Scene key='api' title='API接入' component={Mine.ApiAccess} />
         <Scene key='account' title='账户设置' component={Mine.Account} />
         <Scene key='intro' title='个人简介' component={Mine.Introduction} />

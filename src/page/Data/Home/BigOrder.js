@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import { observer, inject } from 'mobx-react'
 import { Text, View } from 'react-native'
 import { Icon } from '@ant-design/react-native'
 
@@ -11,9 +12,16 @@ const order = [
   { name: 'BTC-1227', type: true, value: '$7300.00', count: '11.2万张' },
   { name: 'BTC-1227', type: false, value: '$7300.00', count: '11.2万张' },
 ]
-
+@inject('DataStore')
+@observer
 export default class BigOrder extends Component {
+  componentDidMount = () => {
+    const { getBtcplaceorder } = this.props.DataStore
+    getBtcplaceorder()
+  }
+
   render() {
+    const { bigOrder } = this.props.DataStore
     return (
       <View style={[styles.data_box]}>
         <View style={[styles.data_title_box]}>
@@ -28,10 +36,14 @@ export default class BigOrder extends Component {
           <Text style={{ color: CONST.GREEN, fontWeight: 'bold' }}>多单</Text>
           <View style={{ flexDirection: 'row', paddingTop: 8 }}>
             <Text style={{ color: CONST.N32, width: '50%' }}>
-              挂单<Text style={{ color: CONST.GREEN }}>29笔</Text>/成交
+              挂单
+              <Text style={{ color: CONST.GREEN }}>{bigOrder.long}</Text>
+              /成交
             </Text>
             <Text style={{ color: CONST.GREEN, width: '50%' }}>
-              15笔<Text style={{ color: CONST.N32 }}>/成交</Text>52万张
+              {bigOrder.longDeal}
+              <Text style={{ color: CONST.N32 }}>/成交</Text>
+              {bigOrder.longDealAmount}
             </Text>
           </View>
         </View>
@@ -44,14 +56,17 @@ export default class BigOrder extends Component {
           <Text style={{ color: CONST.RED, fontWeight: 'bold' }}>空单</Text>
           <View style={{ flexDirection: 'row', paddingTop: 8 }}>
             <Text style={{ color: CONST.N32, width: '50%' }}>
-              挂单<Text style={{ color: CONST.RED }}>29笔</Text>/成交
+              挂单<Text style={{ color: CONST.RED }}>{bigOrder.short}</Text>
+              /成交
             </Text>
             <Text style={{ color: CONST.RED, width: '50%' }}>
-              15笔<Text style={{ color: CONST.N32 }}>/成交</Text>52万张
+              {bigOrder.shortDeal}
+              <Text style={{ color: CONST.N32 }}>/成交</Text>
+              {bigOrder.shortDealAmount}
             </Text>
           </View>
         </View>
-        <View style={{ paddingHorizontal: 4 }}>
+        {/* <View style={{ paddingHorizontal: 4 }}>
           <Text
             style={{ paddingTop: 16, paddingBottom: 8, fontWeight: 'bold' }}
           >
@@ -82,7 +97,7 @@ export default class BigOrder extends Component {
               </View>
             </View>
           ))}
-        </View>
+        </View> */}
       </View>
     )
   }

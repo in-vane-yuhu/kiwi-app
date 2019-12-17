@@ -12,8 +12,9 @@ import avatar from '../../../assets/image/wallet_bg.jpg'
 @inject('UserStore')
 @observer
 export default class Wallet extends Component {
-  componentDidMount=()=>{
-    
+  componentDidMount = () => {
+    const { getWallet } = this.props.UserStore
+    getWallet()
   }
 
   navigateToRecharge = () => {
@@ -21,6 +22,7 @@ export default class Wallet extends Component {
   }
 
   render() {
+    const { loading, wallet_balance } = this.props.UserStore
     return (
       <View style={[styles.page_box]}>
         <View style={{ padding: 24 }}>
@@ -39,7 +41,7 @@ export default class Wallet extends Component {
               </TouchableOpacity>
             </View>
             <View style={[styles.wallet_amount_box]}>
-              <Text style={[styles.wallet_amount]}>5000.5</Text>
+              <Text style={[styles.wallet_amount]}>{wallet_balance}</Text>
               <Text style={[styles.wallet_unit]}>A币（个）</Text>
             </View>
             <View style={[styles.wallet_btn_box]}>

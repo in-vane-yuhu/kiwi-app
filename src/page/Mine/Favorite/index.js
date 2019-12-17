@@ -11,14 +11,16 @@ import Empty from '../../../components/Empty'
 
 import avatar from '../../../assets/image/ai.jpg'
 
-@inject('UserStore')
+@inject('UserStore', 'FirmStore')
 @observer
 export default class Favorite extends Component {
   componentDidMount = () => {
     this.onRefresh()
   }
 
-  navigateToUserInfo = () => {
+  navigateToUserInfo = UID => {
+    const { getUser } = this.props.FirmStore
+    getUser(UID)
     Actions.homepage()
   }
 
@@ -26,10 +28,10 @@ export default class Favorite extends Component {
     <TouchableOpacity
       key={index}
       style={[styles.sub_list_box]}
-      onPress={this.navigateToUserInfo}
+      onPress={() => this.navigateToUserInfo(item.id)}
     >
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Avatar source={avatar} size={40} />
+        <Avatar id={item.id} size={40} />
         <Text style={{ marginLeft: 16 }}>{item.nickName}</Text>
       </View>
       <Icon name='right' />

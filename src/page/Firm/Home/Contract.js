@@ -11,78 +11,57 @@ import Avatar from '../../../components/Avatar'
 import Empty from '../../../components/Empty'
 
 import avatar from '../../../assets/image/ai.jpg'
-import avatar2 from '../../../assets/image/ai2.jpg'
-import avatar3 from '../../../assets/image/ai3.jpg'
-import binance from '../../../assets/image/binance.png'
-import bitmex from '../../../assets/image/bitmex.png'
-import huobi from '../../../assets/image/huobi.png'
 import okex from '../../../assets/image/okex.png'
 
-const data = [
-  {
-    avatar: avatar,
-    name: 'in_vane',
-    intro: '我就看着你们抄底嘻嘻嘻',
-    subscription: { subscribed: false, price: 0 },
-    lever: { type: false, times: '2.1' },
-    platform: [
-      { name: 'BitMEX', logo: bitmex },
-      { name: 'Huobi', logo: huobi },
-      { name: 'OKEx', logo: okex },
-    ],
-  },
-  {
-    avatar: avatar2,
-    name: 'luuuyn',
-    intro: '楼上咋这样呢',
-    subscription: { subscribed: true, price: 0 },
-    lever: { type: true, times: '2.1' },
-    platform: [
-      { name: 'Binance', logo: binance },
-      { name: 'OKEx', logo: okex },
-    ],
-  },
-  {
-    avatar: avatar3,
-    name: 'Murin',
-    intro: '别跟我说什么爆仓平仓，老夫就是一把梭！',
-    subscription: { subscribed: false, price: 49 },
-    lever: { type: true, times: '2.1' },
-    platform: [
-      { name: 'Binance', logo: binance },
-      { name: 'BitMEX', logo: bitmex },
-    ],
-  },
-]
-const statistic = [
-  { title: '总资产', amount: '¥100000' },
-  { title: '总收益率', amount: '+100.00%', sign: true },
-  { title: '总收益额', amount: '+¥100000', sign: true },
-]
+const statistic = ['总资产', '总收益率', '总收益额']
 
 @inject('FirmStore')
 @observer
 export default class Contract extends Component {
-  navigateToContractDetail = () => {
+  componentDidMount = () => {
+    this.onRefresh()
+  }
+
+  navigateToFirmDetail = item => {
+    const { getUser } = this.props.FirmStore
+    getUser(item.id)
     Actions.firmDetail()
   }
 
-  onSubscription = () => {
-    console.log('onSubscription')
-  }
-
-  enumSubscription = subscription => {
-    let content = ''
-    if (subscription.subscribed) {
-      content = '已订阅'
+  onSubscription = item => {
+    const { doSubscribe, doUnsubscribe } = this.props.FirmStore
+    if (item.subscribed) {
+      doUnsubscribe(item.id)
     } else {
-      content =
-        subscription.price === 0 ? '免费订阅' : `${subscription.price}A币/月`
+      doSubscribe(item.id)
     }
-    return content
   }
 
-  setColor = item => (item.subscription.subscribed ? CONST.N200 : CONST.PRIMARY)
+  enumSubscription = item => {
+    if (item.subscribed) {
+      return '已订阅'
+    }
+    if (!item.subscribeCost) {
+      return '免费订阅'
+    }
+    return `${item.subscribeCost}A币/月`
+  }
+
+  enumStatistic = (item, index) => {
+    switch (index) {
+      case 0:
+        return `¥${item.totalProperty || 0}`
+      case 1:
+        return `${item.totalEarnRate || 0}%`
+      case 2:
+        return `¥${item.totalEarnValue || 0}`
+
+      default:
+        return 0
+    }
+  }
+
+  setColor = subscribed => (subscribed ? CONST.N200 : CONST.PRIMARY)
 
   renderSearch = () => (
     <View style={[styles.firm_search_box]}>
@@ -101,12 +80,12 @@ export default class Contract extends Component {
     <View
       style={[
         styles.firm_contract_list_label_box,
-        { backgroundColor: item.lever.type ? CONST.GREEN : CONST.RED },
+        { backgroundColor: item.type === 'short' ? CONST.RED : CONST.GREEN },
       ]}
     >
       <Text style={[styles.firm_contract_list_label]}>{`${
-        item.lever.type ? '空' : '多'
-      }${item.lever.times}倍`}</Text>
+        item.type === 'short' ? '空' : '多'
+      }${item.leverage || 0}倍`}</Text>
     </View>
   )
 
@@ -114,59 +93,60 @@ export default class Contract extends Component {
     <TouchableOpacity
       key={index}
       style={{ backgroundColor: CONST.N0 }}
-      onPress={this.navigateToContractDetail}
+      onPress={() => this.navigateToFirmDetail(item)}
     >
       {this.renderLabel(item)}
       <View style={[styles.border_bottom, styles.firm_avatar_bar]}>
         <View style={{ flexDirection: 'row', width: '75%' }}>
-          <Avatar source={item.avatar} size={50} />
+          <Avatar id={item.id} size={50} />
           <View style={{ marginLeft: 16, width: '80%' }}>
-            <Text>{item.name}</Text>
-            <Text style={{ marginTop: 8, color: CONST.N96 }}>{item.intro}</Text>
+            <Text>{item.nickName}</Text>
+            <Text style={{ marginTop: 8, color: CONST.N96 }}>
+              {item.introduction}
+            </Text>
           </View>
         </View>
         <TouchableOpacity
-          onPress={this.onSubscription}
+          onPress={() => this.onSubscription(item)}
           style={[
             styles.firm_subscription,
-            { borderColor: this.setColor(item) },
+            { borderColor: this.setColor(item.subscribed) },
           ]}
         >
-          <Text style={{ color: this.setColor(item) }}>
-            {this.enumSubscription(item.subscription)}
+          <Text style={{ color: this.setColor(item.subscribed) }}>
+            {this.enumSubscription(item)}
           </Text>
         </TouchableOpacity>
       </View>
       <View style={[styles.firm_statistic]}>
-        {statistic.map((item, index) => (
-          <View key={index} style={{ alignItems: 'center' }}>
-            <Text style={{ fontSize: 12, color: CONST.N96 }}>{item.title}</Text>
+        {statistic.map((child, idx) => (
+          <View key={idx} style={{ alignItems: 'center' }}>
+            <Text style={{ fontSize: 12, color: CONST.N96 }}>{child}</Text>
             <Text
               style={{
                 fontSize: 16,
                 fontWeight: 'bold',
                 marginTop: 4,
-                color: item.sign ? CONST.GREEN : CONST.red || CONST.N32,
+                color: item.sign ? CONST.GREEN : CONST.RED || CONST.N32,
               }}
             >
-              {item.amount}
+              {this.enumStatistic(item, idx)}
             </Text>
           </View>
         ))}
       </View>
       <View style={[styles.firm_logos_box]}>
-        {item.platform.map((platform, index) => (
-          <View key={index} style={[styles.firm_logos_item]}>
-            <Avatar source={platform.logo} size={16} />
-            <Text style={{ fontSize: 10 }}>{platform.name}</Text>
-          </View>
-        ))}
+        <View key={index} style={[styles.firm_logos_item]}>
+          <Avatar source={okex} size={16} />
+          <Text style={{ fontSize: 10 }}>OKEx</Text>
+        </View>
       </View>
     </TouchableOpacity>
   )
 
   onRefresh = () => {
-    console.log('getSpotList')
+    const { getSpotList } = this.props.FirmStore
+    getSpotList(10, 0)
   }
 
   onEndReached = () => {
@@ -174,11 +154,11 @@ export default class Contract extends Component {
   }
 
   render() {
-    const { loading } = this.props.FirmStore
+    const { loading, spotList } = this.props.FirmStore
     return (
       <View style={[styles.page_box]}>
         <FlatList
-          data={data}
+          data={spotList}
           keyExtractor={(item, index) => index.toString()}
           ItemSeparatorComponent={() => <View style={[styles.divider]} />}
           onEndReachedThreshold={0}

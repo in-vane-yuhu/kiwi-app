@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { observer, inject } from 'mobx-react'
 import { Text, View } from 'react-native'
 import { Icon } from '@ant-design/react-native'
 
@@ -7,12 +8,13 @@ import styles from '../../../style'
 
 const users = [
   { name: '89年的网民', long: '多0.00倍', short: '空3.29倍' },
-  { name: '精神小伙', long: '多0.00倍', short: '空0.49倍' },
-  { name: '乔碧萝', long: '多1.24倍', short: '空0.26倍' },
-  { name: 'giao哥', long: '多11.17倍', short: '空0.00倍' },
-  { name: '蔡徐坤', long: '多2.68倍', short: '空0.00倍' },
+  { name: 'in_vane', long: '多0.00倍', short: '空0.49倍' },
+  { name: 'A路人', long: '多1.24倍', short: '空0.26倍' },
+  { name: '詹姆斯', long: '多11.17倍', short: '空0.00倍' },
+  { name: '神崎艾莎', long: '多2.68倍', short: '空0.00倍' },
 ]
-
+@inject('DataStore')
+@observer
 export default class FirmStatistics extends Component {
   render() {
     return (
