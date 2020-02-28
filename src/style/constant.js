@@ -3,7 +3,7 @@
  */
 
 /***** colors *****/
-export const PRIMARY = '#ff5e00'
+export const PRIMARY = '#f8b500'
 
 export const N255 = '#000000'
 export const N238 = '#eeeeee'

@@ -62,6 +62,24 @@ const styles = StyleSheet.create({
     height: 8,
     backgroundColor: CONST.N238,
   },
+  funds_btn: {
+    width: 100,
+    height: 32,
+    borderRadius: 4,
+    backgroundColor: CONST.PRIMARY,
+    alignSelf: 'flex-start',
+    justifyContent: 'center',
+    marginBottom: 16,
+  },
+  funds_colBtn: {
+    height: 32,
+    borderRadius: 4,
+    backgroundColor: CONST.PRIMARY,
+    alignSelf: 'flex-start',
+    justifyContent: 'center',
+    marginBottom: 16,
+    paddingHorizontal: 8,
+  },
 })
 
 export default styles

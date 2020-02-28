@@ -19,4 +19,8 @@ const getData = async key => {
   }
 }
 
-export { setData, getData }
+const clear = async () => {
+  await AsyncStorage.clear()
+}
+
+export { setData, getData, clear }

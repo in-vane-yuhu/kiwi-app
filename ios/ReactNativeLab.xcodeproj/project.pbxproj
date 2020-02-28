@@ -19,6 +19,7 @@
 		2DCD954D1E0B4F2C00145EB5 /* ReactNativeLabTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ReactNativeLabTests.m */; };
 		3244C127D3B822CFB6EED29E /* libPods-ReactNativeLab-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 22B80CD52E5384012BF7A232 /* libPods-ReactNativeLab-tvOS.a */; };
 		38844C90D1BDCA82C2D13E82 /* libPods-ReactNativeLab.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF45F8202779E9C7C9A28149 /* libPods-ReactNativeLab.a */; };
+		4421CAB92408E73F00C0C9B9 /* bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4421CAB82408E73F00C0C9B9 /* bundle */; };
 		6C2ABE3EC0143E2DA7A72A2F /* libPods-ReactNativeLab-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4ED726EAB12DC8C7B7D63D2 /* libPods-ReactNativeLab-tvOSTests.a */; };
 		D5E05328F0784786893AC8E4 /* antfill.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DB7FB377425E452EB5329A0F /* antfill.ttf */; };
 		F1162C78B3AB4BE0862CAE33 /* antoutline.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 824485BB058644109BE7BF81 /* antoutline.ttf */; };
@@ -58,6 +59,7 @@
 		2D02E4901E0B4A5D006451C7 /* ReactNativeLab-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ReactNativeLab-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		306C7C170EC141A293706860 /* Pods-ReactNativeLabTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeLabTests.release.xcconfig"; path = "Target Support Files/Pods-ReactNativeLabTests/Pods-ReactNativeLabTests.release.xcconfig"; sourceTree = "<group>"; };
 		31BCC2C635C4DC8198B79F51 /* Pods-ReactNativeLab-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeLab-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-ReactNativeLab-tvOSTests/Pods-ReactNativeLab-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4421CAB82408E73F00C0C9B9 /* bundle */ = {isa = PBXFileReference; lastKnownFileType = folder; path = bundle; sourceTree = "<group>"; };
 		5922F7B6642DB601ACE9615E /* Pods-ReactNativeLab.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeLab.release.xcconfig"; path = "Target Support Files/Pods-ReactNativeLab/Pods-ReactNativeLab.release.xcconfig"; sourceTree = "<group>"; };
 		7EB06D2AC47F84BD68050F76 /* Pods-ReactNativeLab-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeLab-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-ReactNativeLab-tvOS/Pods-ReactNativeLab-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		824485BB058644109BE7BF81 /* antoutline.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = antoutline.ttf; path = "../node_modules/@ant-design/icons-react-native/fonts/antoutline.ttf"; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 		13B07FAE1A68108700A75B9A /* ReactNativeLab */ = {
 			isa = PBXGroup;
 			children = (
+				4421CAB82408E73F00C0C9B9 /* bundle */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -353,6 +356,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4421CAB92408E73F00C0C9B9 /* bundle in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				D5E05328F0784786893AC8E4 /* antfill.ttf in Resources */,

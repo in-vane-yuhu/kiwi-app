@@ -1,5 +1,5 @@
 {
-  "name": "AI-Trade",
+  "name": "kiwi",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -13,26 +13,26 @@
     "@ant-design/react-native": "^3.2.0",
     "@react-native-community/async-storage": "^1.6.3",
     "@react-native-community/viewpager": "^3.1.0",
-    "apollo-boost": "^0.4.4",
+    "axios": "^0.19.2",
     "babel-plugin-import": "^1.12.2",
     "blueimp-md5": "^2.12.0",
-    "graphql": "^14.5.8",
+    "decimal.js": "^10.2.0",
     "identicon.js": "^2.3.3",
     "mobx": "^5.15.0",
     "mobx-react": "^6.1.4",
     "moment": "^2.24.0",
+    "native-echarts": "^0.5.0",
     "prop-types": "^15.7.2",
     "react": "16.9.0",
     "react-native": "0.61.3",
     "react-native-gesture-handler": "^1.5.0",
     "react-native-linear-gradient": "^2.5.6",
+    "react-native-qrcode-svg": "^6.0.3",
     "react-native-reanimated": "^1.3.0",
     "react-native-router-flux": "^4.0.6",
     "react-native-screens": "^2.0.0-alpha.6",
-    "react-native-secharts": "^1.7.0",
     "react-native-svg": "^9.13.3",
-    "react-native-webview": "^7.5.2",
-    "victory-native": "^33.0.1"
+    "react-native-webview": "^7.5.2"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
