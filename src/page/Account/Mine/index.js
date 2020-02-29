@@ -8,6 +8,7 @@ import {
   ScrollView,
 } from 'react-native'
 import { Icon } from '@ant-design/react-native'
+import { FormattedMessage } from 'react-intl'
 import { Actions } from 'react-native-router-flux'
 import LinearGradient from 'react-native-linear-gradient'
 import { clear } from '../../../utils/AsyncStorage'
@@ -25,15 +26,34 @@ const LinearGradientOptions = {
 }
 const list = [
   [
-    { title: '用户信息', icon: 'contacts', id: 'profile' },
-    { title: '安全设置', icon: 'safety', id: 'security' },
-    { title: 'API设置', icon: 'api', id: 'api' },
+    {
+      title: <FormattedMessage id='userinfo' />,
+      icon: 'contacts',
+      id: 'profile',
+    },
+    {
+      title: <FormattedMessage id='security' />,
+      icon: 'safety',
+      id: 'security',
+    },
+    { title: <FormattedMessage id='APISet' />, icon: 'api', id: 'api' },
   ],
   [
-    { title: '我的财务', icon: 'account-book', id: 'funds' },
-    { title: '我的委托', icon: 'book', id: 'orders' },
+    {
+      title: <FormattedMessage id='myFunds' />,
+      icon: 'account-book',
+      id: 'funds',
+    },
+    { title: <FormattedMessage id='myOrders' />, icon: 'book', id: 'orders' },
   ],
-  [{ title: '退出登录', icon: 'logout', id: 'logout' }],
+  [
+    {
+      title: <FormattedMessage id='language' />,
+      icon: 'setting',
+      id: 'language',
+    },
+    { title: <FormattedMessage id='logout' />, icon: 'logout', id: 'logout' },
+  ],
 ]
 
 @inject('AccountStore')
@@ -61,6 +81,9 @@ class Mine extends Component {
       case 'orders':
         Actions.orders()
         break
+      case 'language':
+        Actions.language()
+        break
       case 'logout':
         clear()
         Actions.reset('login')
@@ -77,10 +100,16 @@ class Mine extends Component {
       <View style={[styles.mine_card_box]}>
         <Avatar id={user.email} size={60} />
         <View style={[styles.mine_card_left]}>
-          <Text style={[styles.mine_nickname]}>昵称：{user.nickname}</Text>
+          <Text style={[styles.mine_nickname]}>
+            <FormattedMessage id='nickname' />：{user.nickname}
+          </Text>
         </View>
       </View>
     )
+  }
+
+  onSelectLanguage = value => {
+    this.setState({ locale: value })
   }
 
   render() {

@@ -8,6 +8,7 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { Picker, Icon, Tabs } from '@ant-design/react-native'
 import Table from '../../../components/Table'
 
@@ -18,17 +19,50 @@ import Chart from './Chart'
 import styles from '../../../style'
 
 const tabs = [
-  { title: '限价', key: 'limit' },
-  { title: '市价', key: 'market' },
+  {
+    title: (
+      <Text>
+        <FormattedMessage id='limit' />
+      </Text>
+    ),
+    key: 'limit',
+  },
+  {
+    title: (
+      <Text>
+        <FormattedMessage id='market' />
+      </Text>
+    ),
+    key: 'market',
+  },
 ]
 const tabsBtm = [
-  { title: '当前委托' },
-  { title: '最新成交' },
-  { title: '图表' },
+  {
+    title: (
+      <Text>
+        <FormattedMessage id='pendingOrder' />
+      </Text>
+    ),
+  },
+  {
+    title: (
+      <Text>
+        <FormattedMessage id='newDeal' />
+      </Text>
+    ),
+  },
+  {
+    title: (
+      <Text>
+        <FormattedMessage id='chart' />
+      </Text>
+    ),
+  },
 ]
 
 @inject('TradeStore')
 @observer
+@injectIntl
 class MainBoard extends Component {
   state = {
     ws: new WebSocket('ws://47.56.8.19:19090'),
@@ -40,19 +74,23 @@ class MainBoard extends Component {
   }
   columnBuy = [
     {
-      title: '方向',
+      title: <FormattedMessage id='side' />,
       align: 'flex-end',
       width: '16%',
-      render: item => <Text style={{ color: '#66c322' }}>买</Text>,
+      render: item => (
+        <Text style={{ color: '#66c322' }}>
+          <FormattedMessage id='buy' />
+        </Text>
+      ),
     },
     {
-      title: '价格',
+      title: <FormattedMessage id='price' />,
       align: 'center',
       width: '42%',
       render: item => <Text style={{ color: '#66c322' }}>{item[0]}</Text>,
     },
     {
-      title: '数量',
+      title: <FormattedMessage id='amount' />,
       align: 'center',
       width: '42%',
       render: item => <Text style={{ color: '#323232' }}>{item[1]}</Text>,
@@ -60,19 +98,23 @@ class MainBoard extends Component {
   ]
   columnSell = [
     {
-      title: '方向',
+      title: <FormattedMessage id='side' />,
       align: 'flex-end',
       width: '16%',
-      render: item => <Text style={{ color: '#e9686d' }}>卖</Text>,
+      render: item => (
+        <Text style={{ color: '#e9686d' }}>
+          <FormattedMessage id='sell' />
+        </Text>
+      ),
     },
     {
-      title: '价格',
+      title: <FormattedMessage id='price' />,
       align: 'center',
       width: '42%',
       render: item => <Text style={{ color: '#e9686d' }}>{item[0]}</Text>,
     },
     {
-      title: '数量',
+      title: <FormattedMessage id='amount' />,
       align: 'center',
       width: '42%',
       render: item => <Text style={{ color: '#323232' }}>{item[1]}</Text>,
@@ -123,7 +165,7 @@ class MainBoard extends Component {
     const { pair } = this.state
     return (
       <Picker
-        title='交易对'
+        title={<FormattedMessage id='pair' />}
         onChange={this.onSelectPair}
         value={pair}
         data={marketList}
@@ -163,7 +205,7 @@ class MainBoard extends Component {
           onPress={() => this.onSelectSide('buy')}
         >
           <Text style={{ color: side === 'buy' ? '#fff' : '#c8c8c8' }}>
-            买入
+            <FormattedMessage id='buy' />
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -179,7 +221,7 @@ class MainBoard extends Component {
           onPress={() => this.onSelectSide('sell')}
         >
           <Text style={{ color: side === 'sell' ? '#fff' : '#c8c8c8' }}>
-            卖出
+            <FormattedMessage id='sell' />
           </Text>
         </TouchableOpacity>
       </View>
@@ -188,9 +230,10 @@ class MainBoard extends Component {
 
   renderIptPrice = () => {
     const { param_price } = this.state
+    const { formatMessage } = this.props.intl
     return (
       <TextInput
-        placeholder='委托价格'
+        placeholder={formatMessage({ id: 'orderPrice' })}
         keyboardType='number-pad'
         style={{
           borderWidth: 1,
@@ -208,9 +251,10 @@ class MainBoard extends Component {
 
   renderIptAmount = () => {
     const { param_amount } = this.state
+    const { formatMessage } = this.props.intl
     return (
       <TextInput
-        placeholder='委托数量'
+        placeholder={formatMessage({ id: 'orderAmount' })}
         keyboardType='number-pad'
         style={{
           borderWidth: 1,
@@ -251,7 +295,11 @@ class MainBoard extends Component {
         onPress={type === 'limit' ? this.onSubmitLimit : this.onSubmitMarket}
       >
         <Text style={{ color: '#fff' }}>
-          {side === 'buy' ? '买入（BCH→BTC）' : '卖出（BTC→BCH）'}
+          {side === 'buy' ? (
+            <FormattedMessage id='btnBuy' />
+          ) : (
+            <FormattedMessage id='btnSell' />
+          )}
         </Text>
       </TouchableOpacity>
     )
@@ -280,10 +328,12 @@ class MainBoard extends Component {
         {this.renderIptPrice()}
         {this.renderIptAmount()}
         <Text style={{ color: '#969696', marginTop: 24 }}>
-          可用{this.renderBalanceBCH()}
+          <FormattedMessage id='available' />
+          {this.renderBalanceBCH()}
         </Text>
         <Text style={{ color: '#969696', marginTop: 8 }}>
-          已有{this.renderBalanceBTC()}
+          <FormattedMessage id='own' />
+          {this.renderBalanceBTC()}
         </Text>
         {this.renderOrderBtn()}
       </Fragment>
@@ -291,11 +341,12 @@ class MainBoard extends Component {
   }
 
   renderMarket = () => {
+    const { formatMessage } = this.props.intl
     return (
       <Fragment>
         {this.renderSelectType()}
         <TextInput
-          placeholder='最优价格'
+          placeholder={formatMessage({ id: 'best' })}
           editable={false}
           style={{
             borderWidth: 1,
@@ -308,10 +359,12 @@ class MainBoard extends Component {
         />
         {this.renderIptAmount()}
         <Text style={{ color: '#969696', marginTop: 24 }}>
-          可用{this.renderBalanceBTC()}
+          <FormattedMessage id='available' />
+          {this.renderBalanceBTC()}
         </Text>
         <Text style={{ color: '#969696', marginTop: 8 }}>
-          已有{this.renderBalanceBCH()}
+          <FormattedMessage id='own' />
+          {this.renderBalanceBCH()}
         </Text>
         {this.renderOrderBtn()}
       </Fragment>
@@ -336,7 +389,7 @@ class MainBoard extends Component {
           textAlign: 'center',
         }}
       >
-        价格
+        <FormattedMessage id='price' />
       </Text>
       <Text
         style={{
@@ -345,7 +398,7 @@ class MainBoard extends Component {
           textAlign: 'center',
         }}
       >
-        数量
+        <FormattedMessage id='amount' />
       </Text>
     </View>
   )

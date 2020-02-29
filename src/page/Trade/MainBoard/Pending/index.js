@@ -2,43 +2,11 @@ import React, { Component, Fragment } from 'react'
 import { Icon } from '@ant-design/react-native'
 import { SafeAreaView, Text, TouchableOpacity } from 'react-native'
 import { inject, observer } from 'mobx-react'
+import { FormattedMessage } from 'react-intl'
 import styles from '../../../../style'
 
 import Table from '../../../../components/Table'
 import KModal from '../../../../components/Modal'
-
-const data = [
-  {
-    time: '2020-02-16 17:24:09',
-    pair: 'BTCBCH',
-    type: '限价',
-    side: '卖出',
-    price: '14000',
-    amount: '1',
-    deal: '1',
-    undeal: '0',
-  },
-  {
-    time: '2020-02-16 17:24:09',
-    pair: 'BTCBCH',
-    type: '限价',
-    side: '卖出',
-    price: '14000',
-    amount: '1',
-    deal: '1',
-    undeal: '0',
-  },
-  {
-    time: '2020-02-16 17:24:09',
-    pair: 'BTCBCH',
-    type: '限价',
-    side: '买入',
-    price: '14000',
-    amount: '1',
-    deal: '1',
-    undeal: '0',
-  },
-]
 
 @inject('TradeStore')
 @observer
@@ -49,28 +17,50 @@ class Pending extends Component {
   }
 
   column = [
-    { title: '时间', dataIndex: 'time', align: 'center', width: '36%' },
-    { title: '交易对', dataIndex: 'market', align: 'center', width: '20%' },
     {
-      title: '类型',
+      title: <FormattedMessage id='time' />,
+      dataIndex: 'time',
+      align: 'center',
+      width: '36%',
+    },
+    {
+      title: <FormattedMessage id='pair' />,
+      dataIndex: 'market',
+      align: 'center',
+      width: '20%',
+    },
+    {
+      title: <FormattedMessage id='type' />,
       dataIndex: 'type',
       align: 'center',
       width: '12%',
-      render: text => <Text>{text === 1 ? '限价' : '市价'}</Text>,
+      render: text => (
+        <Text>
+          {text === 1 ? (
+            <FormattedMessage id='limit' />
+          ) : (
+            <FormattedMessage id='market' />
+          )}
+        </Text>
+      ),
     },
     {
-      title: '方向',
+      title: <FormattedMessage id='side' />,
       dataIndex: 'side',
       align: 'center',
       width: '12%',
       render: text => (
         <Text style={{ color: text === 1 ? '#e9686d' : '#66c322' }}>
-          {text === 1 ? '卖出' : '买入'}
+          {text === 1 ? (
+            <FormattedMessage id='sell' />
+          ) : (
+            <FormattedMessage id='buy' />
+          )}
         </Text>
       ),
     },
     {
-      title: '详情',
+      title: <FormattedMessage id='detail' />,
       align: 'center',
       width: '10%',
       render: item => (
@@ -113,31 +103,48 @@ class Pending extends Component {
     const { visible, detail } = this.state
     return (
       <KModal
-        title='交易详情'
+        title={<FormattedMessage id='txDetail' />}
         visible={visible}
         onClose={this.hideModal}
         ctx={
           <Fragment>
-            <Text style={{ marginBottom: 16 }}>时间：{detail.time}</Text>
-            <Text style={{ marginBottom: 16 }}>交易对：{detail.market}</Text>
             <Text style={{ marginBottom: 16 }}>
-              类型：{detail.type === 1 ? '限价' : '市价'}
+              <FormattedMessage id='time' />：{detail.time}
             </Text>
             <Text style={{ marginBottom: 16 }}>
-              方向：
+              <FormattedMessage id='pair' />：{detail.market}
+            </Text>
+            <Text style={{ marginBottom: 16 }}>
+              <FormattedMessage id='type' />：
+              {detail.type === 1 ? (
+                <FormattedMessage id='limit' />
+              ) : (
+                <FormattedMessage id='market' />
+              )}
+            </Text>
+            <Text style={{ marginBottom: 16 }}>
+              <FormattedMessage id='side' />：
               <Text
                 style={{ color: detail.side === 1 ? '#e9686d' : '#66c322' }}
               >
-                {detail.side === 1 ? '卖出' : '买入'}
+                {detail.side === 1 ? (
+                  <FormattedMessage id='sell' />
+                ) : (
+                  <FormattedMessage id='buy' />
+                )}
               </Text>
             </Text>
-            <Text style={{ marginBottom: 16 }}>价格：{detail.price}</Text>
-            <Text style={{ marginBottom: 16 }}>数量：{detail.amount}</Text>
             <Text style={{ marginBottom: 16 }}>
-              已成交：{detail.deal_stock}
+              <FormattedMessage id='price' />：{detail.price}
             </Text>
             <Text style={{ marginBottom: 16 }}>
-              未成交：{detail.undeal_stock}
+              <FormattedMessage id='amount' />：{detail.amount}
+            </Text>
+            <Text style={{ marginBottom: 16 }}>
+              <FormattedMessage id='deal' />：{detail.deal_stock}
+            </Text>
+            <Text style={{ marginBottom: 16 }}>
+              <FormattedMessage id='undeal' />：{detail.undeal_stock}
             </Text>
           </Fragment>
         }

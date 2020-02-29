@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native'
 import { Toast, Checkbox } from '@ant-design/react-native'
+import { FormattedMessage, injectIntl } from 'react-intl'
 
 import styles from '../../../style'
 
@@ -17,6 +18,7 @@ import HudexGlobal from '../../../assets/image/HudexGlobal.png'
 
 @inject('AccountStore')
 @observer
+@injectIntl
 class Login extends Component {
   state = {
     param_email: '',
@@ -42,30 +44,31 @@ class Login extends Component {
   }
 
   checkForm = () => {
+    const { formatMessage } = this.props.intl
     const { param_email, param_pwd, param_cfm } = this.state
     const regEmail = /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/
     if (!param_email) {
-      Toast.fail('请输入邮箱', 1)
+      Toast.fail(formatMessage({ id: 'place_email' }), 1)
       return
     }
     if (!regEmail.test(param_email)) {
-      Toast.fail('邮箱格式不正确', 1)
+      Toast.fail(formatMessage({ id: 'reg_email' }), 1)
       return
     }
     if (!param_pwd) {
-      Toast.fail('请输入密码', 1)
+      Toast.fail(formatMessage({ id: 'place_pwd' }), 1)
       return
     }
     if (param_pwd.length < 8 || param_pwd.length > 20) {
-      Toast.fail('密码长度为8-20', 1)
+      Toast.fail(formatMessage({ id: 'reg_pwd' }), 1)
       return
     }
     if (!param_cfm) {
-      Toast.fail('请再次输入密码', 1)
+      Toast.fail(formatMessage({ id: 'required_confirm' }), 1)
       return
     }
     if (param_pwd !== param_cfm) {
-      Toast.fail('两次密码不一致', 1)
+      Toast.fail(formatMessage({ id: 'reg_confirm' }), 1)
       return
     }
     this.doRegister()
@@ -80,24 +83,25 @@ class Login extends Component {
 
   render() {
     const { isChecked } = this.state
+    const { formatMessage } = this.props.intl
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={[styles.page_box, { alignItems: 'center' }]}>
           <Image source={HudexGlobal} style={[styles.login_logo]} />
 
           <TextInput
-            placeholder='邮箱'
+            placeholder={formatMessage({ id: 'email' })}
             style={[styles.login_ipt]}
             onChangeText={this.setParamEmail}
           />
           <TextInput
-            placeholder='密码'
+            placeholder={formatMessage({ id: 'password' })}
             style={[styles.login_ipt]}
             onChangeText={this.setParamPwd}
             secureTextEntry={true}
           />
           <TextInput
-            placeholder='确认密码'
+            placeholder={formatMessage({ id: 'confirm' })}
             style={[styles.login_ipt]}
             onChangeText={this.setParamCfm}
             secureTextEntry={true}
@@ -108,7 +112,9 @@ class Login extends Component {
               onChange={this.setChecked}
               style={{ color: '#f8b500' }}
             >
-              我同意《用户协议》和《隐私协议》
+              <Text>
+                <FormattedMessage id='agree' />
+              </Text>
             </Checkbox>
           </View>
 
@@ -124,7 +130,9 @@ class Login extends Component {
             onPress={this.checkForm}
             disabled={!isChecked}
           >
-            <Text style={[styles.login_btn_text]}>下一步</Text>
+            <Text style={[styles.login_btn_text]}>
+              <FormattedMessage id='next' />
+            </Text>
           </TouchableOpacity>
         </View>
       </TouchableWithoutFeedback>

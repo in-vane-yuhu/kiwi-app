@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { observer, inject } from 'mobx-react'
+import { FormattedMessage } from 'react-intl'
 import { Text, View, SafeAreaView, ScrollView } from 'react-native'
 import QRCode from 'react-native-qrcode-svg'
 
@@ -38,19 +38,20 @@ class Deposit extends Component {
 
   renderAddress = () => {
     const { symbol } = this.props
+    console.log(symbol)
     const { addr_btc, addr_erc, addr_trc } = this.state
 
     switch (symbol) {
       case 'BTC':
-        return this.renderCard('BTC网络地址', addr_btc)
+        return this.renderCard(<FormattedMessage id='btcAddress' />, addr_btc)
       case 'ETH':
-        return this.renderCard('基于以太的ERC20地址', addr_erc)
+        return this.renderCard(<FormattedMessage id='ethAddress' />, addr_erc)
       case 'BCH':
         return (
           <Fragment>
-            {this.renderCard('BTC网络地址', addr_btc)}
-            {this.renderCard('基于以太的ERC20地址', addr_erc)}
-            {this.renderCard('基于波场的TRC20地址', addr_trc)}
+            {this.renderCard(<FormattedMessage id='btcAddress' />, addr_btc)}
+            {this.renderCard(<FormattedMessage id='ethAddress' />, addr_erc)}
+            {this.renderCard(<FormattedMessage id='bchAddress' />, addr_trc)}
           </Fragment>
         )
       default:

@@ -1,13 +1,5 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React, { Component } from 'react'
-import getRouter from './src/router'
+import Route from './src/router'
 import { Provider } from 'mobx-react'
 import * as stores from './src/store/index'
 import { Provider as AntProvider } from '@ant-design/react-native'
@@ -18,7 +10,9 @@ class App extends Component {
   render() {
     return (
       <AntProvider>
-        <Provider {...stores}>{getRouter()}</Provider>
+        <Provider {...stores}>
+          <Route />
+        </Provider>
       </AntProvider>
     )
   }

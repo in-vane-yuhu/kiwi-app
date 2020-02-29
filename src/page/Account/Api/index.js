@@ -1,14 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { Icon } from '@ant-design/react-native'
-import {
-  SafeAreaView,
-  View,
-  Text,
-  TouchableOpacity,
-  Picker,
-  Modal,
-} from 'react-native'
-import { observer, inject } from 'mobx-react'
+import { SafeAreaView, Text, TouchableOpacity } from 'react-native'
+import { FormattedMessage } from 'react-intl'
 import styles from '../../../style'
 import * as CONST from '../../../style/constant'
 
@@ -40,11 +33,16 @@ class Api extends Component {
   }
 
   column = [
-    { title: '时间', dataIndex: 'time', align: 'center', width: '40%' },
+    {
+      title: <FormattedMessage id='time' />,
+      dataIndex: 'time',
+      align: 'center',
+      width: '40%',
+    },
     { title: 'Key', dataIndex: 'key', align: 'center', width: '25%' },
     { title: 'Secret', dataIndex: 'secret', align: 'center', width: '25%' },
     {
-      title: '详情',
+      title: <FormattedMessage id='detail' />,
       align: 'center',
       width: '10%',
       render: item => (
@@ -67,12 +65,14 @@ class Api extends Component {
     const { visible, detail } = this.state
     return (
       <KModal
-        title='API详情'
+        title={<FormattedMessage id='apiDetail' />}
         visible={visible}
         onClose={this.hideModal}
         ctx={
           <Fragment>
-            <Text style={{ marginBottom: 16 }}>时间：{detail.time}</Text>
+            <Text style={{ marginBottom: 16 }}>
+              <FormattedMessage id='time' />：{detail.time}
+            </Text>
             <Text style={{ marginBottom: 16 }}>Key：{detail.key}</Text>
             <Text style={{ marginBottom: 16 }}>Secret：{detail.secret}</Text>
           </Fragment>
@@ -97,7 +97,9 @@ class Api extends Component {
           }}
           onPress={this.newApi}
         >
-          <Text style={[styles.login_btn_text]}>新建API</Text>
+          <Text style={[styles.login_btn_text]}>
+            <FormattedMessage id='newAPI' />
+          </Text>
         </TouchableOpacity>
         <Table
           column={this.column}

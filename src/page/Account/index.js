@@ -10,6 +10,7 @@ import Funds from './Funds'
 import Orders from './Orders'
 import Deposit from './Deposit'
 import Withdraw from './Withdraw'
+import Language from './Language'
 
 import Mine from './Mine'
 
@@ -27,4 +28,5 @@ export {
   Deposit,
   Withdraw,
   Mine,
+  Language,
 }

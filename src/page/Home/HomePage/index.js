@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import { View, SafeAreaView, Text, Image } from 'react-native'
-import { Icon, Carousel } from '@ant-design/react-native'
-import { Actions } from 'react-native-router-flux'
+import { Carousel } from '@ant-design/react-native'
 import Table from '../../../components/Table'
-import * as CONST from '../../../style/constant'
+import { FormattedMessage } from 'react-intl'
 import styles from '../../../style'
 
 import BTC from '../../../assets/image/BTC.png'
@@ -17,7 +16,7 @@ const data = [
 class HomePage extends Component {
   column = [
     {
-      title: '交易对',
+      title: <FormattedMessage id='pair' />,
       align: 'center',
       width: '25%',
       render: item => (
@@ -27,9 +26,24 @@ class HomePage extends Component {
         </Fragment>
       ),
     },
-    { title: '价格', dataIndex: 'price', align: 'center', width: '25%' },
-    { title: '24h涨幅', dataIndex: 'wave', align: 'center', width: '25%' },
-    { title: '24h交易量', dataIndex: 'volumn', align: 'center', width: '25%' },
+    {
+      title: <FormattedMessage id='price' />,
+      dataIndex: 'price',
+      align: 'center',
+      width: '25%',
+    },
+    {
+      title: <FormattedMessage id='wave' />,
+      dataIndex: 'wave',
+      align: 'center',
+      width: '25%',
+    },
+    {
+      title: <FormattedMessage id='volumn' />,
+      dataIndex: 'volumn',
+      align: 'center',
+      width: '25%',
+    },
   ]
 
   render() {

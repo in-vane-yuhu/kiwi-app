@@ -3,11 +3,13 @@ import { inject, observer } from 'mobx-react'
 import { Text, View, TouchableOpacity, Image, TextInput } from 'react-native'
 import { Toast } from '@ant-design/react-native'
 import styles from '../../../style'
+import { injectIntl } from 'react-intl'
 
 import HudexGlobal from '../../../assets/image/HudexGlobal.png'
 
 @inject('AccountStore')
 @observer
+@injectIntl
 class Forgot extends Component {
   state = {
     param_email: '',
@@ -36,14 +38,15 @@ class Forgot extends Component {
 
   getCaptcha = () => {
     const { forgotPassword } = this.props.AccountStore
+    const { formatMessage } = this.props.intl
     const { param_email } = this.state
     const regEmail = /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/
     if (!param_email) {
-      Toast.fail('请输入邮箱', 1)
+      Toast.fail(formatMessage({ id: 'place_email' }), 1)
       return
     }
     if (!regEmail.test(param_email)) {
-      Toast.fail('邮箱格式不正确', 1)
+      Toast.fail(formatMessage({ id: 'reg_email' }), 1)
       return
     }
     this.setState({ disabled: true, deadline: 59 })
@@ -70,29 +73,30 @@ class Forgot extends Component {
   checkForm = () => {
     const { param_email, param_captcha, param_pwd, param_cfm } = this.state
     const { resetPwdByToken } = this.props.AccountStore
+    const { formatMessage } = this.props.intl
     const regEmail = /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/
     if (!param_email) {
-      Toast.fail('请输入邮箱', 1)
+      Toast.fail(formatMessage({ id: 'required_email' }), 1)
       return
     }
     if (!regEmail.test(param_email)) {
-      Toast.fail('邮箱格式不正确', 1)
+      Toast.fail(formatMessage({ id: 'reg_email' }), 1)
       return
     }
     if (!param_captcha) {
-      Toast.fail('请输入验证码', 1)
+      Toast.fail(formatMessage({ id: 'required_captcha' }), 1)
       return
     }
     if (!param_pwd) {
-      Toast.fail('请输入新密码', 1)
+      Toast.fail(formatMessage({ id: 'required_newpwd' }), 1)
       return
     }
     if (!param_cfm) {
-      Toast.fail('请再次输入密码', 1)
+      Toast.fail(formatMessage({ id: 'required_confirm' }), 1)
       return
     }
     if (param_pwd !== param_cfm) {
-      Toast.fail('两次密码不一致', 1)
+      Toast.fail(formatMessage({ id: 'reg_confirm' }), 1)
       return
     }
     resetPwdByToken(param_email, param_pwd, param_captcha)
@@ -100,18 +104,19 @@ class Forgot extends Component {
 
   render() {
     const { disabled, deadline } = this.state
+    const { formatMessage } = this.props.intl
     return (
       <View style={[styles.page_box, { alignItems: 'center' }]}>
         <Image source={HudexGlobal} style={[styles.login_logo]} />
 
         <TextInput
-          placeholder='邮箱'
+          placeholder={formatMessage({ id: 'email' })}
           style={[styles.login_ipt]}
           onChangeText={this.setParamEmail}
         />
         <View style={[styles.login_captchaBox]}>
           <TextInput
-            placeholder='邮箱验证码'
+            placeholder={formatMessage({ id: 'placeholder_captcha' })}
             style={[styles.login_ipt]}
             onChangeText={this.setParamCaptcha}
             keyboardType='number-pad'
@@ -122,25 +127,27 @@ class Forgot extends Component {
             disabled={disabled}
           >
             <Text style={{ color: disabled ? '#c8c8c8' : '#f8b500' }}>
-              {disabled ? `${deadline}s` : '发送'}
+              {disabled ? `${deadline}s` : formatMessage({ id: 'send' })}
             </Text>
           </TouchableOpacity>
         </View>
         <TextInput
-          placeholder='密码'
+          placeholder={formatMessage({ id: 'newPwd' })}
           style={[styles.login_ipt]}
           onChangeText={this.setParamPwd}
           secureTextEntry={true}
         />
         <TextInput
-          placeholder='确认密码'
+          placeholder={formatMessage({ id: 'confirm' })}
           style={[styles.login_ipt]}
           onChangeText={this.setParamCfm}
           secureTextEntry={true}
         />
 
         <TouchableOpacity style={[styles.login_btn]} onPress={this.checkForm}>
-          <Text style={[styles.login_btn_text]}>提交</Text>
+          <Text style={[styles.login_btn_text]}>
+            {formatMessage({ id: 'submit' })}
+          </Text>
         </TouchableOpacity>
       </View>
     )

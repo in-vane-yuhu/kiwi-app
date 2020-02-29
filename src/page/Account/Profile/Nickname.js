@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native'
-import { Actions } from 'react-native-router-flux'
+import { FormattedMessage } from 'react-intl'
 
 import * as CONST from '../../../style/constant'
 import styles from '../../../style'
@@ -71,7 +71,7 @@ class Nickname extends Component {
             <Text
               style={{ color: CONST.N0, alignSelf: 'center', fontSize: 18 }}
             >
-              保存
+              <FormattedMessage id='save' />
             </Text>
           </TouchableOpacity>
         </SafeAreaView>

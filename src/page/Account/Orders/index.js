@@ -2,14 +2,15 @@ import React, { Component, Fragment } from 'react'
 import { Icon, Picker } from '@ant-design/react-native'
 import { SafeAreaView, View, Text, TouchableOpacity } from 'react-native'
 import { observer, inject } from 'mobx-react'
+import { FormattedMessage } from 'react-intl'
 import styles from '../../../style'
 
 import Table from '../../../components/Table'
 import KModal from '../../../components/Modal'
 
 const selectStatus = [
-  { label: '进行中', value: 'pending' },
-  { label: '已完成', value: 'finished' },
+  { label: <FormattedMessage id='pending' />, value: 'pending' },
+  { label: <FormattedMessage id='finished' />, value: 'finished' },
 ]
 const selectPair = [
   { label: 'BTCBCH', value: 'BTCBCH' },
@@ -27,28 +28,50 @@ class Orders extends Component {
   }
 
   column = [
-    { title: '时间', dataIndex: 'time', align: 'center', width: '40%' },
-    { title: '交易对', dataIndex: 'market', align: 'center', width: '20%' },
     {
-      title: '类型',
+      title: <FormattedMessage id='time' />,
+      dataIndex: 'time',
+      align: 'center',
+      width: '40%',
+    },
+    {
+      title: <FormattedMessage id='pair' />,
+      dataIndex: 'market',
+      align: 'center',
+      width: '20%',
+    },
+    {
+      title: <FormattedMessage id='type' />,
       dataIndex: 'type',
       align: 'center',
       width: '15%',
-      render: text => <Text>{text === 1 ? '限价' : '市价'}</Text>,
+      render: text => (
+        <Text>
+          {text === 1 ? (
+            <FormattedMessage id='limit' />
+          ) : (
+            <FormattedMessage id='market' />
+          )}
+        </Text>
+      ),
     },
     {
-      title: '方向',
+      title: <FormattedMessage id='side' />,
       dataIndex: 'side',
       align: 'center',
       width: '15%',
       render: text => (
         <Text style={{ color: text === 1 ? '#e9686d' : '#66c322' }}>
-          {text === 1 ? '卖出' : '买入'}
+          {text === 1 ? (
+            <FormattedMessage id='sell' />
+          ) : (
+            <FormattedMessage id='buy' />
+          )}
         </Text>
       ),
     },
     {
-      title: '详情',
+      title: <FormattedMessage id='detail' />,
       align: 'center',
       width: '10%',
       render: item => (
@@ -98,31 +121,48 @@ class Orders extends Component {
     const { visible, detail } = this.state
     return (
       <KModal
-        title='交易详情'
+        title={<FormattedMessage id='txDetail' />}
         visible={visible}
         onClose={this.hideModal}
         ctx={
           <Fragment>
-            <Text style={{ marginBottom: 16 }}>时间：{detail.time}</Text>
-            <Text style={{ marginBottom: 16 }}>交易对：{detail.market}</Text>
             <Text style={{ marginBottom: 16 }}>
-              类型：{detail.type === 1 ? '限价' : '市价'}
+              <FormattedMessage id='time' />：{detail.time}
             </Text>
             <Text style={{ marginBottom: 16 }}>
-              方向：
+              <FormattedMessage id='pair' />：{detail.market}
+            </Text>
+            <Text style={{ marginBottom: 16 }}>
+              <FormattedMessage id='type' />：
+              {detail.type === 1 ? (
+                <FormattedMessage id='limit' />
+              ) : (
+                <FormattedMessage id='market' />
+              )}
+            </Text>
+            <Text style={{ marginBottom: 16 }}>
+              <FormattedMessage id='side' />：
               <Text
                 style={{ color: detail.side === 1 ? '#e9686d' : '#66c322' }}
               >
-                {detail.side === 1 ? '卖出' : '买入'}
+                {detail.side === 1 ? (
+                  <FormattedMessage id='sell' />
+                ) : (
+                  <FormattedMessage id='buy' />
+                )}
               </Text>
             </Text>
-            <Text style={{ marginBottom: 16 }}>价格：{detail.price}</Text>
-            <Text style={{ marginBottom: 16 }}>数量：{detail.amount}</Text>
             <Text style={{ marginBottom: 16 }}>
-              已成交：{detail.deal_stock}
+              <FormattedMessage id='price' />：{detail.price}
             </Text>
             <Text style={{ marginBottom: 16 }}>
-              未成交：{detail.undeal_stock}
+              <FormattedMessage id='amount' />：{detail.amount}
+            </Text>
+            <Text style={{ marginBottom: 16 }}>
+              <FormattedMessage id='deal' />：{detail.deal_stock}
+            </Text>
+            <Text style={{ marginBottom: 16 }}>
+              <FormattedMessage id='undeal' />：{detail.undeal_stock}
             </Text>
           </Fragment>
         }
@@ -134,7 +174,7 @@ class Orders extends Component {
     const { status } = this.state
     return (
       <Picker
-        title='委托状态'
+        title={<FormattedMessage id='orderStatus' />}
         onChange={this.onSelectStatus}
         value={status}
         data={selectStatus}
@@ -150,8 +190,12 @@ class Orders extends Component {
           }}
         >
           <Text style={{ color: '#969696' }}>
-            委托状态：
-            {status[0] === 'pending' ? '进行中' : '已完成'}
+            <FormattedMessage id='orderStatus' />：
+            {status[0] === 'pending' ? (
+              <FormattedMessage id='pending' />
+            ) : (
+              <FormattedMessage id='finished' />
+            )}
           </Text>
           <Icon name='down' size={16} color='#969696' />
         </TouchableOpacity>
@@ -163,7 +207,7 @@ class Orders extends Component {
     const { pair } = this.state
     return (
       <Picker
-        title='交易对'
+        title={<FormattedMessage id='pair' />}
         onChange={this.onSelectPair}
         value={pair}
         data={selectPair}
@@ -178,7 +222,9 @@ class Orders extends Component {
             flexDirection: 'row',
           }}
         >
-          <Text style={{ color: '#969696' }}>交易对： {pair[0]}</Text>
+          <Text style={{ color: '#969696' }}>
+            <FormattedMessage id='pair' />： {pair[0]}
+          </Text>
           <Icon name='down' size={16} color='#969696' />
         </TouchableOpacity>
       </Picker>
@@ -187,7 +233,7 @@ class Orders extends Component {
 
   render() {
     const { currentPending, currentFinished } = this.props.TradeStore
-    const { status, pair } = this.state
+    const { status } = this.state
     return (
       <SafeAreaView style={[styles.page_box]}>
         <View

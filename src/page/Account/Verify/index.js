@@ -9,6 +9,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from 'react-native'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { Toast } from '@ant-design/react-native'
 
 import styles from '../../../style'
@@ -17,6 +18,7 @@ import HudexGlobal from '../../../assets/image/HudexGlobal.png'
 
 @inject('AccountStore')
 @observer
+@injectIntl
 class Verify extends Component {
   state = {
     param_captcha: '',
@@ -36,7 +38,7 @@ class Verify extends Component {
     const { param_captcha } = this.state
     const { verifyCaptcha } = this.props.AccountStore
     if (!param_captcha) {
-      Toast.fail('请输入验证码', 1)
+      Toast.fail(<FormattedMessage id='tip_captcha' />, 1)
       return
     }
     verifyCaptcha(param_captcha)
@@ -67,6 +69,7 @@ class Verify extends Component {
 
   render() {
     const { disabled, deadline } = this.state
+    const { formatMessage } = this.props.intl
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={[styles.page_box, { alignItems: 'center' }]}>
@@ -74,7 +77,7 @@ class Verify extends Component {
 
           <View style={[styles.login_captchaBox]}>
             <TextInput
-              placeholder='邮箱验证码'
+              placeholder={formatMessage({ id: 'placeholder_captcha' })}
               style={[styles.login_ipt]}
               onChangeText={this.setParamCaptcha}
               keyboardType='number-pad'
@@ -85,13 +88,15 @@ class Verify extends Component {
               disabled={disabled}
             >
               <Text style={{ color: disabled ? '#c8c8c8' : '#f8b500' }}>
-                {disabled ? `${deadline}s` : '发送'}
+                {disabled ? `${deadline}s` : <FormatMessage id='send' />}
               </Text>
             </TouchableOpacity>
           </View>
 
           <TouchableOpacity style={[styles.login_btn]} onPress={this.checkForm}>
-            <Text style={[styles.login_btn_text]}>注册</Text>
+            <Text style={[styles.login_btn_text]}>
+              {<FormatMessage id='register' />}
+            </Text>
           </TouchableOpacity>
         </View>
       </TouchableWithoutFeedback>

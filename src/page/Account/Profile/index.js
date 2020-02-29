@@ -3,6 +3,7 @@ import { observer, inject } from 'mobx-react'
 import { Text, View, TouchableOpacity, SafeAreaView } from 'react-native'
 import { Icon } from '@ant-design/react-native'
 import { Actions } from 'react-native-router-flux'
+import { FormattedMessage } from 'react-intl'
 
 import * as CONST from '../../../style/constant'
 import styles from '../../../style'
@@ -36,7 +37,9 @@ class Profile extends Component {
             { padding: 32 },
           ]}
         >
-          <Text style={{ fontSize: 16 }}>头像</Text>
+          <Text style={{ fontSize: 16 }}>
+            <FormattedMessage id='avatar' />
+          </Text>
           <Avatar id={user.email} size={50} />
         </View>
 
@@ -45,7 +48,7 @@ class Profile extends Component {
         <View style={{ padding: 16 }}>
           <View style={[styles.account_item_box]}>
             <Text style={{ fontSize: 16 }}>
-              邮箱：
+              <FormattedMessage id='email' />：
               <Text style={{ color: CONST.N96 }}>{user.email}</Text>
             </Text>
           </View>
@@ -55,30 +58,19 @@ class Profile extends Component {
             onPress={this.navigateToNickname}
           >
             <Text style={{ fontSize: 16 }}>
-              昵称：<Text style={{ color: CONST.N96 }}>{user.nickname}</Text>
+              <FormattedMessage id='nickname' />：
+              <Text style={{ color: CONST.N96 }}>{user.nickname}</Text>
             </Text>
             <View style={[styles.flex_row_center]}>
-              <Text style={{ color: CONST.N96, fontSize: 16 }}>修改</Text>
+              <Text style={{ color: CONST.N96, fontSize: 16 }}>
+                <FormattedMessage id='modify' />
+              </Text>
               <Icon name='right' />
             </View>
           </TouchableOpacity>
         </View>
 
         <View style={{ height: 10, backgroundColor: CONST.N238 }} />
-
-        <View style={{ padding: 16 }}>
-          <TouchableOpacity
-            style={[styles.account_item_box, { paddingTop: 8 }]}
-          >
-            <View>
-              <Text style={{ fontSize: 16 }}>语言</Text>
-            </View>
-            <View style={[styles.flex_row_center]}>
-              <Text style={{ color: CONST.N96, fontSize: 16 }}>简体中文</Text>
-              <Icon name='right' />
-            </View>
-          </TouchableOpacity>
-        </View>
       </SafeAreaView>
     )
   }

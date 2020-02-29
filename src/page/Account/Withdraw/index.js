@@ -9,9 +9,13 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native'
+import { FormattedMessage, injectIntl } from 'react-intl'
 
 import styles from '../../../style'
 
+@inject('TradeStore')
+@observer
+@injectIntl
 class Withdraw extends Component {
   renderFunds = () => (
     <View
@@ -25,18 +29,22 @@ class Withdraw extends Component {
       }}
     >
       <Text style={{ marginBottom: 8 }}>
-        总额：<Text style={{ color: '#c8c8c8' }}>0.000000</Text>
+        <FormattedMessage id='with_total' />：
+        <Text style={{ color: '#c8c8c8' }}>0.000000</Text>
       </Text>
       <Text style={{ marginBottom: 8 }}>
-        可用：<Text style={{ color: '#c8c8c8' }}>0.000000</Text>
+        <FormattedMessage id='available' />：
+        <Text style={{ color: '#c8c8c8' }}>0.000000</Text>
       </Text>
       <Text>
-        冻结：<Text style={{ color: '#c8c8c8' }}>0.000000</Text>
+        <FormattedMessage id='freeze' />：
+        <Text style={{ color: '#c8c8c8' }}>0.000000</Text>
       </Text>
     </View>
   )
 
   renderForm = () => {
+    const { formatMessage } = this.props.intl
     return (
       <View
         style={{
@@ -49,7 +57,7 @@ class Withdraw extends Component {
         }}
       >
         <TextInput
-          placeholder='地址'
+          placeholder={formatMessage({ id: 'address' })}
           style={{
             borderWidth: 1,
             borderColor: '#eee',
@@ -61,7 +69,7 @@ class Withdraw extends Component {
           onChangeText={this.setParamAddr}
         />
         <TextInput
-          placeholder='数量'
+          placeholder={formatMessage({ id: 'amount' })}
           style={{
             borderWidth: 1,
             borderColor: '#eee',
@@ -74,7 +82,7 @@ class Withdraw extends Component {
           onChangeText={this.setParamAddr}
         />
         <TextInput
-          placeholder='资金密码'
+          placeholder={formatMessage({ id: 'fundsPwd' })}
           style={{
             borderWidth: 1,
             borderColor: '#eee',
@@ -87,7 +95,7 @@ class Withdraw extends Component {
         />
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <TextInput
-            placeholder='邮箱验证码'
+            placeholder={formatMessage({ id: 'placeholder_captcha' })}
             style={{
               borderWidth: 1,
               borderColor: '#eee',
@@ -113,7 +121,9 @@ class Withdraw extends Component {
             }}
             onPress={this.getCaptcha}
           >
-            <Text style={{ color: '#f8b500' }}>发送</Text>
+            <Text style={{ color: '#f8b500' }}>
+              <FormattedMessage id='send' />
+            </Text>
           </TouchableOpacity>
         </View>
         <View
@@ -124,10 +134,12 @@ class Withdraw extends Component {
           }}
         >
           <Text>
-            手续费：<Text style={{ color: '#c8c8c8' }}>0.0000</Text>
+            <FormattedMessage id='fee' />：
+            <Text style={{ color: '#c8c8c8' }}>0.0000</Text>
           </Text>
           <Text>
-            到账：<Text style={{ color: '#c8c8c8' }}>0.0000</Text>
+            <FormattedMessage id='arrive' />：
+            <Text style={{ color: '#c8c8c8' }}>0.0000</Text>
           </Text>
         </View>
         <TouchableOpacity
@@ -142,7 +154,9 @@ class Withdraw extends Component {
           }}
           onPress={this.checkForm}
         >
-          <Text style={[styles.login_btn_text]}>提交</Text>
+          <Text style={[styles.login_btn_text]}>
+            <FormattedMessage id='submit' />
+          </Text>
         </TouchableOpacity>
       </View>
     )
@@ -160,18 +174,8 @@ class Withdraw extends Component {
     >
       <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
         <Icon name='info-circle' style={{ color: '#f8b500' }} />
-        <Text style={{ marginLeft: 8 }}>最小提现金额5BCH。</Text>
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'flex-start',
-          marginTop: 16,
-        }}
-      >
-        <Icon name='info-circle' style={{ color: '#f8b500' }} />
         <Text style={{ marginLeft: 8 }}>
-          请务必确认手机及周边安全，防止信息被篡改或泄露。
+          <FormattedMessage id='tip_min' />
         </Text>
       </View>
       <View
@@ -183,7 +187,19 @@ class Withdraw extends Component {
       >
         <Icon name='info-circle' style={{ color: '#f8b500' }} />
         <Text style={{ marginLeft: 8 }}>
-          为保障资金安全，当您账户安全策略变更、密码修改、我们会对提币进行人工审核，请耐心等待工作人员电话或邮件联系。
+          <FormattedMessage id='tip_security' />
+        </Text>
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'flex-start',
+          marginTop: 16,
+        }}
+      >
+        <Icon name='info-circle' style={{ color: '#f8b500' }} />
+        <Text style={{ marginLeft: 8 }}>
+          <FormattedMessage id='tip_wait' />
         </Text>
       </View>
     </View>

@@ -12,6 +12,7 @@ import {
 import { Toast } from '@ant-design/react-native'
 import { Actions } from 'react-native-router-flux'
 import { getData } from '../../../utils/AsyncStorage'
+import { FormattedMessage, injectIntl } from 'react-intl'
 
 import styles from '../../../style'
 
@@ -19,6 +20,7 @@ import HudexGlobal from '../../../assets/image/HudexGlobal.png'
 
 @inject('AccountStore')
 @observer
+@injectIntl
 class Login extends Component {
   state = {
     param_email: '',
@@ -36,17 +38,18 @@ class Login extends Component {
   checkForm = () => {
     const { param_email, param_pwd } = this.state
     const { login } = this.props.AccountStore
+    const { formatMessage } = this.props.intl
     const regEmail = /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/
     if (!param_email) {
-      Toast.fail('请输入邮箱', 1)
+      Toast.fail(formatMessage({ id: 'required_email' }), 1)
       return
     }
     if (!regEmail.test(param_email)) {
-      Toast.fail('邮箱格式不正确', 1)
+      Toast.fail(formatMessage({ id: 'reg_email' }), 1)
       return
     }
     if (!param_pwd) {
-      Toast.fail('请输入密码', 1)
+      Toast.fail(formatMessage({ id: 'required_password' }), 1)
       return
     }
     login(param_email, param_pwd)
@@ -68,26 +71,29 @@ class Login extends Component {
   }
 
   render() {
+    const { formatMessage } = this.props.intl
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={[styles.page_box, { alignItems: 'center' }]}>
           <Image source={HudexGlobal} style={[styles.login_logo]} />
 
           <TextInput
-            placeholder='邮箱'
+            placeholder={formatMessage({ id: 'email' })}
             style={[styles.login_ipt]}
             onChangeText={this.setParamEmail}
             defaultValue={getData('email')}
           />
           <TextInput
-            placeholder='密码'
+            placeholder={formatMessage({ id: 'password' })}
             style={[styles.login_ipt]}
             onChangeText={this.setParamPwd}
             secureTextEntry={true}
           />
 
           <TouchableOpacity style={[styles.login_btn]} onPress={this.checkForm}>
-            <Text style={[styles.login_btn_text]}>登录</Text>
+            <Text style={[styles.login_btn_text]}>
+              <FormattedMessage id='login' />
+            </Text>
           </TouchableOpacity>
 
           <View
@@ -101,14 +107,18 @@ class Login extends Component {
               style={{ marginTop: 24 }}
               onPress={this.navigateToRegister}
             >
-              <Text style={{ color: '#f8b500' }}>还没有账号？</Text>
+              <Text style={{ color: '#f8b500' }}>
+                <FormattedMessage id='noID' />
+              </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={{ marginTop: 24 }}
               onPress={this.navigateToForgot}
             >
-              <Text style={{ color: '#f8b500' }}>忘记密码？</Text>
+              <Text style={{ color: '#f8b500' }}>
+                <FormattedMessage id='forgot' />
+              </Text>
             </TouchableOpacity>
           </View>
         </View>

@@ -4,6 +4,10 @@ import { Actions } from 'react-native-router-flux'
 import { setData, getData, clear } from '../utils/AsyncStorage'
 import { Portal, Toast } from '@ant-design/react-native'
 
+import zh_CN from '../locale/zh_CN'
+import en_US from '../locale/en_US'
+import ko_KR from '../locale/ko_KR'
+
 class AccountStore {
   /**
    * observable
@@ -11,6 +15,8 @@ class AccountStore {
   @observable twoFA = 'Email'
   @observable user = ''
   @observable addr_erc = ''
+  @observable locale = 'zh'
+  @observable messages = zh_CN
 
   /**
    * action
@@ -168,6 +174,49 @@ class AccountStore {
 
   @action set2FA = type => {
     this.twoFA = type
+  }
+
+  @action initLanguage = async () => {
+    const lang = await getData('language')
+    console.log('lang', lang)
+    if (lang) {
+      this.locale = lang
+      switch (lang) {
+        case 'zh':
+          this.messages = zh_CN
+          break
+        case 'en':
+          this.messages = en_US
+          break
+        case 'ko':
+          this.messages = ko_KR
+          break
+
+        default:
+          break
+      }
+    }
+  }
+
+  @action setLanguage = async locale => {
+    this.locale = locale
+    switch (locale) {
+      case 'zh':
+        await setData('language', 'zh')
+        this.messages = zh_CN
+        break
+      case 'en':
+        await setData('language', 'en')
+        this.messages = en_US
+        break
+      case 'ko':
+        await setData('language', 'ko')
+        this.messages = ko_KR
+        break
+
+      default:
+        break
+    }
   }
 }
 
