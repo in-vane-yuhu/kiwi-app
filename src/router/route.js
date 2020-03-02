@@ -3,7 +3,7 @@
  */
 import React, { Component } from 'react'
 import { Scene, Router } from 'react-native-router-flux'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { Icon } from '@ant-design/react-native'
 import { inject, observer } from 'mobx-react'
 import * as CONST from '../style/constant'
