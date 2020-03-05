@@ -5786,6 +5786,11 @@ react-native-tab-view@^1.0.0:
   dependencies:
     prop-types "^15.6.1"
 
+react-native-tab-view@^2.13.0:
+  version "2.13.0"
+  resolved "https://registry.npm.taobao.org/react-native-tab-view/download/react-native-tab-view-2.13.0.tgz#23037aa43b0f8f682ddc20415a4baaaf6f82ae8f"
+  integrity sha1-IwN6pDsPj2gt3CBBWkuqr2+Cro8=
+
 react-native-webview@^7.5.2:
   version "7.5.2"
   resolved "https://registry.npm.taobao.org/react-native-webview/download/react-native-webview-7.5.2.tgz#9da3006e03636faaa9d05f3abff46cd40bfb80f9"

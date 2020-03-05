@@ -4,7 +4,7 @@ import moment from 'moment'
 import { concat } from 'lodash'
 import { Toast } from '@ant-design/react-native'
 
-import { sub, fmtHomeList } from '../utils/utils'
+import { sub, div, fmtHomeList } from '../utils/utils'
 
 import PicBTC from '../assets/image/BTC.png'
 import PicETH from '../assets/image/ETH.png'
@@ -121,6 +121,7 @@ class TradeStore {
         for (let item of records) {
           item.time = moment(item.ctime * 1000).format('YYYY-MM-DD HH:mm:ss')
           item.undeal_stock = sub(item.amount, item.deal_stock)
+          item.avgPrice = div(item.deal_money, item.deal_stock)
         }
         this.currentPending = records
         this.loading_pending = false
@@ -146,6 +147,7 @@ class TradeStore {
         for (let item of records) {
           item.time = moment(item.ftime * 1000).format('YYYY-MM-DD HH:mm:ss')
           item.undeal_stock = sub(item.amount, item.deal_stock)
+          item.avgPrice = div(item.deal_money, item.deal_stock)
         }
         this.currentFinished = records
         this.loading_finished = false

@@ -42,7 +42,6 @@ let apiService = Axios.create({
 apiService.interceptors.request.use(
   async config => {
     const token = await getData('access_token')
-    console.log('token:', token)
     return {
       ...config,
       headers: { authorization: `Bearer ${token}` },
@@ -57,12 +56,12 @@ apiService.interceptors.request.use(
 apiService.interceptors.response.use(
   response => {
     const res = response.data
-    console.log(res)
+    console.log('inter', res)
     if (res.message) {
       if (res.success) {
         Toast.success(resMsg(res.message), 1)
       } else {
-        Toast.error(errMsg(res.data.message), 1)
+        Toast.fail(errMsg(res.data.message), 1)
       }
     }
     return res

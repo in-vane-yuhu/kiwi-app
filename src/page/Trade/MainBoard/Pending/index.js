@@ -7,39 +7,6 @@ import styles from '../../../../style'
 import Table from '../../../../components/Table'
 import KModal from '../../../../components/Modal'
 
-const data = [
-  {
-    time: '2020-02-16 17:24:09',
-    pair: 'BTCBCH',
-    type: '限价',
-    side: '卖出',
-    price: '14000',
-    amount: '1',
-    deal: '1',
-    undeal: '0',
-  },
-  {
-    time: '2020-02-16 17:24:09',
-    pair: 'BTCBCH',
-    type: '限价',
-    side: '卖出',
-    price: '14000',
-    amount: '1',
-    deal: '1',
-    undeal: '0',
-  },
-  {
-    time: '2020-02-16 17:24:09',
-    pair: 'BTCBCH',
-    type: '限价',
-    side: '买入',
-    price: '14000',
-    amount: '1',
-    deal: '1',
-    undeal: '0',
-  },
-]
-
 @inject('TradeStore')
 @observer
 class Pending extends Component {
@@ -132,7 +99,13 @@ class Pending extends Component {
               </Text>
             </Text>
             <Text style={{ marginBottom: 16 }}>价格：{detail.price}</Text>
+            <Text style={{ marginBottom: 16 }}>
+              成交均价：{detail.avgPrice}
+            </Text>
             <Text style={{ marginBottom: 16 }}>数量：{detail.amount}</Text>
+            <Text style={{ marginBottom: 16 }}>
+              费率：{`${detail.deal_fee}%`}
+            </Text>
             <Text style={{ marginBottom: 16 }}>
               已成交：{detail.deal_stock}
             </Text>

@@ -117,8 +117,10 @@ class AccountStore {
       .patch(api.updateNickname, { email, nickname })
       .then(res => {
         Portal.remove(loading)
-        this.getUser()
-        Actions.pop()
+        setTimeout(() => {
+          this.getUser()
+          Actions.pop()
+        }, 1000)
       })
       .catch(err => {
         Portal.remove(loading)

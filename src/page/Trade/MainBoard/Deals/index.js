@@ -1,45 +1,12 @@
 import React, { Component, Fragment } from 'react'
-import { Icon, Tabs } from '@ant-design/react-native'
+import { Icon } from '@ant-design/react-native'
 import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native'
+import { TabView, TabBar } from 'react-native-tab-view'
 import { observer, inject } from 'mobx-react'
 import styles from '../../../../style'
 
 import Table from '../../../../components/Table'
 import KModal from '../../../../components/Modal'
-
-const tabs = [{ title: '全站成交' }, { title: '我的成交' }]
-const data = [
-  {
-    time: '2020-02-16 17:24:09',
-    pair: 'BTCBCH',
-    type: '限价',
-    side: '卖出',
-    price: '14000',
-    amount: '1',
-    deal: '1',
-    undeal: '0',
-  },
-  {
-    time: '2020-02-16 17:24:09',
-    pair: 'BTCBCH',
-    type: '限价',
-    side: '卖出',
-    price: '14000',
-    amount: '1',
-    deal: '1',
-    undeal: '0',
-  },
-  {
-    time: '2020-02-16 17:24:09',
-    pair: 'BTCBCH',
-    type: '限价',
-    side: '买入',
-    price: '14000',
-    amount: '1',
-    deal: '1',
-    undeal: '0',
-  },
-]
 
 @inject('TradeStore')
 @observer
@@ -47,6 +14,11 @@ class Pending extends Component {
   state = {
     visible: false,
     detail: '',
+    tabIndex: 0,
+    tabRoute: [
+      { key: 'all', title: '全站成交' },
+      { key: 'mine', title: '我的成交' },
+    ],
   }
 
   column = [
@@ -62,15 +34,23 @@ class Pending extends Component {
   ]
   columnMine = [
     { title: '时间', dataIndex: 'time', align: 'center', width: '37%' },
-    { title: '交易对', dataIndex: 'pair', align: 'center', width: '20%' },
-    { title: '类型', dataIndex: 'type', align: 'center', width: '15%' },
+    { title: '交易对', dataIndex: 'market', align: 'center', width: '20%' },
+    {
+      title: '类型',
+      dataIndex: 'type',
+      align: 'center',
+      width: '15%',
+      render: text => <Text>{text === 1 ? '限价' : '市价'}</Text>,
+    },
     {
       title: '方向',
       dataIndex: 'side',
       align: 'center',
       width: '15%',
       render: text => (
-        <Text style={{ color: text === '买入' ? 'green' : 'red' }}>{text}</Text>
+        <Text style={{ color: text === 1 ? '#e9686d' : '#66c322' }}>
+          {text === 1 ? '卖出' : '买入'}
+        </Text>
       ),
     },
     {
@@ -122,7 +102,13 @@ class Pending extends Component {
               </Text>
             </Text>
             <Text style={{ marginBottom: 16 }}>价格：{detail.price}</Text>
+            <Text style={{ marginBottom: 16 }}>
+              成交均价：{detail.avgPrice}
+            </Text>
             <Text style={{ marginBottom: 16 }}>数量：{detail.amount}</Text>
+            <Text style={{ marginBottom: 16 }}>
+              费率：{`${detail.deal_fee}%`}
+            </Text>
             <Text style={{ marginBottom: 16 }}>
               已成交：{detail.deal_stock}
             </Text>
@@ -135,21 +121,45 @@ class Pending extends Component {
     )
   }
 
-  render() {
+  renderScene = ({ route }) => {
     const { deals, currentFinished } = this.props.TradeStore
-    return (
-      <SafeAreaView style={[styles.page_box]}>
-        <Tabs
-          tabs={tabs}
-          tabBarUnderlineStyle={{ backgroundColor: '#f8b500' }}
-          tabBarActiveTextColor='#f8b500'
-          tabBarInactiveTextColor='#c8c8c8'
-        >
+    switch (route.key) {
+      case 'all':
+        return (
           <View style={{ maxHeight: 400 }}>
             <Table column={this.column} dataSource={deals} />
           </View>
-          <Table column={this.columnMine} dataSource={currentFinished} />
-        </Tabs>
+        )
+      case 'mine':
+        return <Table column={this.columnMine} dataSource={currentFinished} />
+      default:
+        return null
+    }
+  }
+
+  renderTabbar = props => (
+    <TabBar
+      {...props}
+      style={{ backgroundColor: '#fff' }}
+      labelStyle={{ color: '#c8c8c8' }}
+      indicatorStyle={{ backgroundColor: '#f8b500' }}
+    />
+  )
+
+  setIndex = index => {
+    this.setState({ tabIndex: index })
+  }
+
+  render() {
+    const { tabIndex, tabRoute } = this.state
+    return (
+      <SafeAreaView style={[styles.page_box]}>
+        <TabView
+          navigationState={{ index: tabIndex, routes: tabRoute }}
+          renderScene={this.renderScene}
+          onIndexChange={this.setIndex}
+          renderTabBar={this.renderTabbar}
+        />
         {this.renderModal()}
       </SafeAreaView>
     )

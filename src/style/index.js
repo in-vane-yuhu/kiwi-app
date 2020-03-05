@@ -7,8 +7,6 @@ import React, {
 import * as CONST from './constant'
 import { style_login } from './login'
 import { style_mine } from './mine'
-import { style_firm } from './firm'
-import { style_data } from './data'
 
 export const screenWidth = Dimensions.get('window').width
 export const screenHeight = Dimensions.get('window').height
@@ -24,8 +22,6 @@ export const elevation = Platform.OS === 'android' ? 2 : 1
 const styles = StyleSheet.create({
   ...style_login,
   ...style_mine,
-  ...style_firm,
-  ...style_data,
   page_box: {
     backgroundColor: CONST.N0,
     flex: 1,

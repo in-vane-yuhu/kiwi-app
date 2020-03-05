@@ -77,7 +77,6 @@ class Login extends Component {
             placeholder='邮箱'
             style={[styles.login_ipt]}
             onChangeText={this.setParamEmail}
-            defaultValue={getData('email')}
           />
           <TextInput
             placeholder='密码'

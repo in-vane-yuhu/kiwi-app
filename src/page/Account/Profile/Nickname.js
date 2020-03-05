@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
+import { Toast } from '@ant-design/react-native'
 import {
   Text,
   View,
@@ -9,7 +10,6 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native'
-import { Actions } from 'react-native-router-flux'
 
 import * as CONST from '../../../style/constant'
 import styles from '../../../style'
@@ -19,16 +19,26 @@ import styles from '../../../style'
 class Nickname extends Component {
   state = { param_nickName: '' }
 
-  componentDidMount = () => {
-    const { getUser } = this.props.AccountStore
-    getUser()
-  }
-
   setParamNickName = text => {
     this.setState({ param_nickName: text })
   }
 
   onPress = () => {
+    const { param_nickName } = this.state
+    const reg = /^.{1,18}$/
+    if (!param_nickName) {
+      Toast.fail('昵称不能为空', 1)
+      return
+    }
+    if (!reg.test(param_nickName)) {
+      Toast.fail('昵称长度小于18位', 1)
+      return
+    }
+
+    this.doModifyNickname()
+  }
+
+  doModifyNickname = () => {
     const { updateNickname } = this.props.AccountStore
     const { param_nickName } = this.state
     updateNickname(param_nickName)

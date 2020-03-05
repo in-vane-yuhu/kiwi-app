@@ -117,7 +117,13 @@ class Orders extends Component {
               </Text>
             </Text>
             <Text style={{ marginBottom: 16 }}>价格：{detail.price}</Text>
+            <Text style={{ marginBottom: 16 }}>
+              成交均价：{detail.avgPrice}
+            </Text>
             <Text style={{ marginBottom: 16 }}>数量：{detail.amount}</Text>
+            <Text style={{ marginBottom: 16 }}>
+              费率：{`${detail.deal_fee}%`}
+            </Text>
             <Text style={{ marginBottom: 16 }}>
               已成交：{detail.deal_stock}
             </Text>
@@ -187,7 +193,7 @@ class Orders extends Component {
 
   render() {
     const { currentPending, currentFinished } = this.props.TradeStore
-    const { status, pair } = this.state
+    const { status } = this.state
     return (
       <SafeAreaView style={[styles.page_box]}>
         <View

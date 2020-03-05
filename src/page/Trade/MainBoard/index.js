@@ -7,8 +7,10 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
+  RefreshControl,
 } from 'react-native'
-import { Picker, Icon, Tabs } from '@ant-design/react-native'
+import { Picker, Icon } from '@ant-design/react-native'
+import { TabView, TabBar } from 'react-native-tab-view'
 import Table from '../../../components/Table'
 
 import Pending from './Pending'
@@ -16,16 +18,7 @@ import Deals from './Deals'
 import Chart from './Chart'
 
 import styles from '../../../style'
-
-const tabs = [
-  { title: '限价', key: 'limit' },
-  { title: '市价', key: 'market' },
-]
-const tabsBtm = [
-  { title: '当前委托' },
-  { title: '最新成交' },
-  { title: '图表' },
-]
+import { Actions } from 'react-native-router-flux'
 
 @inject('TradeStore')
 @observer
@@ -37,6 +30,18 @@ class MainBoard extends Component {
     side: 'buy',
     param_price: '',
     param_amount: '',
+    tabOrderIndex: 0,
+    tabOrderRoute: [
+      { key: 'limit', title: '限价' },
+      { key: 'market', title: '市价' },
+    ],
+    tabBtmIndex: 0,
+    tabBtmRoute: [
+      { key: 'pending', title: '当前委托' },
+      { key: 'deals', title: '最新成交' },
+      { key: 'chart', title: '图表' },
+    ],
+    isRefreshing: false,
   }
   columnBuy = [
     {
@@ -275,7 +280,7 @@ class MainBoard extends Component {
 
   renderLimit = () => {
     return (
-      <Fragment>
+      <View style={{ flex: 1, padding: 16 }}>
         {this.renderSelectType()}
         {this.renderIptPrice()}
         {this.renderIptAmount()}
@@ -286,13 +291,13 @@ class MainBoard extends Component {
           已有{this.renderBalanceBTC()}
         </Text>
         {this.renderOrderBtn()}
-      </Fragment>
+      </View>
     )
   }
 
   renderMarket = () => {
     return (
-      <Fragment>
+      <View style={{ flex: 1, padding: 16 }}>
         {this.renderSelectType()}
         <TextInput
           placeholder='最优价格'
@@ -314,7 +319,7 @@ class MainBoard extends Component {
           已有{this.renderBalanceBCH()}
         </Text>
         {this.renderOrderBtn()}
-      </Fragment>
+      </View>
     )
   }
 
@@ -430,11 +435,70 @@ class MainBoard extends Component {
     )
   }
 
-  render() {
+  renderOrderScene = ({ route }) => {
+    switch (route.key) {
+      case 'limit':
+        return this.renderLimit()
+      case 'market':
+        return this.renderMarket()
+      default:
+        return null
+    }
+  }
+
+  renderBtmScene = ({ route }) => {
     const { ws } = this.state
+    switch (route.key) {
+      case 'pending':
+        return <Pending />
+      case 'deals':
+        return <Deals />
+      case 'chart':
+        return <Chart ws={ws} />
+      default:
+        return null
+    }
+  }
+
+  renderTabbar = props => (
+    <TabBar
+      {...props}
+      style={{ backgroundColor: '#fff' }}
+      labelStyle={{ color: '#c8c8c8' }}
+      indicatorStyle={{ backgroundColor: '#f8b500' }}
+    />
+  )
+
+  setOrderIndex = index => {
+    this.setState({ tabOrderIndex: index })
+  }
+
+  setBtmIndex = index => {
+    this.setState({ tabBtmIndex: index })
+  }
+
+  onRefresh = () => {
+    Actions.refresh()
+  }
+
+  render() {
+    const {
+      tabOrderIndex,
+      tabOrderRoute,
+      tabBtmIndex,
+      tabBtmRoute,
+      isRefreshing,
+    } = this.state
     return (
       <SafeAreaView style={[styles.page_box]}>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={this.onRefresh}
+            />
+          }
+        >
           {this.renderPairPicker()}
           <View
             style={{
@@ -445,20 +509,15 @@ class MainBoard extends Component {
             }}
           >
             <View style={{ width: '50%' }}>
-              <Tabs
-                tabs={tabs}
-                tabBarUnderlineStyle={{ backgroundColor: '#f8b500' }}
-                tabBarActiveTextColor='#f8b500'
-                tabBarInactiveTextColor='#c8c8c8'
-                onChange={this.onTabChange}
-              >
-                <View key='limit' style={{ padding: 16 }}>
-                  {this.renderLimit()}
-                </View>
-                <View key='market' style={{ padding: 16 }}>
-                  {this.renderMarket()}
-                </View>
-              </Tabs>
+              <TabView
+                navigationState={{
+                  index: tabOrderIndex,
+                  routes: tabOrderRoute,
+                }}
+                renderScene={this.renderOrderScene}
+                onIndexChange={this.setOrderIndex}
+                renderTabBar={this.renderTabbar}
+              />
             </View>
             <View
               style={{
@@ -471,22 +530,12 @@ class MainBoard extends Component {
             </View>
           </View>
           <View style={{ flex: 1 }}>
-            <Tabs
-              tabs={tabsBtm}
-              tabBarUnderlineStyle={{ backgroundColor: '#f8b500' }}
-              tabBarActiveTextColor='#f8b500'
-              tabBarInactiveTextColor='#c8c8c8'
-            >
-              <View key='pending'>
-                <Pending />
-              </View>
-              <View key='deal'>
-                <Deals />
-              </View>
-              <View key='chart'>
-                <Chart ws={ws} />
-              </View>
-            </Tabs>
+            <TabView
+              navigationState={{ index: tabBtmIndex, routes: tabBtmRoute }}
+              renderScene={this.renderBtmScene}
+              onIndexChange={this.setBtmIndex}
+              renderTabBar={this.renderTabbar}
+            />
           </View>
         </ScrollView>
       </SafeAreaView>
