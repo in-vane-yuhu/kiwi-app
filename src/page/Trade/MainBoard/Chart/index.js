@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { SafeAreaView, View, Text, TouchableOpacity } from 'react-native'
 import Echarts from 'native-echarts'
 import { observer, inject } from 'mobx-react'

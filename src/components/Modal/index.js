@@ -37,7 +37,7 @@ export default class KModal extends Component {
         >
           <View
             style={{
-              height: '80%',
+              maxHeight: '80%',
               width: '80%',
               backgroundColor: '#fff',
               borderWidth: 1,
@@ -57,7 +57,7 @@ export default class KModal extends Component {
                 paddingHorizontal: 24,
               }}
             >
-              <Text style={{ fontWeight: 'bold' }}>{title}</Text>
+              <Text style={{ fontWeight: 'bold', fontSize: 18 }}>{title}</Text>
               <Icon name='close' onPress={onClose} />
             </View>
             <View style={{ padding: 24 }}>{ctx}</View>

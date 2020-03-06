@@ -129,7 +129,11 @@ class Pending extends Component {
           </View>
         )
       case 'mine':
-        return <Table column={this.columnMine} dataSource={currentFinished} />
+        return (
+          <View style={{ maxHeight: 400 }}>
+            <Table column={this.columnMine} dataSource={currentFinished} />
+          </View>
+        )
       default:
         return null
     }

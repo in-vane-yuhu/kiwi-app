@@ -2,7 +2,7 @@ import { observable, action } from 'mobx'
 import { axios, api } from '../utils/axios'
 import moment from 'moment'
 import { concat } from 'lodash'
-import { Toast } from '@ant-design/react-native'
+import { Portal, Toast } from '@ant-design/react-native'
 
 import { sub, div, fmtHomeList } from '../utils/utils'
 
@@ -58,13 +58,20 @@ class TradeStore {
    * action
    */
   @action getAssets = () => {
-    axios.post(api.assets, { id: this.request_id }).then(res => {
-      this.assets = res.result
-    })
+    const loading = Toast.loading('加载中', 0)
+    axios
+      .post(api.assets, { id: this.request_id })
+      .then(res => {
+        this.assets = res.result
+      })
+      .then(res => {
+        Portal.remove(loading)
+      })
     this.request_id++
   }
 
   @action getFunds = () => {
+    const loading = Toast.loading('加载中', 0)
     this.loading_funds = true
     axios
       .post(api.funds, { id: this.request_id, params: ['ETH', 'BTC', 'BCH'] })
@@ -87,11 +94,13 @@ class TradeStore {
         })
         this.funds = temp
         this.loading_funds = false
+        Portal.remove(loading)
       })
     this.request_id++
   }
 
   @action getBalanceHistory = (startTime, offset, limit) => {
+    const loading = Toast.loading('加载中', 0)
     axios
       .post(api.balanceHistory, {
         id: this.request_id,
@@ -103,11 +112,13 @@ class TradeStore {
       })
       .then(res => {
         console.log(res)
+        Portal.remove(loading)
       })
     this.request_id++
   }
 
   @action getPendingOrders = (market, offset, limit) => {
+    const loading = Toast.loading('加载中', 0)
     this.loading_pending = true
     axios
       .post(api.getPendingOrders, {
@@ -125,11 +136,13 @@ class TradeStore {
         }
         this.currentPending = records
         this.loading_pending = false
+        Portal.remove(loading)
       })
     this.request_id++
   }
 
   @action getFinishedOrders = (market, startTime, endTime, offset, limit) => {
+    const loading = Toast.loading('加载中', 0)
     this.loading_finished = true
     this.finished_stime = startTime
     axios
@@ -151,11 +164,13 @@ class TradeStore {
         }
         this.currentFinished = records
         this.loading_finished = false
+        Portal.remove(loading)
       })
     this.request_id++
   }
 
   @action getPendingDetail = id => {
+    const loading = Toast.loading('加载中', 0)
     axios
       .post(api.getPendingDetail, {
         id: this.request_id,
@@ -164,6 +179,7 @@ class TradeStore {
       })
       .then(res => {
         this.pendingDetail = res.result
+        Portal.remove(loading)
       })
     this.request_id++
   }
@@ -176,11 +192,13 @@ class TradeStore {
       })
       .then(res => {
         console.log(res)
+        Portal.remove(loading)
       })
     this.request_id++
   }
 
   @action putLimitOrder = (market, side, price, amount) => {
+    const loading = Toast.loading('加载中', 0)
     side === 1
       ? (this.loading_limit_sell = true)
       : (this.loading_limit_buy = true)
@@ -211,11 +229,13 @@ class TradeStore {
             )
           }, 2000)
         }
+        Portal.remove(loading)
       })
     this.request_id++
   }
 
   @action putMarketOrder = (market, side, amount) => {
+    const loading = Toast.loading('加载中', 0)
     side === 1
       ? (this.loading_market_sell = true)
       : (this.loading_market_buy = true)
@@ -232,11 +252,13 @@ class TradeStore {
           ? (this.loading_market_sell = false)
           : (this.loading_market_buy = false)
         this.getPendingOrders('BTCBCH', 0, 20)
+        Portal.remove(loading)
       })
     this.request_id++
   }
 
   @action cancelOrder = id => {
+    const loading = Toast.loading('加载中', 0)
     axios
       .post(api.cancelOrder, {
         id: this.request_id,
@@ -246,11 +268,13 @@ class TradeStore {
       .then(res => {
         Toast.success('已撤单', 1)
         this.getPendingOrders('BTCBCH', 0, 20)
+        Portal.remove(loading)
       })
     this.request_id++
   }
 
   @action getMarketList = () => {
+    const loading = Toast.loading('加载中', 0)
     this.loading_market_list = true
     axios
       .post(api.getMarketList, {
@@ -264,11 +288,13 @@ class TradeStore {
         })
         this.marketList = temp
         this.loading_market_list = false
+        Portal.remove(loading)
       })
     this.request_id++
   }
 
   @action getStatus = market => {
+    const loading = Toast.loading('加载中', 0)
     axios
       .post(api.getStatus, {
         id: this.request_id,
@@ -277,11 +303,13 @@ class TradeStore {
       })
       .then(res => {
         this.status = res.result
+        Portal.remove(loading)
       })
     this.request_id++
   }
 
   @action getHomeStatus = market => {
+    const loading = Toast.loading('加载中', 0)
     axios
       .post(api.getStatus, {
         id: this.request_id,
@@ -295,6 +323,7 @@ class TradeStore {
           symbol: market === 'BTCBCH' ? 'BTC' : 'ETH',
           change: fmtHomeList(res.result.open, res.result.close),
         })
+        Portal.remove(loading)
       })
     this.request_id++
   }
@@ -359,6 +388,7 @@ class TradeStore {
     }
     ws.onmessage = ({ data }) => {
       let res = JSON.parse(data)
+      console.log(res)
       switch (res.method) {
         case 'deals.update':
           res.params[1].map(
@@ -535,19 +565,23 @@ class TradeStore {
   }
 
   @action getBalanceBCH = () => {
+    const loading = Toast.loading('加载中', 0)
     axios
       .post(api.funds, { id: this.request_id, params: ['BCH'] })
       .then(res => {
         this.balance_BCH = res.result.BCH.available
+        Portal.remove(loading)
       })
     this.request_id++
   }
 
   @action getBalanceBTC = () => {
+    const loading = Toast.loading('加载中', 0)
     axios
       .post(api.funds, { id: this.request_id, params: ['BTC'] })
       .then(res => {
         this.balance_BTC = res.result.BTC.available
+        Portal.remove(loading)
       })
     this.request_id++
   }

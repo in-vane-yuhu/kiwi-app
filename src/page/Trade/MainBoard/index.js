@@ -9,7 +9,7 @@ import {
   ScrollView,
   RefreshControl,
 } from 'react-native'
-import { Picker, Icon } from '@ant-design/react-native'
+import { Picker, Icon, Toast } from '@ant-design/react-native'
 import { TabView, TabBar } from 'react-native-tab-view'
 import Table from '../../../components/Table'
 
@@ -265,6 +265,14 @@ class MainBoard extends Component {
   onSubmitLimit = () => {
     const { putLimitOrder } = this.props.TradeStore
     const { side, param_price, param_amount } = this.state
+    if (!param_price) {
+      Toast.fail('请填写价格', 0.5)
+      return
+    }
+    if (!param_amount) {
+      Toast.fail('请填写数量', 0.5)
+      return
+    }
     /* side:  1 sell  2 buy */
     putLimitOrder('BTCBCH', side === 'sell' ? 1 : 2, param_price, param_amount)
     this.setState({ param_price: '', param_amount: '' })
@@ -273,6 +281,10 @@ class MainBoard extends Component {
   onSubmitMarket = () => {
     const { putMarketOrder } = this.props.TradeStore
     const { side, param_amount } = this.state
+    if (!param_amount) {
+      Toast.fail('请填写数量', 0.5)
+      return
+    }
     /* side:  1 sell  2 buy */
     putMarketOrder('BTCBCH', side === 'sell' ? 1 : 2, param_amount)
     this.setState({ param_price: '', param_amount: '' })

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { Icon } from '@ant-design/react-native'
-import { SafeAreaView, Text, TouchableOpacity } from 'react-native'
+import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native'
 import { inject, observer } from 'mobx-react'
 import styles from '../../../../style'
 
@@ -12,6 +12,8 @@ import KModal from '../../../../components/Modal'
 class Pending extends Component {
   state = {
     visible: false,
+    visiable_confirm: false,
+    currentID: '',
     detail: '',
   }
 
@@ -52,7 +54,7 @@ class Pending extends Component {
       width: '10%',
       render: item => (
         <TouchableOpacity>
-          <Icon name='delete' onPress={() => this.onCancel(item.id)} />
+          <Icon name='delete' onPress={() => this.showConfirm(item.id)} />
         </TouchableOpacity>
       ),
     },
@@ -71,9 +73,52 @@ class Pending extends Component {
     this.setState({ visible: false })
   }
 
-  onCancel = id => {
+  onCancel = () => {
     const { cancelOrder } = this.props.TradeStore
+    const { id } = this.state
     cancelOrder(id)
+    this.hideConfirm()
+  }
+
+  showConfirm = id => {
+    this.setState({ visiable_confirm: true, currentID: id })
+  }
+
+  hideConfirm = () => {
+    this.setState({ visiable_confirm: false })
+  }
+
+  renderConfirm = () => {
+    const { visiable_confirm } = this.state
+    return (
+      <KModal
+        title='操作'
+        visible={visiable_confirm}
+        onClose={this.hideConfirm}
+        ctx={
+          <Fragment>
+            <Text>您确认要取消该订单吗？</Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'flex-end',
+                marginTop: 24,
+              }}
+            >
+              <TouchableOpacity onPress={this.hideConfirm}>
+                <Text style={{ color: '#969696' }}>取消</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={this.onCancel}
+                style={{ marginLeft: 24 }}
+              >
+                <Text style={{ color: '#f8b500' }}>确认</Text>
+              </TouchableOpacity>
+            </View>
+          </Fragment>
+        }
+      />
+    )
   }
 
   renderModal = () => {
@@ -122,6 +167,7 @@ class Pending extends Component {
       <SafeAreaView style={[styles.page_box]}>
         <Table column={this.column} dataSource={currentPending} />
         {this.renderModal()}
+        {this.renderConfirm()}
       </SafeAreaView>
     )
   }
