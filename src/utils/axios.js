@@ -56,7 +56,6 @@ apiService.interceptors.request.use(
 apiService.interceptors.response.use(
   response => {
     const res = response.data
-    console.log('inter', res)
     if (res.message) {
       if (res.success) {
         Toast.success(resMsg(res.message), 1)

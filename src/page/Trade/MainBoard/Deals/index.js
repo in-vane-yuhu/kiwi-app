@@ -106,9 +106,7 @@ class Pending extends Component {
               成交均价：{detail.avgPrice}
             </Text>
             <Text style={{ marginBottom: 16 }}>数量：{detail.amount}</Text>
-            <Text style={{ marginBottom: 16 }}>
-              费率：{`${detail.deal_fee}%`}
-            </Text>
+            <Text style={{ marginBottom: 16 }}>手续费：{detail.deal_fee}</Text>
             <Text style={{ marginBottom: 16 }}>
               已成交：{detail.deal_stock}
             </Text>

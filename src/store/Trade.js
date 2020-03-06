@@ -395,6 +395,13 @@ class TradeStore {
                   if (!flag) {
                     temp.push(item)
                   }
+                } else {
+                  for (let [index, record] of tempOld.entries()) {
+                    if (item[0] === record[0]) {
+                      tempOld.splice(index, 1)
+                      break
+                    }
+                  }
                 }
               })
               this.bookAsks = concat(tempOld, temp).sort((a, b) => b[0] - a[0])
@@ -414,6 +421,13 @@ class TradeStore {
                   }
                   if (!flag) {
                     temp.push(item)
+                  }
+                } else {
+                  for (let [index, record] of tempOld.entries()) {
+                    if (item[0] === record[0]) {
+                      tempOld.splice(index, 1)
+                      break
+                    }
                   }
                 }
               })
