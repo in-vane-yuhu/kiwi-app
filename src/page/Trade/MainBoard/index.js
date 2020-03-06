@@ -91,8 +91,9 @@ class MainBoard extends Component {
       getBalanceBCH,
       getBalanceBTC,
     } = this.props.TradeStore
-    const { ws } = this.state
-    onOpen(ws)
+    const { ws, pair } = this.state
+    const market = pair[0]
+    onOpen(ws, market)
     getMarketList()
     getBalanceBCH()
     getBalanceBTC()
@@ -264,7 +265,7 @@ class MainBoard extends Component {
 
   onSubmitLimit = () => {
     const { putLimitOrder } = this.props.TradeStore
-    const { side, param_price, param_amount } = this.state
+    const { pair, side, param_price, param_amount } = this.state
     if (!param_price) {
       Toast.fail('请填写价格', 0.5)
       return
@@ -273,20 +274,24 @@ class MainBoard extends Component {
       Toast.fail('请填写数量', 0.5)
       return
     }
+    const param_side = side === 'sell' ? 1 : 2
+    const market = pair[0]
     /* side:  1 sell  2 buy */
-    putLimitOrder('BTCBCH', side === 'sell' ? 1 : 2, param_price, param_amount)
+    putLimitOrder(market, param_side, param_price, param_amount)
     this.setState({ param_price: '', param_amount: '' })
   }
 
   onSubmitMarket = () => {
     const { putMarketOrder } = this.props.TradeStore
-    const { side, param_amount } = this.state
+    const { pair, side, param_amount } = this.state
     if (!param_amount) {
       Toast.fail('请填写数量', 0.5)
       return
     }
+    const param_side = side === 'sell' ? 1 : 2
+    const market = pair[0]
     /* side:  1 sell  2 buy */
-    putMarketOrder('BTCBCH', side === 'sell' ? 1 : 2, param_amount)
+    putMarketOrder(market, param_side, param_amount)
     this.setState({ param_price: '', param_amount: '' })
   }
 
@@ -459,14 +464,15 @@ class MainBoard extends Component {
   }
 
   renderBtmScene = ({ route }) => {
-    const { ws } = this.state
+    const { ws, pair } = this.state
+    const market = pair[0]
     switch (route.key) {
       case 'pending':
-        return <Pending />
+        return <Pending market={market} />
       case 'deals':
         return <Deals />
       case 'chart':
-        return <Chart ws={ws} />
+        return <Chart ws={ws} market={market} />
       default:
         return null
     }

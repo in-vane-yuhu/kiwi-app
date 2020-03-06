@@ -169,34 +169,6 @@ class TradeStore {
     this.request_id++
   }
 
-  @action getPendingDetail = id => {
-    const loading = Toast.loading('加载中', 0)
-    axios
-      .post(api.getPendingDetail, {
-        id: this.request_id,
-        market: 'BTCBCH',
-        order: id,
-      })
-      .then(res => {
-        this.pendingDetail = res.result
-        Portal.remove(loading)
-      })
-    this.request_id++
-  }
-
-  @action getFinishedDetail = id => {
-    axios
-      .post(api.getFinishedDetail, {
-        id: this.request_id,
-        order: id,
-      })
-      .then(res => {
-        console.log(res)
-        Portal.remove(loading)
-      })
-    this.request_id++
-  }
-
   @action putLimitOrder = (market, side, price, amount) => {
     const loading = Toast.loading('加载中', 0)
     side === 1
@@ -215,13 +187,13 @@ class TradeStore {
         side === 1
           ? (this.loading_limit_sell = false)
           : (this.loading_limit_buy = false)
-        this.getPendingOrders('BTCBCH', 0, 20)
+        this.getPendingOrders(market, 0, 20)
         this.getBalanceBCH()
         this.getBalanceBTC()
         if (Number(res.result.deal_stock) !== 0) {
           setTimeout(() => {
             this.getFinishedOrders(
-              'BTCBCH',
+              market,
               this.finished_stime,
               Date.parse(new Date()) / 1000,
               0,
@@ -251,23 +223,23 @@ class TradeStore {
         side === 1
           ? (this.loading_market_sell = false)
           : (this.loading_market_buy = false)
-        this.getPendingOrders('BTCBCH', 0, 20)
+        this.getPendingOrders(market, 0, 20)
         Portal.remove(loading)
       })
     this.request_id++
   }
 
-  @action cancelOrder = id => {
+  @action cancelOrder = (market, id) => {
     const loading = Toast.loading('加载中', 0)
     axios
       .post(api.cancelOrder, {
         id: this.request_id,
-        market: 'BTCBCH',
+        market,
         order: id,
       })
       .then(res => {
         Toast.success('已撤单', 1)
-        this.getPendingOrders('BTCBCH', 0, 20)
+        this.getPendingOrders(market, 0, 20)
         Portal.remove(loading)
       })
     this.request_id++
@@ -308,31 +280,11 @@ class TradeStore {
     this.request_id++
   }
 
-  @action getHomeStatus = market => {
-    const loading = Toast.loading('加载中', 0)
-    axios
-      .post(api.getStatus, {
-        id: this.request_id,
-        market,
-        period: 86400,
-      })
-      .then(res => {
-        this.homeList = concat(this.homeList, {
-          ...res.result,
-          logo: market === 'BTCBCH' ? PicBTC : PicETH,
-          symbol: market === 'BTCBCH' ? 'BTC' : 'ETH',
-          change: fmtHomeList(res.result.open, res.result.close),
-        })
-        Portal.remove(loading)
-      })
-    this.request_id++
-  }
-
   @observable resetHomeList = () => {
     this.homeList = []
   }
 
-  @action onOpen = ws => {
+  @action onOpen = (ws, market) => {
     ws.onopen = () => {
       /* ping */
       let ping = setInterval(() => {
@@ -352,7 +304,7 @@ class TradeStore {
         "method": "deals.subscribe",
         "id": 1000000002,
         "params": [
-          "BTCBCH"
+          "${market}"
         ]
       }`)
       /* 盘口 */
@@ -360,7 +312,7 @@ class TradeStore {
         "method": "depth.subscribe",
         "id": 1000000003,
         "params": [
-          "BTCBCH",
+          "${market}",
           20,
           "0"
         ]
@@ -370,7 +322,7 @@ class TradeStore {
         "method": "kline.query",
         "id": 1999999999,
         "params": [
-          "BTCBCH",
+          "${market}",
           ${Date.parse(new Date()) / 1000 - 3600 * 100},
           ${Date.parse(new Date()) / 1000},
           3600
@@ -381,7 +333,7 @@ class TradeStore {
         "method": "kline.subscribe",
         "id": 1000000005,
         "params": [
-          "BTCBCH",
+          "${market}",
           60
         ]
       }`)
@@ -478,7 +430,7 @@ class TradeStore {
                 (item.side === 2 && Number(item[2]) >= Number(item.price))
               ) {
                 this.getFinishedOrders(
-                  'BTCBCH',
+                  market,
                   this.finished_stime,
                   Date.parse(new Date()) / 1000,
                   0,
@@ -527,13 +479,13 @@ class TradeStore {
     }
   }
 
-  @action rangeKLine = (ws, interval) => {
+  @action rangeKLine = (ws, interval, market) => {
     /* unsubscribe kline */
     ws.send(`{
       "method": "kline.unsubscribe",
       "id": ${this.request_id},
       "params": [
-        "BTCBCH"
+        "${market}"
       ]
     }`)
     this.kline = []
@@ -546,7 +498,7 @@ class TradeStore {
       "method": "kline.query",
       "id": 1999999999,
       "params": [
-        "BTCBCH",
+        "${market}",
         ${Date.parse(new Date()) / 1000 - interval * 100},
         ${Date.parse(new Date()) / 1000},
         ${interval}
@@ -556,7 +508,7 @@ class TradeStore {
       "method": "kline.subscribe",
       "id": ${this.request_id},
       "params": [
-        "BTCBCH",
+        "${market}",
         ${interval}
       ]
     }`)

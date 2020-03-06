@@ -23,10 +23,13 @@ class Chart extends Component {
   }
 
   onSelectRange = value => {
-    const { rangeKLine } = this.props.TradeStore
+    const {
+      TradeStore: { rangeKLine },
+      market,
+    } = this.props
     const { ws } = this.props
     this.setState({ range: value })
-    rangeKLine(ws, value)
+    rangeKLine(ws, value, market)
   }
 
   renderRangeItem = (title, value, index) => {

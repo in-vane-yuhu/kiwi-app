@@ -74,9 +74,12 @@ class Pending extends Component {
   }
 
   onCancel = () => {
-    const { cancelOrder } = this.props.TradeStore
+    const {
+      TradeStore: { cancelOrder },
+      market,
+    } = this.props
     const { id } = this.state
-    cancelOrder(id)
+    cancelOrder(market, id)
     this.hideConfirm()
   }
 
